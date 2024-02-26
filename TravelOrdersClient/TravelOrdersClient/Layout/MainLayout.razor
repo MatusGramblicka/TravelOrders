@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+
+    <BlazoredToasts Position="ToastPosition.TopRight"
+                    Timeout="10"
+                    SuccessIcon="oi oi-thumb-up"
+                    ErrorIcon="oi oi-bug" />
+</div>
