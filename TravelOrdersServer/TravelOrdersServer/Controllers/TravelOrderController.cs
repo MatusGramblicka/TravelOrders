@@ -120,11 +120,14 @@ public class TravelOrderController : ControllerBase
         if (employee == null)
             return BadRequest();
 
-        var traffics = await _repository.Traffic.GetByIdsAsync(travelOrder.Traffics.Select(t => t.Id), false);
+        var traffics = await _repository.Traffic.GetByIdsAsync(travelOrder.Traffics.Select(t => t.Id), true);
         if (traffics.Count() != travelOrder.Traffics.Count)
             return BadRequest();
 
         _mapper.Map(travelOrder, travelOrderEntity);
+        travelOrderEntity.Traffics.Clear();
+        travelOrderEntity.Traffics = (ICollection<Traffic>)traffics;
+
         await _repository.SaveAsync();
 
         return NoContent();
