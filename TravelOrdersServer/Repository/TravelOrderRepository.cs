@@ -4,6 +4,7 @@ using Entities.RequestFeatures;
 using Interface;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
+using Repository.Mapping;
 
 namespace Repository;
 
@@ -27,37 +28,9 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
     public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelectedAsync(
         RequestParameters requestParameters)
     {
-        var travelOrders = RepositoryContext.TravelOrder.Select(t => new TravelOrderSelectedDto
-        {
-            Id = t.Id,
-            State = t.State,
-            EndPlace = new CitySelectedDto
-            {
-                State = t.EndPlace.State,
-                Id = t.EndPlace.Id,
-                Name = t.EndPlace.Name
-            },
-            StartPlace = new CitySelectedDto
-            {
-                State = t.StartPlace.State,
-                Id = t.StartPlace.Id,
-                Name = t.StartPlace.Name
-            },
-            StartDate = t.StartDate,
-            CreatedAt = t.CreatedAt,
-            EndDate = t.EndDate,
-            Tenant = new EmployeeSelectedDto
-            {
-                Id = t.Tenant.Id,
-                Name = t.Tenant.Name,
-                Surname = t.Tenant.Surname
-            },
-            Traffics = t.Traffics.Select(tf => new TrafficSelectedDto
-            {
-                Id = tf.Id,
-                TrafficDevice = tf.TrafficDevice
-            }).ToList()
-        }).Search(requestParameters.SearchTerm);
+        var travelOrders = RepositoryContext.TravelOrder
+            .Select(TravelOrderMapping.GetTravelOrderSelected())
+            .Search(requestParameters.SearchTerm);
 
         return PagedList<TravelOrderSelectedDto>
             .ToPagedList(travelOrders, requestParameters.PageNumber, requestParameters.PageSize);
@@ -71,37 +44,8 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
     {
         return RepositoryContext.TravelOrder
             .Where(i => i.Id.Equals(travelOrdersId))
-            .Select(t => new TravelOrderSelectedDto
-            {
-                Id = t.Id,
-                State = t.State,
-                EndPlace = new CitySelectedDto
-                {
-                    State = t.EndPlace.State,
-                    Id = t.EndPlace.Id,
-                    Name = t.EndPlace.Name
-                },
-                StartPlace = new CitySelectedDto
-                {
-                    State = t.StartPlace.State,
-                    Id = t.StartPlace.Id,
-                    Name = t.StartPlace.Name
-                },
-                StartDate = t.StartDate,
-                CreatedAt = t.CreatedAt,
-                EndDate = t.EndDate,
-                Tenant = new EmployeeSelectedDto
-                {
-                    Id = t.Tenant.Id,
-                    Name = t.Tenant.Name,
-                    Surname = t.Tenant.Surname
-                },
-                Traffics = t.Traffics.Select(tf => new TrafficSelectedDto
-                {
-                    Id = tf.Id,
-                    TrafficDevice = tf.TrafficDevice
-                }).ToList()
-            }).SingleOrDefault();
+            .Select(TravelOrderMapping.GetTravelOrderSelected())
+            .SingleOrDefault();
     }
 
     public async Task<TravelOrder?> GetTravelOrderWithTrafficsAsync(int travelOrdersId)
