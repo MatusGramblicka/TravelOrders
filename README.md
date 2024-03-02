@@ -1,4 +1,6 @@
-﻿# Všeobecný popis
+﻿![](https://github.com/MatusGramblicka/TravelOrders/raw/master/Sample.png)
+
+# Všeobecný popis
 Cieľom úlohy je vytvorenie jednoduchej aplikácie pre správu cestovných príkazov vo veľmi 
 obmedzenom rozsahu s dôrazom na správny návrh dátových štruktúr a prácu s dátovou vrstvou. Pre 
 formu užívateľského rozhrania nie sú definované žiadne požiadavky a nebude predmetom 
