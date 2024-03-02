@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using TravelOrdersClient.Features;
+using TravelOrdersClient.HttpRepository.Interface;
 
 namespace TravelOrdersClient.HttpRepository;
 

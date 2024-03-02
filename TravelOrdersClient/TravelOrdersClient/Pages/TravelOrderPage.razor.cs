@@ -3,15 +3,16 @@ using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Components;
 using TravelOrdersClient.HttpInterceptor;
 using TravelOrdersClient.HttpRepository;
+using TravelOrdersClient.HttpRepository.Interface;
 
 namespace TravelOrdersClient.Pages;
 
 public partial class TravelOrderPage : IDisposable
 {
-    public List<TravelOrderSelectedDto> TravelOrderList { get; set; } = new List<TravelOrderSelectedDto>();
-    public MetaData MetaData { get; set; } = new MetaData();
+    public List<TravelOrderSelectedDto> TravelOrderList { get; set; } = new();
+    public MetaData MetaData { get; set; } = new();
 
-    public RequestParameters _requestParameters = new RequestParameters();
+    public RequestParameters _requestParameters = new();
 
     [Inject]
     public ITravelOrderHttpRepository TravelOrderRepo { get; set; }
@@ -66,5 +67,4 @@ public partial class TravelOrderPage : IDisposable
     }
 
     public void Dispose() => Interceptor.DisposeEvent();
-
 }

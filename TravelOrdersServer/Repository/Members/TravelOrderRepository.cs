@@ -4,9 +4,9 @@ using Entities.RequestFeatures;
 using Interface;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
-using Repository.Mapping;
+using Repository.Projections;
 
-namespace Repository;
+namespace Repository.Members;
 
 public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRepository
 {
@@ -29,7 +29,7 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
         RequestParameters requestParameters)
     {
         var travelOrders = RepositoryContext.TravelOrder
-            .Select(TravelOrderMapping.GetTravelOrderSelected())
+            .Select(TravelOrderProjection.GetTravelOrderSelected())
             .Search(requestParameters.SearchTerm);
 
         return PagedList<TravelOrderSelectedDto>
@@ -44,7 +44,7 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
     {
         return RepositoryContext.TravelOrder
             .Where(i => i.Id.Equals(travelOrdersId))
-            .Select(TravelOrderMapping.GetTravelOrderSelected())
+            .Select(TravelOrderProjection.GetTravelOrderSelected())
             .SingleOrDefault();
     }
 

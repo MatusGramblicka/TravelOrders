@@ -2,7 +2,7 @@
 using Entities.RequestFeatures;
 using TravelOrdersClient.Features;
 
-namespace TravelOrdersClient.HttpRepository;
+namespace TravelOrdersClient.HttpRepository.Interface;
 
 public interface ITrafficHttpRepository
 {

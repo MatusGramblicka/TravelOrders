@@ -4,7 +4,7 @@ using Entities.RequestFeatures;
 using Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace Repository;
+namespace Repository.Members;
 
 public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
 {

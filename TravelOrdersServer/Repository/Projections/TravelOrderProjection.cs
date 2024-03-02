@@ -2,13 +2,13 @@
 using Contracts.Dto;
 using Contracts.Models;
 
-namespace Repository.Mapping;
+namespace Repository.Projections;
 
-public static class TravelOrderMapping
+public static class TravelOrderProjection
 {
     public static Expression<Func<TravelOrder,TravelOrderSelectedDto>> GetTravelOrderSelected()
     {
-        return travelOrder=> new TravelOrderSelectedDto
+        return travelOrder => new TravelOrderSelectedDto
         {
             Id = travelOrder.Id,
             State = travelOrder.State,

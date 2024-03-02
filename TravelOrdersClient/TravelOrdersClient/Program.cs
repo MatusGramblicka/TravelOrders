@@ -8,6 +8,7 @@ using Toolbelt.Blazor.Extensions.DependencyInjection;
 using TravelOrdersClient;
 using TravelOrdersClient.HttpInterceptor;
 using TravelOrdersClient.HttpRepository;
+using TravelOrdersClient.HttpRepository.Interface;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

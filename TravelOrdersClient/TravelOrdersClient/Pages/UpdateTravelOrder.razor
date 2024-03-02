@@ -60,7 +60,8 @@
             <ValidationMessage For="@(() => TravelOrderUpdateDto.State)" />
         </div>
 
-        <SfMultiSelect TValue="List<TrafficSelectedDto?>" @bind-Value="@_selectedTraffics" TItem="TrafficSelectedDto" Placeholder="Traffics" PopupHeight="350px" PopupWidth="350px" DataSource="@TrafficList">
+        <SfMultiSelect TValue="List<TrafficSelectedDto?>" @bind-Value="@_selectedTraffics" TItem="TrafficSelectedDto" 
+                       Placeholder="Traffics" PopupHeight="350px" PopupWidth="350px" DataSource="@TrafficList">
             <MultiSelectFieldSettings Text="TrafficDevice" Value="Id"></MultiSelectFieldSettings>
         </SfMultiSelect>
 

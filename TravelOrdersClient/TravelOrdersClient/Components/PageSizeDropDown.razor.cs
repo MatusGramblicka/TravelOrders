@@ -9,6 +9,6 @@ public partial class PageSizeDropDown
 
     private async Task OnPageSizeChange(ChangeEventArgs eventArgs)
     {
-        await SelectedPageSize.InvokeAsync(Int32.Parse(eventArgs.Value.ToString()));
+        await SelectedPageSize.InvokeAsync(int.Parse(eventArgs.Value.ToString()));
     }
 }

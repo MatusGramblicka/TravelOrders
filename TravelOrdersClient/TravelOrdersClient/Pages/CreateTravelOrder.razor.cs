@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using TravelOrdersClient.HttpInterceptor;
 using TravelOrdersClient.HttpRepository;
+using TravelOrdersClient.HttpRepository.Interface;
 
 namespace TravelOrdersClient.Pages;
 

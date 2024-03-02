@@ -4,7 +4,7 @@ using Entities.RequestFeatures;
 using Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace Repository;
+namespace Repository.Members;
 
 public class TrafficRepository : RepositoryBase<Traffic>, ITrafficRepository
 {
