@@ -1,14 +1,14 @@
 ﻿using Contracts.Dto;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.WebUtilities;
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json;
 using TravelOrdersClient.Features;
 using TravelOrdersClient.HttpRepository.Interface;
 
 namespace TravelOrdersClient.HttpRepository;
 
-public class TrafficHttpRepository : ITrafficHttpRepository
+public class CityHttpRepository : ICityHttpRepository
 {
     private readonly HttpClient _client;
 
@@ -20,12 +20,12 @@ public class TrafficHttpRepository : ITrafficHttpRepository
         }
     };
 
-    public TrafficHttpRepository(HttpClient client)
+    public CityHttpRepository(HttpClient client)
     {
         _client = client;
     }
 
-    public async Task<PagingResponse<TrafficSelectedDto>> GetTraffics(RequestParameters requestParameters)
+    public async Task<PagingResponse<CitySelectedDto>> GetCities(RequestParameters requestParameters)
     {
         var queryStringParam = new Dictionary<string, string>
         {
@@ -36,13 +36,13 @@ public class TrafficHttpRepository : ITrafficHttpRepository
         };
 
         var response =
-            await _client.GetAsync(QueryHelpers.AddQueryString("Traffic/trafficsSelected", queryStringParam));
+            await _client.GetAsync(QueryHelpers.AddQueryString("City/citiesSelected", queryStringParam));
 
         var content = await response.Content.ReadAsStringAsync();
 
-        var pagingResponse = new PagingResponse<TrafficSelectedDto>
+        var pagingResponse = new PagingResponse<CitySelectedDto>
         {
-            Items = JsonSerializer.Deserialize<List<TrafficSelectedDto>>(content, _options),
+            Items = JsonSerializer.Deserialize<List<CitySelectedDto>>(content, _options),
             MetaData = JsonSerializer.Deserialize<MetaData>(
                 response.Headers.GetValues("X-Pagination").First(), _options)
         };

@@ -1,0 +1,102 @@
+﻿@if (TravelOrders.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">CreatedAt</th>
+                <th scope="col">StartDate</th>
+                <th scope="col">EndDate</th>
+                <th scope="col">StartPlace Town</th>
+                <th scope="col">StartPlace State</th>
+                <th scope="col">EndPlace Town</th>
+                <th scope="col">EndPlace State</th>
+                <th scope="col">State</th>
+                <th scope="col">Employee Name</th>
+                <th scope="col">Employee Surname</th>
+                <th scope="col">Traffics</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var travelOrder in TravelOrders)
+            {
+                <tr>
+                    <td class="align-middle">
+                        <a href="/travelOrder/@travelOrder.Id">
+                            @travelOrder.CreatedAt
+                        </a>
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.StartDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.EndDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.StartPlace.Name
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.StartPlace.State
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.EndPlace.Name
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.EndPlace.State
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.State
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.Tenant.Name
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.Tenant.Surname
+                    </td>
+                    <td class="align-middle">
+                        @string.Join(", ", travelOrder.Traffics.Select(tf => tf.TrafficDevice));
+                    </td>
+                    <td class="align-middle">
+                        <a class="btn btn-info" href="/updateTravelOrderImproved/@travelOrder.Id">
+                            Update
+                        </a>
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-danger"
+                                @onclick="() => CallConfirmationModal(travelOrder.Id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <Confirmation BodyMessage="Do you want to delete this travel order?"
+                  OnOKClicked="DeleteTravelOrder" @ref="_confirmation" />
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">CreatedAt</th>
+                <th scope="col">StartDate</th>
+                <th scope="col">EndDate</th>
+                <th scope="col">StartPlace Town</th>
+                <th scope="col">StartPlace State</th>
+                <th scope="col">EndPlace Town</th>
+                <th scope="col">EndPlace State</th>
+                <th scope="col">State</th>
+                <th scope="col">Employee Name</th>
+                <th scope="col">Employee Surname</th>
+                <th scope="col">Traffics</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+    </table>
+    <span>
+        Loading travel orders...
+    </span>
+}

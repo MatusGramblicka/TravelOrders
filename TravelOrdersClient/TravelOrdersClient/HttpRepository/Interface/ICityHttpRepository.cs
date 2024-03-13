@@ -4,7 +4,7 @@ using TravelOrdersClient.Features;
 
 namespace TravelOrdersClient.HttpRepository.Interface;
 
-public interface ITrafficHttpRepository
+public interface ICityHttpRepository
 {
-    Task<PagingResponse<TrafficSelectedDto>> GetTraffics(RequestParameters requestParameters);
+    Task<PagingResponse<CitySelectedDto>> GetCities(RequestParameters requestParameters);
 }

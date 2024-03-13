@@ -5,27 +5,35 @@ using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using TravelOrdersClient.HttpInterceptor;
-using TravelOrdersClient.HttpRepository;
 using TravelOrdersClient.HttpRepository.Interface;
 
-namespace TravelOrdersClient.Pages;
+namespace TravelOrdersClient.Pages.Improved;
 
-public partial class UpdateTravelOrder : IDisposable
+public partial class UpdateTravelOrderImproved : IDisposable
 {
     private TravelOrderSelectedDto _travelOrder;
 
-    private List<TrafficSelectedDto?> _selectedTraffics;
+    private List<TrafficSelectedDto?> _selectedTraffics = new();
 
-    private TravelOrderUpdateDto TravelOrderUpdateDto { get; set; } 
+    private TravelOrderUpdateDto TravelOrderUpdateDto { get; set; }
+
+    public List<EmployeeSelectedDto> EmployeeList { get; set; } = new();
+
+    public List<CitySelectedDto> CityList { get; set; } = new();
 
     public List<TrafficSelectedDto> TrafficList { get; set; } = new();
 
-    public RequestParameters _requestParameters = new();
+    public RequestParameters RequestParameters = new();
 
     private EditContext _editContext;
     private bool formInvalid = true;
 
     [Inject] public ITravelOrderHttpRepository TravelOrderRepo { get; set; }
+
+    [Inject] public IEmployeeHttpRepository EmployeeRepo { get; set; }
+
+    [Inject] public ICityHttpRepository CityRepo { get; set; }
+
 
     [Inject] public ITrafficHttpRepository TrafficRepo { get; set; }
 
@@ -36,9 +44,15 @@ public partial class UpdateTravelOrder : IDisposable
     [Inject] public IMapper Mapper { get; set; }
 
     [Parameter] public int Id { get; set; }
-    
+
     protected override async Task OnInitializedAsync()
     {
+        var pagingResponseEmployees = await EmployeeRepo.GetEmployees(RequestParameters);
+        EmployeeList = pagingResponseEmployees.Items;
+
+        var pagingResponseCities = await CityRepo.GetCities(RequestParameters);
+        CityList = pagingResponseCities.Items;
+
         _travelOrder = await TravelOrderRepo.GetTravelOrder(Id);
         TravelOrderUpdateDto = new TravelOrderUpdateDto
         {
@@ -51,7 +65,7 @@ public partial class UpdateTravelOrder : IDisposable
             Traffics = _travelOrder.Traffics
         };
 
-        var pagingResponse = await TrafficRepo.GetTraffics(_requestParameters);
+        var pagingResponse = await TrafficRepo.GetTraffics(RequestParameters);
         TrafficList = pagingResponse.Items;
         _selectedTraffics = TravelOrderUpdateDto.Traffics.ToList();
 
@@ -87,7 +101,7 @@ public partial class UpdateTravelOrder : IDisposable
 
         ToastService.ShowSuccess($"Action successful: TravelOrderUpdateDto successfully updated.");
     }
-    
+
     public void Dispose()
     {
         Interceptor.DisposeEvent();

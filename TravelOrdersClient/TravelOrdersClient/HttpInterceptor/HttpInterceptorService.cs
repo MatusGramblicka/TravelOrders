@@ -10,8 +10,7 @@ public class HttpInterceptorService
     private readonly HttpClientInterceptor _interceptor;
     private readonly NavigationManager _navManager;
     private readonly IToastService _toastService;
-
-
+    
     public HttpInterceptorService(HttpClientInterceptor interceptor,
         NavigationManager navManager, IToastService toastService)
     {

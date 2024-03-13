@@ -24,21 +24,23 @@ builder.Services.AddHttpClient("TravelOrdersAPI", (sp, cl) =>
 
 builder.Services.AddBlazoredToast();
 
+builder.Services.AddSyncfusionBlazor();
+
 builder.Services.AddScoped(
     sp => sp.GetService<IHttpClientFactory>().CreateClient("TravelOrdersAPI"));
 
 builder.Services.AddHttpClientInterceptor();
 
+builder.Services.AddScoped<HttpInterceptorService>();
+
 builder.Services.AddScoped<ITravelOrderHttpRepository, TravelOrderHttpRepository>();
 builder.Services.AddScoped<ITrafficHttpRepository, TrafficHttpRepository>();
-
-builder.Services.AddScoped<HttpInterceptorService>();
+builder.Services.AddScoped<IEmployeeHttpRepository, EmployeeHttpRepository>();
+builder.Services.AddScoped<ICityHttpRepository, CityHttpRepository>();
 
 builder.Services.Configure<ApiConfiguration>
     (builder.Configuration.GetSection("ApiConfiguration"));
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-
-builder.Services.AddSyncfusionBlazor();
 
 await builder.Build().RunAsync();

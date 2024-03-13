@@ -20,6 +20,16 @@ public class CityController : ControllerBase
         _mapper = mapper;
     }
 
+    [HttpGet("citiesSelected", Name = "GetCitiesSelected")]
+    public IActionResult GetCitiesSelected([FromQuery] RequestParameters requestParameters)
+    {
+        var cityFromDb = _repository.City.GetAllCitiesSelectedAsync(requestParameters);
+
+        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(cityFromDb.MetaData));
+
+        return Ok(cityFromDb);
+    }
+
     [HttpGet(Name = "GetCities")]
     public async Task<IActionResult> GetCities([FromQuery] RequestParameters requestParameters)
     {
@@ -30,15 +40,5 @@ public class CityController : ControllerBase
         var cityDto = _mapper.Map<IEnumerable<CityDto>>(cityFromDb);
 
         return Ok(cityDto);
-    }
-
-    [HttpGet("citiesSelected", Name = "GetCitiesSelected")]
-    public IActionResult GetCitiesSelected([FromQuery] RequestParameters requestParameters)
-    {
-        var cityFromDb = _repository.City.GetAllCitiesSelectedAsync(requestParameters);
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(cityFromDb.MetaData));
-
-        return Ok(cityFromDb);
     }
 }
