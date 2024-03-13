@@ -8,7 +8,7 @@ using TravelOrdersClient.HttpRepository.Interface;
 
 namespace TravelOrdersClient.HttpRepository;
 
-public class TrafficHttpRepository : ITrafficHttpRepository
+public class EmployeeHttpRepository : IEmployeeHttpRepository
 {
     private readonly HttpClient _client;
 
@@ -20,12 +20,12 @@ public class TrafficHttpRepository : ITrafficHttpRepository
         }
     };
 
-    public TrafficHttpRepository(HttpClient client)
+    public EmployeeHttpRepository(HttpClient client)
     {
         _client = client;
     }
 
-    public async Task<PagingResponse<TrafficSelectedDto>> GetTraffics(RequestParameters requestParameters)
+    public async Task<PagingResponse<EmployeeSelectedDto>> GetEmployees(RequestParameters requestParameters)
     {
         var queryStringParam = new Dictionary<string, string>
         {
@@ -36,13 +36,13 @@ public class TrafficHttpRepository : ITrafficHttpRepository
         };
 
         var response =
-            await _client.GetAsync(QueryHelpers.AddQueryString("Traffic/trafficsSelected", queryStringParam));
+            await _client.GetAsync(QueryHelpers.AddQueryString("Employee/employeesSelected", queryStringParam));
 
         var content = await response.Content.ReadAsStringAsync();
 
-        var pagingResponse = new PagingResponse<TrafficSelectedDto>
+        var pagingResponse = new PagingResponse<EmployeeSelectedDto>
         {
-            Items = JsonSerializer.Deserialize<List<TrafficSelectedDto>>(content, _options),
+            Items = JsonSerializer.Deserialize<List<EmployeeSelectedDto>>(content, _options),
             MetaData = JsonSerializer.Deserialize<MetaData>(
                 response.Headers.GetValues("X-Pagination").First(), _options)
         };

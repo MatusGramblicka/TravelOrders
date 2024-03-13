@@ -20,6 +20,16 @@ public class TrafficController : ControllerBase
         _mapper = mapper;
     }
 
+    [HttpGet("trafficsSelected", Name = "GetTrafficsSelected")]
+    public IActionResult GetTrafficsSelected([FromQuery] RequestParameters requestParameters)
+    {
+        var trafficsFromDb = _repository.Traffic.GetAllTrafficsSelectedAsync(requestParameters);
+
+        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(trafficsFromDb.MetaData));
+
+        return Ok(trafficsFromDb);
+    }
+
     [HttpGet(Name = "GetTraffics")]
     public async Task<IActionResult> GetTraffics([FromQuery] RequestParameters requestParameters)
     {
@@ -30,15 +40,5 @@ public class TrafficController : ControllerBase
         var trafficsDto = _mapper.Map<IEnumerable<CityDto>>(trafficsFromDb);
 
         return Ok(trafficsDto);
-    }
-
-    [HttpGet("trafficsSelected", Name = "GetTrafficsSelected")]
-    public IActionResult GetTrafficsSelected([FromQuery] RequestParameters requestParameters)
-    {
-        var trafficsFromDb = _repository.Traffic.GetAllTrafficsSelectedAsync(requestParameters);
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(trafficsFromDb.MetaData));
-
-        return Ok(trafficsFromDb);
     }
 }

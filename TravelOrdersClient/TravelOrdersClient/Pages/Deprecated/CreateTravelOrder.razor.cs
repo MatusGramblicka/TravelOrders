@@ -1,49 +1,44 @@
 ﻿using Blazored.Toast.Services;
 using Contracts.Dto;
-using Contracts.Enums;
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using TravelOrdersClient.HttpInterceptor;
-using TravelOrdersClient.HttpRepository;
 using TravelOrdersClient.HttpRepository.Interface;
 
-namespace TravelOrdersClient.Pages;
+namespace TravelOrdersClient.Pages.Deprecated;
 
 public partial class CreateTravelOrder
 {
     private TravelOrderCreationDto _travelOrder = new();
+
     public List<TrafficSelectedDto> TrafficList { get; set; } = new();
+
+    private List<TrafficSelectedDto?> _selectedTraffics = new();
 
     public RequestParameters _requestParameters = new();
 
     private EditContext _editContext;
     private bool _formInvalid = true;
 
-    [Inject]
-    public ITravelOrderHttpRepository TravelOrderRepo { get; set; }
+    [Inject] public ITravelOrderHttpRepository TravelOrderRepo { get; set; }
 
-    [Inject]
-    public ITrafficHttpRepository TrafficRepo { get; set; }
+    [Inject] public ITrafficHttpRepository TrafficRepo { get; set; }
 
-    [Inject]
-    public HttpInterceptorService Interceptor { get; set; }
+    [Inject] public HttpInterceptorService Interceptor { get; set; }
 
-    [Inject]
-    public IToastService ToastService { get; set; }
-    
-    private List<TrafficSelectedDto?> _selectedTraffics;
+    [Inject] public IToastService ToastService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        _travelOrder.StartDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
-        _travelOrder.EndDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
+        _travelOrder.StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
+        _travelOrder.EndDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
         _editContext = new EditContext(_travelOrder);
         _editContext.OnFieldChanged += HandleFieldChanged;
         Interceptor.RegisterEvent();
 
-        var pagingResponse = await TrafficRepo.GetTraffics(_requestParameters);
-        TrafficList = pagingResponse.Items;
+        var pagingResponseTraffics = await TrafficRepo.GetTraffics(_requestParameters);
+        TrafficList = pagingResponseTraffics.Items;
     }
 
     private void HandleFieldChanged(object sender, FieldChangedEventArgs e)
@@ -82,7 +77,7 @@ public partial class CreateTravelOrder
         _editContext.OnFieldChanged += HandleFieldChanged;
         _editContext.OnValidationStateChanged -= ValidationChanged;
     }
-        
+
     public void Dispose()
     {
         Interceptor.DisposeEvent();

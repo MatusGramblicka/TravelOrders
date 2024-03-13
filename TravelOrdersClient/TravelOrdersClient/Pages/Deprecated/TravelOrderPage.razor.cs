@@ -2,17 +2,16 @@
 using Entities.RequestFeatures;
 using Microsoft.AspNetCore.Components;
 using TravelOrdersClient.HttpInterceptor;
-using TravelOrdersClient.HttpRepository;
 using TravelOrdersClient.HttpRepository.Interface;
 
-namespace TravelOrdersClient.Pages;
+namespace TravelOrdersClient.Pages.Deprecated;
 
 public partial class TravelOrderPage : IDisposable
 {
     public List<TravelOrderSelectedDto> TravelOrderList { get; set; } = new();
     public MetaData MetaData { get; set; } = new();
 
-    public RequestParameters _requestParameters = new();
+    public RequestParameters RequestParameters = new();
 
     [Inject]
     public ITravelOrderHttpRepository TravelOrderRepo { get; set; }
@@ -28,13 +27,13 @@ public partial class TravelOrderPage : IDisposable
 
     private async Task SelectedPage(int page)
     {
-        _requestParameters.PageNumber = page;
+        RequestParameters.PageNumber = page;
         await GetTravelOrders();
     }
 
     private async Task GetTravelOrders()
     {
-        var pagingResponse = await TravelOrderRepo.GetTravelOrders(_requestParameters);
+        var pagingResponse = await TravelOrderRepo.GetTravelOrders(RequestParameters);
 
         TravelOrderList = pagingResponse.Items;
         MetaData = pagingResponse.MetaData;
@@ -42,16 +41,16 @@ public partial class TravelOrderPage : IDisposable
 
     private async Task SetPageSize(int pageSize)
     {
-        _requestParameters.PageSize = pageSize;
-        _requestParameters.PageNumber = 1;
+        RequestParameters.PageSize = pageSize;
+        RequestParameters.PageNumber = 1;
 
         await GetTravelOrders();
     }
 
     private async Task SearchChanged(string searchTerm)
     {
-        _requestParameters.PageNumber = 1;
-        _requestParameters.SearchTerm = searchTerm;
+        RequestParameters.PageNumber = 1;
+        RequestParameters.SearchTerm = searchTerm;
 
         await GetTravelOrders();
     }
@@ -60,8 +59,8 @@ public partial class TravelOrderPage : IDisposable
     {
         await TravelOrderRepo.DeleteTravelOrder(id);
 
-        if (_requestParameters.PageNumber > 1 && TravelOrderList.Count == 1)
-            _requestParameters.PageNumber--;
+        if (RequestParameters.PageNumber > 1 && TravelOrderList.Count == 1)
+            RequestParameters.PageNumber--;
 
         await GetTravelOrders();
     }

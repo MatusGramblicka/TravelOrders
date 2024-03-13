@@ -20,6 +20,16 @@ public class EmployeeController : ControllerBase
         _mapper = mapper;
     }
 
+    [HttpGet("employeesSelected", Name = "GetEmployeesSelected")]
+    public IActionResult GetEmployeesSelected([FromQuery] RequestParameters requestParameters)
+    {
+        var employeesFromDb = _repository.Employee.GetAllEmployeesSelectedAsync(requestParameters);
+
+        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb.MetaData));
+
+        return Ok(employeesFromDb);
+    }
+
     [HttpGet(Name = "GetEmployees")]
     public async Task<IActionResult> GetEmployees([FromQuery] RequestParameters requestParameters)
     {
@@ -30,15 +40,5 @@ public class EmployeeController : ControllerBase
         var employeesDto = _mapper.Map<IEnumerable<CityDto>>(employeesFromDb);
 
         return Ok(employeesDto);
-    }
-
-    [HttpGet("employeesSelected", Name = "GetEmployeesSelected")]
-    public IActionResult GetEmployeesSelected([FromQuery] RequestParameters requestParameters)
-    {
-        var employeesFromDb = _repository.Employee.GetAllEmployeesSelectedAsync(requestParameters);
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb.MetaData));
-
-        return Ok(employeesFromDb);
     }
 }

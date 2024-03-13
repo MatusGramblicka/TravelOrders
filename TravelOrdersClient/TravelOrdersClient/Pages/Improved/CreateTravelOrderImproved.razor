@@ -1,0 +1,108 @@
+﻿@page "/createTravelOrderImproved"
+@using Contracts.Enums
+@using Contracts.Dto
+
+<h2>Create New Travel Order</h2>
+
+<EditForm EditContext="_editContext" OnValidSubmit="Create" class="card card-body bg-light mt-5">
+    <DataAnnotationsValidator />
+    
+    @* https://blazor.radzen.com/dropdown-datagrid#multiple-columns *@
+    <div class="form-group row">
+        <label for="EmployeeId" class="col-md-2 col-form-label">Employee:</label>
+        <div class="col-md-10">
+            <div class="form-group row">
+                <RadzenLabel Component="DropDownDataGridColumns" Style="margin-right: 8px; vertical-align: middle;" />
+                <RadzenDropDownDataGrid @bind-Value=@_travelOrder.EmployeeId Data=@EmployeeList TextProperty="Surname" ValueProperty="Id"
+                                        AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridColumns">
+                    <Columns>
+                        <RadzenDropDownDataGridColumn Property="Name" Title="Name" Width="200px" />
+                        <RadzenDropDownDataGridColumn Property="Surname" Title="Surname" Width="100px" />
+                    </Columns>
+                </RadzenDropDownDataGrid>
+            </div>
+            <ValidationMessage For="@(() => _travelOrder.EmployeeId)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="StartPlaceCityId" class="col-md-2 col-form-label">Start Place City:</label>
+        <div class="col-md-10">
+            <div class="form-group row">
+                <RadzenLabel Component="DropDownDataGridColumns" Style="margin-right: 8px; vertical-align: middle;" />
+                <RadzenDropDownDataGrid @bind-Value=@_travelOrder.StartPlaceCityId Data=@CityList TextProperty="Name" ValueProperty="Id"
+                                        AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridColumns">
+                    <Columns>
+                        <RadzenDropDownDataGridColumn Property="Name" Title="Name" Width="200px" />
+                        <RadzenDropDownDataGridColumn Property="State" Title="Surname" Width="100px" />
+                    </Columns>
+                </RadzenDropDownDataGrid>
+            </div>
+            <ValidationMessage For="@(() => _travelOrder.StartPlaceCityId)"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="EndPlaceCityId" class="col-md-2 col-form-label">End Place City:</label>
+        <div class="col-md-10">
+            <div class="form-group row">
+                <RadzenLabel Component="DropDownDataGridColumns" Style="margin-right: 8px; vertical-align: middle;" />
+                <RadzenDropDownDataGrid @bind-Value=@_travelOrder.EndPlaceCityId Data=@CityList TextProperty="Name" ValueProperty="Id"
+                                        AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridColumns">
+                    <Columns>
+                        <RadzenDropDownDataGridColumn Property="Name" Title="Name" Width="200px" />
+                        <RadzenDropDownDataGridColumn Property="State" Title="Surname" Width="100px" />
+                    </Columns>
+                </RadzenDropDownDataGrid>
+            </div>
+            <ValidationMessage For="@(() => _travelOrder.EndPlaceCityId)"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="StartDate" class="col-md-2 col-form-label">Start Date:</label>
+        <div class="col-md-10">
+            <InputDate id="StartDate" class="form-control" @bind-Value="_travelOrder.StartDate" />
+            <ValidationMessage For="@(() => _travelOrder.StartDate)" />
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="EndDate" class="col-md-2 col-form-label">End Date:</label>
+        <div class="col-md-10">
+            <InputDate id="EndDate" class="form-control" @bind-Value="_travelOrder.EndDate" />
+            <ValidationMessage For="@(() => _travelOrder.EndDate)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="body">Select the state: </label>
+        <InputSelect @bind-Value="@_travelOrder.State">
+
+            @foreach (var state in Enum.GetValues(typeof(State)))
+            {
+                <option value="@state">@state</option>
+            }
+        </InputSelect>
+
+        <ValidationMessage For="@(() => _travelOrder.State)" />
+    </div>
+
+    @*  https://blazor.syncfusion.com/documentation/multiselect-dropdown/getting-started?cs-save-lang=1&cs-lang=csharp
+    https://www.syncfusion.com/forums/177546/multiselect-drop-down-initial-values *@
+    <SfMultiSelect TValue="List<TrafficSelectedDto?>" @bind-Value="@_selectedTraffics" TItem="TrafficSelectedDto"
+                   Placeholder="Traffics" PopupHeight="350px" PopupWidth="350px" DataSource="@TrafficList">
+        <MultiSelectFieldSettings Text="TrafficDevice" Value="Id"></MultiSelectFieldSettings>
+    </SfMultiSelect>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-success"
+                    disabled="@_formInvalid">
+                Create
+            </button>
+        </div>
+    </div>
+</EditForm>
+<br />
+<div class="row">
+    <div class="col">
+        <a href="/travelOrders" class="btn btn-success">Back</a>
+    </div>
+</div>

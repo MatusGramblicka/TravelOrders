@@ -22,6 +22,28 @@ public class TravelOrderController : ControllerBase
         _mapper = mapper;
     }
 
+    [HttpGet("travelOrdersSelected", Name = "GetTravelOrdersSelected")]
+    public IActionResult GetTravelOrdersSelected([FromQuery] RequestParameters requestParameters)
+    {
+        var travelOrdersFromDb = _repository.TravelOrder.GetAllTravelOrdersSelectedAsync(requestParameters);
+
+        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(travelOrdersFromDb.MetaData));
+
+        return Ok(travelOrdersFromDb);
+    }
+
+    [HttpGet("travelOrderSelected/{id}", Name = "TravelOrderSelectedById")]
+    public IActionResult GetTravelOrderSelected(int id)
+    {
+        var travelOrder = _repository.TravelOrder.GetTravelOrderSelectedAsync(id);
+        if (travelOrder == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(travelOrder);
+    }
+
     [HttpGet(Name = "GetTravelOrders")]
     public async Task<IActionResult> GetTravelOrders([FromQuery] RequestParameters requestParameters)
     {
@@ -35,16 +57,6 @@ public class TravelOrderController : ControllerBase
         return Ok(travelOrdersDto);
     }
 
-    [HttpGet("travelOrdersSelected", Name = "GetTravelOrdersSelected")]
-    public IActionResult GetTravelOrdersSelected([FromQuery] RequestParameters requestParameters)
-    {
-        var travelOrdersFromDb = _repository.TravelOrder.GetAllTravelOrdersSelectedAsync(requestParameters);
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(travelOrdersFromDb.MetaData));
-
-        return Ok(travelOrdersFromDb);
-    }
-
     [HttpGet("{id}", Name = "TravelOrderById")]
     public async Task<IActionResult> GetTravelOrder(int id)
     {
@@ -56,18 +68,6 @@ public class TravelOrderController : ControllerBase
 
         var travelOrderDto = _mapper.Map<TravelOrderDto>(travelOrder);
         return Ok(travelOrderDto);
-    }
-
-    [HttpGet("travelOrderSelected/{id}", Name = "TravelOrderSelectedById")]
-    public IActionResult GetTravelOrderSelected(int id)
-    {
-        var travelOrder =  _repository.TravelOrder.GetTravelOrderSelectedAsync(id);
-        if (travelOrder == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(travelOrder);
     }
 
     [HttpPost(Name = "CreateTravelOrder")]
@@ -126,7 +126,7 @@ public class TravelOrderController : ControllerBase
 
         _mapper.Map(travelOrder, travelOrderEntity);
         travelOrderEntity.Traffics.Clear();
-        travelOrderEntity.Traffics = (ICollection<Traffic>)traffics;
+        travelOrderEntity.Traffics = (ICollection<Traffic>) traffics;
 
         await _repository.SaveAsync();
 
