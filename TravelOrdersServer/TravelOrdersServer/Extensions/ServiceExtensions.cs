@@ -1,6 +1,8 @@
-﻿using Interface;
+﻿using Core;
+using Interface;
 using Microsoft.EntityFrameworkCore;
 using Repository;
+using TravelOrdersServer.ActionFilters;
 
 namespace TravelOrdersServer.Extensions;
 
@@ -23,6 +25,12 @@ public static class ServiceExtensions
         builder.Services.AddDbContext<TravelOrderDbContext>(opts =>
             opts.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"),
                 b => b.MigrationsAssembly("TravelOrdersServer").UseNetTopologySuite()));
+
+        builder.Services.AddScoped<ValidationFilterAttribute>();
+        builder.Services.AddScoped<ValidateTravelOrderExistsAttribute>();
+
+        builder.Services.AddScoped<IEmployeeManager, EmployeeManager>();
+        builder.Services.AddScoped<ICityManager, CityManager>();
     }
 
     public static void ConfigureRepositoryManager(this IServiceCollection services) =>

@@ -14,6 +14,9 @@ public class MappingProfile : Profile
 
         CreateMap<City, CityDto>();
 
+        CreateMap<Employee, EmployeeDto>();
+
+        CreateMap<Traffic, TrafficDto>(); 
         CreateMap<TrafficSelectedDto, Traffic>().ReverseMap();
     }
 }

@@ -13,17 +13,7 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
     {
     }
 
-    public async Task<PagedList<Employee>> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges)
-    {
-        var employees = await FindAll(trackChanges)
-            .ToListAsync();
-
-        return PagedList<Employee>
-            .ToPagedList(employees, requestParameters.PageNumber, requestParameters.PageSize);
-    }
-
-    
-    public PagedList<EmployeeSelectedDto> GetAllEmployeesSelectedAsync(RequestParameters requestParameters)
+    public PagedList<EmployeeSelectedDto> GetAllEmployeesSelected(RequestParameters requestParameters)
     {
         var employees = RepositoryContext.Employee.Select(e => new EmployeeSelectedDto
         {
@@ -33,6 +23,16 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
         });
 
         return PagedList<EmployeeSelectedDto>
+            .ToPagedList(employees, requestParameters.PageNumber, requestParameters.PageSize);
+    }
+
+    [Obsolete($"Use method {nameof(GetAllEmployeesSelected)} instead.")]
+    public async Task<PagedList<Employee>> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges)
+    {
+        var employees = await FindAll(trackChanges)
+            .ToListAsync();
+
+        return PagedList<Employee>
             .ToPagedList(employees, requestParameters.PageNumber, requestParameters.PageSize);
     }
 

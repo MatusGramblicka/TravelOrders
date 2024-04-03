@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Contracts.Dto;
-using Entities.RequestFeatures;
+﻿using Entities.RequestFeatures;
 using Interface;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,34 +9,32 @@ namespace TravelOrdersServer.Controllers;
 [ApiController]
 public class CityController : ControllerBase
 {
-    private readonly IRepositoryManager _repository;
-    private readonly IMapper _mapper;
+    private readonly ICityManager _cityManager;
 
-    public CityController(IRepositoryManager repository, IMapper mapper)
+    public CityController(ICityManager cityManager)
     {
-        _repository = repository;
-        _mapper = mapper;
+        _cityManager = cityManager;
     }
 
     [HttpGet("citiesSelected", Name = "GetCitiesSelected")]
     public IActionResult GetCitiesSelected([FromQuery] RequestParameters requestParameters)
     {
-        var cityFromDb = _repository.City.GetAllCitiesSelectedAsync(requestParameters);
+        var citiesFromDb = _cityManager.GetAllCitiesSelected(requestParameters);
 
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(cityFromDb.MetaData));
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(citiesFromDb.MetaData);
 
-        return Ok(cityFromDb);
+        return Ok(citiesFromDb);
     }
 
+    [Obsolete("Use endpoint GetCitiesSelected instead.")]
     [HttpGet(Name = "GetCities")]
     public async Task<IActionResult> GetCities([FromQuery] RequestParameters requestParameters)
     {
-        var cityFromDb = await _repository.City.GetAllCitiesAsync(requestParameters, trackChanges: false);
+        var (citiesFromDb, metaData) =
+            await _cityManager.GetAllCitiesAsync(requestParameters, trackChanges: false);
 
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(cityFromDb.MetaData));
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
 
-        var cityDto = _mapper.Map<IEnumerable<CityDto>>(cityFromDb);
-
-        return Ok(cityDto);
+        return Ok(citiesFromDb);
     }
 }

@@ -6,9 +6,10 @@ namespace Interface;
 
 public interface ICityRepository
 {
-    Task<PagedList<City>> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges);
+    PagedList<CitySelectedDto> GetAllCitiesSelected(RequestParameters requestParameters);
 
-    PagedList<CitySelectedDto> GetAllCitiesSelectedAsync(RequestParameters requestParameters);
+    [Obsolete($"Use method {nameof(GetAllCitiesSelected)} instead.")]
+    Task<PagedList<City>> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges);
 
     Task<City?> GetCityAsync(int cityId, bool trackChanges);
 

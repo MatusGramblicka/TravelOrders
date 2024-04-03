@@ -26,8 +26,8 @@ public class TravelOrderController : ControllerBase
     public IActionResult GetTravelOrdersSelected([FromQuery] RequestParameters requestParameters)
     {
         var travelOrdersFromDb = _repository.TravelOrder.GetAllTravelOrdersSelectedAsync(requestParameters);
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(travelOrdersFromDb.MetaData));
+        
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(travelOrdersFromDb.MetaData);
 
         return Ok(travelOrdersFromDb);
     }
@@ -42,32 +42,6 @@ public class TravelOrderController : ControllerBase
         }
 
         return Ok(travelOrder);
-    }
-
-    [HttpGet(Name = "GetTravelOrders")]
-    public async Task<IActionResult> GetTravelOrders([FromQuery] RequestParameters requestParameters)
-    {
-        var travelOrdersFromDb =
-            await _repository.TravelOrder.GetAllTravelOrdersAsync(requestParameters, trackChanges: false);
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(travelOrdersFromDb.MetaData));
-
-        var travelOrdersDto = _mapper.Map<IEnumerable<TravelOrderDto>>(travelOrdersFromDb);
-
-        return Ok(travelOrdersDto);
-    }
-
-    [HttpGet("{id}", Name = "TravelOrderById")]
-    public async Task<IActionResult> GetTravelOrder(int id)
-    {
-        var travelOrder = await _repository.TravelOrder.GetTravelOrderAsync(id, trackChanges: false);
-        if (travelOrder == null)
-        {
-            return NotFound();
-        }
-
-        var travelOrderDto = _mapper.Map<TravelOrderDto>(travelOrder);
-        return Ok(travelOrderDto);
     }
 
     [HttpPost(Name = "CreateTravelOrder")]
@@ -143,5 +117,34 @@ public class TravelOrderController : ControllerBase
         await _repository.SaveAsync();
 
         return NoContent();
+    }
+
+    [Obsolete("Use endpoint GetTravelOrdersSelected instead.")]
+    [HttpGet(Name = "GetTravelOrders")]
+    public async Task<IActionResult> GetTravelOrders([FromQuery] RequestParameters requestParameters)
+    {
+        var travelOrdersFromDb =
+            await _repository.TravelOrder.GetAllTravelOrdersAsync(requestParameters, trackChanges: false);
+
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(travelOrdersFromDb.MetaData);
+
+        var travelOrdersDto = _mapper.Map<IEnumerable<TravelOrderDto>>(travelOrdersFromDb);
+
+        return Ok(travelOrdersDto);
+    }
+
+
+    [Obsolete("Use endpoint TravelOrderSelectedById instead.")]
+    [HttpGet("{id}", Name = "TravelOrderById")]
+    public async Task<IActionResult> GetTravelOrder(int id)
+    {
+        var travelOrder = await _repository.TravelOrder.GetTravelOrderAsync(id, trackChanges: false);
+        if (travelOrder == null)
+        {
+            return NotFound();
+        }
+
+        var travelOrderDto = _mapper.Map<TravelOrderDto>(travelOrder);
+        return Ok(travelOrderDto);
     }
 }
