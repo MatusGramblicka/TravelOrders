@@ -29,11 +29,13 @@
         <div class="col-md-10">
             <div class="form-group row">
                 <RadzenLabel Component="DropDownDataGridColumns" Style="margin-right: 8px; vertical-align: middle;" />
-                <RadzenDropDownDataGrid @bind-Value=@_travelOrder.StartPlaceCityId Data=@CityList TextProperty="Name" ValueProperty="Id"
-                                        AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridColumns">
+                <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@_travelOrder.StartPlaceCityId
+                                        LoadData=@LoadDataStartPlaceCities AllowFiltering="true"
+                                        Data=@StartPlaceCityList Count=@_countStartPlaceCity TextProperty="Name" ValueProperty="Id"
+                                        AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridFilteringLoadData" >
                     <Columns>
-                        <RadzenDropDownDataGridColumn Property="Name" Title="Name" Width="200px" />
-                        <RadzenDropDownDataGridColumn Property="State" Title="Surname" Width="100px" />
+                        <RadzenDropDownDataGridColumn Property="Name" Title="City" Width="200px" />
+                        <RadzenDropDownDataGridColumn Property="State" Title="State" Width="100px" />
                     </Columns>
                 </RadzenDropDownDataGrid>
             </div>
@@ -45,11 +47,13 @@
         <div class="col-md-10">
             <div class="form-group row">
                 <RadzenLabel Component="DropDownDataGridColumns" Style="margin-right: 8px; vertical-align: middle;" />
-                <RadzenDropDownDataGrid @bind-Value=@_travelOrder.EndPlaceCityId Data=@CityList TextProperty="Name" ValueProperty="Id"
-                                        AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridColumns">
+                <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@_travelOrder.EndPlaceCityId
+                                        LoadData=@LoadDataEndPlaceCities AllowFiltering="true"
+                                        Data=@EndPlaceCityList Count=@_countEndPlaceCity TextProperty="Name" ValueProperty="Id"
+                                        AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridFilteringLoadData">
                     <Columns>
-                        <RadzenDropDownDataGridColumn Property="Name" Title="Name" Width="200px" />
-                        <RadzenDropDownDataGridColumn Property="State" Title="Surname" Width="100px" />
+                        <RadzenDropDownDataGridColumn Property="Name" Title="City" Width="200px" />
+                        <RadzenDropDownDataGridColumn Property="State" Title="State" Width="100px" />
                     </Columns>
                 </RadzenDropDownDataGrid>
             </div>
@@ -99,6 +103,21 @@
             </button>
         </div>
     </div>
+
+   @*  <div class="rz-p-12 rz-text-align-center">
+        <RadzenLabel Text="Start Place City:" Component="DropDownDataGridFilteringLoadData" Style="margin-right: 8px; vertical-align: middle;" />
+        <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@_travelOrder.StartPlaceCityId
+                                LoadData=@LoadData AllowFiltering="true"
+                                Data=@CityList2 Count=@countStartPlaceCity TextProperty="Name" ValueProperty="Id"
+                                AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridFilteringLoadData" >
+            <Columns>
+                <RadzenDropDownDataGridColumn Property="Name" Title="City" Width="200px" />
+                <RadzenDropDownDataGridColumn Property="State" Title="State" Width="100px" />
+            </Columns>
+        </RadzenDropDownDataGrid>
+    </div> *@
+
+
 </EditForm>
 <br />
 <div class="row">

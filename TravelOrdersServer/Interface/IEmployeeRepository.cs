@@ -6,9 +6,10 @@ namespace Interface;
 
 public interface IEmployeeRepository
 {
-    Task<PagedList<Employee>> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges);
+    PagedList<EmployeeSelectedDto> GetAllEmployeesSelected(RequestParameters requestParameters);
 
-    PagedList<EmployeeSelectedDto> GetAllEmployeesSelectedAsync(RequestParameters requestParameters);
+    [Obsolete($"Use method {nameof(GetAllEmployeesSelected)} instead.")]
+    Task<PagedList<Employee>> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges);
 
     Task<Employee?> GetEmployeeAsync(string employeesId, bool trackChanges);
 

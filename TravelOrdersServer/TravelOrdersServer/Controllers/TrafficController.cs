@@ -24,20 +24,21 @@ public class TrafficController : ControllerBase
     public IActionResult GetTrafficsSelected([FromQuery] RequestParameters requestParameters)
     {
         var trafficsFromDb = _repository.Traffic.GetAllTrafficsSelectedAsync(requestParameters);
-
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(trafficsFromDb.MetaData));
+        
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(trafficsFromDb.MetaData);
 
         return Ok(trafficsFromDb);
     }
 
+    [Obsolete("Use endpoint GetTrafficsSelected instead.")]
     [HttpGet(Name = "GetTraffics")]
     public async Task<IActionResult> GetTraffics([FromQuery] RequestParameters requestParameters)
     {
         var trafficsFromDb = await _repository.Traffic.GetAllTrafficsAsync(requestParameters, trackChanges: false);
 
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(trafficsFromDb.MetaData));
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(trafficsFromDb.MetaData);
 
-        var trafficsDto = _mapper.Map<IEnumerable<CityDto>>(trafficsFromDb);
+        var trafficsDto = _mapper.Map<IEnumerable<TrafficDto>>(trafficsFromDb);
 
         return Ok(trafficsDto);
     }

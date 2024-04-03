@@ -12,6 +12,6 @@ public class TravelOrderDto
     public City EndPlace { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
-    public ICollection<Traffic> Traffics { get; set; }
+    public ICollection<Traffic> Traffics { get; set; } = new List<Traffic>();
     public State State { get; set; }
 }

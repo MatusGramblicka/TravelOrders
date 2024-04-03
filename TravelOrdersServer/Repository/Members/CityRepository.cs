@@ -13,16 +13,7 @@ public class CityRepository : RepositoryBase<City>, ICityRepository
     {
     }
 
-    public async Task<PagedList<City>> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges)
-    {
-        var cities = await FindAll(trackChanges)
-            .ToListAsync();
-
-        return PagedList<City>
-            .ToPagedList(cities, requestParameters.PageNumber, requestParameters.PageSize);
-    }
-
-    public PagedList<CitySelectedDto> GetAllCitiesSelectedAsync(RequestParameters requestParameters)
+    public PagedList<CitySelectedDto> GetAllCitiesSelected(RequestParameters requestParameters)
     {
         var cities = RepositoryContext.City.Select(c => new CitySelectedDto
         {
@@ -32,6 +23,16 @@ public class CityRepository : RepositoryBase<City>, ICityRepository
         });
 
         return PagedList<CitySelectedDto>
+            .ToPagedList(cities, requestParameters.PageNumber, requestParameters.PageSize);
+    }
+
+    [Obsolete($"Use method {nameof(GetAllCitiesSelected)} instead.")]
+    public async Task<PagedList<City>> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges)
+    {
+        var cities = await FindAll(trackChanges)
+            .ToListAsync();
+
+        return PagedList<City>
             .ToPagedList(cities, requestParameters.PageNumber, requestParameters.PageSize);
     }
 

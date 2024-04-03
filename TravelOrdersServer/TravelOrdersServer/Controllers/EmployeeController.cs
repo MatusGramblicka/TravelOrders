@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Contracts.Dto;
-using Entities.RequestFeatures;
+﻿using Entities.RequestFeatures;
 using Interface;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -11,34 +9,32 @@ namespace TravelOrdersServer.Controllers;
 [ApiController]
 public class EmployeeController : ControllerBase
 {
-    private readonly IRepositoryManager _repository;
-    private readonly IMapper _mapper;
+    private readonly IEmployeeManager _employeeManager;
 
-    public EmployeeController(IRepositoryManager repository, IMapper mapper)
+    public EmployeeController(IEmployeeManager employeeManager)
     {
-        _repository = repository;
-        _mapper = mapper;
+        _employeeManager = employeeManager;
     }
 
     [HttpGet("employeesSelected", Name = "GetEmployeesSelected")]
     public IActionResult GetEmployeesSelected([FromQuery] RequestParameters requestParameters)
     {
-        var employeesFromDb = _repository.Employee.GetAllEmployeesSelectedAsync(requestParameters);
+        var employeesFromDb = _employeeManager.GetAllEmployeesSelected(requestParameters);
 
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb.MetaData));
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(employeesFromDb.MetaData);
 
         return Ok(employeesFromDb);
     }
 
+    [Obsolete("Use endpoint GetEmployeesSelected instead.")]
     [HttpGet(Name = "GetEmployees")]
     public async Task<IActionResult> GetEmployees([FromQuery] RequestParameters requestParameters)
     {
-        var employeesFromDb = await _repository.Employee.GetAllEmployeesAsync(requestParameters, trackChanges: false);
+        var (employeesFromDb, metaData) =
+            await _employeeManager.GetAllEmployeesAsync(requestParameters, trackChanges: false);
 
-        Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(employeesFromDb.MetaData));
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
 
-        var employeesDto = _mapper.Map<IEnumerable<CityDto>>(employeesFromDb);
-
-        return Ok(employeesDto);
+        return Ok(employeesFromDb);
     }
 }

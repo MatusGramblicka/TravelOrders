@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
 using NLog;
 using System.Text.Json.Serialization;
-using TravelOrdersServer.ActionFilters;
 using TravelOrdersServer.Extensions;
 using TravelOrdersServer.MigrationManager;
 
@@ -15,9 +14,6 @@ builder.Services.ConfigureCors();
 builder.ConfigureTravelOrdersApp();
 
 builder.Services.ConfigureRepositoryManager();
-
-builder.Services.AddScoped<ValidationFilterAttribute>();
-builder.Services.AddScoped<ValidateTravelOrderExistsAttribute>();
 
 builder.Services.AddControllers().AddJsonOptions(options => {
     // open api is currently using system.text.json

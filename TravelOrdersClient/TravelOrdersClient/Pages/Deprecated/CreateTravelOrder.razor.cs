@@ -31,8 +31,9 @@ public partial class CreateTravelOrder
 
     protected override async Task OnInitializedAsync()
     {
-        _travelOrder.StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
-        _travelOrder.EndDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified);
+        _travelOrder.StartDate = DateTime.Today;
+        _travelOrder.EndDate = DateTime.Today;
+
         _editContext = new EditContext(_travelOrder);
         _editContext.OnFieldChanged += HandleFieldChanged;
         Interceptor.RegisterEvent();
