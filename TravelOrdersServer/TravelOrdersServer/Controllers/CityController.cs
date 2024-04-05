@@ -1,5 +1,5 @@
-﻿using Entities.RequestFeatures;
-using Interface;
+﻿using Contracts.RequestFeatures;
+using Interface.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -19,22 +19,22 @@ public class CityController : ControllerBase
     [HttpGet("citiesSelected", Name = "GetCitiesSelected")]
     public IActionResult GetCitiesSelected([FromQuery] RequestParameters requestParameters)
     {
-        var citiesFromDb = _cityManager.GetAllCitiesSelected(requestParameters);
+        var cities = _cityManager.GetAllCitiesSelected(requestParameters);
 
-        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(citiesFromDb.MetaData);
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(cities.MetaData);
 
-        return Ok(citiesFromDb);
+        return Ok(cities);
     }
 
-    [Obsolete("Use endpoint GetCitiesSelected instead.")]
+    [Obsolete($"Use endpoint {nameof(GetCitiesSelected)} instead.")]
     [HttpGet(Name = "GetCities")]
     public async Task<IActionResult> GetCities([FromQuery] RequestParameters requestParameters)
     {
-        var (citiesFromDb, metaData) =
+        var (cities, metaData) =
             await _cityManager.GetAllCitiesAsync(requestParameters, trackChanges: false);
 
         Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
 
-        return Ok(citiesFromDb);
+        return Ok(cities);
     }
 }

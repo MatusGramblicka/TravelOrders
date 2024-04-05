@@ -5,8 +5,6 @@ VisualStudioVersion = 17.8.34601.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TravelOrdersClient", "TravelOrdersClient\TravelOrdersClient.csproj", "{0F1E4B15-EAFA-4178-9C02-F9F0171B9AF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "..\TravelOrdersServer\Entities\Entities.csproj", "{EEE85A45-5788-4671-ADD6-35470985A72B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "..\TravelOrdersServer\Contracts\Contracts.csproj", "{D4D481F7-ED83-4505-8382-FC3AD8260971}"
 EndProject
 Global
@@ -19,10 +17,6 @@ Global
 		{0F1E4B15-EAFA-4178-9C02-F9F0171B9AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F1E4B15-EAFA-4178-9C02-F9F0171B9AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F1E4B15-EAFA-4178-9C02-F9F0171B9AF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEE85A45-5788-4671-ADD6-35470985A72B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEE85A45-5788-4671-ADD6-35470985A72B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEE85A45-5788-4671-ADD6-35470985A72B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEE85A45-5788-4671-ADD6-35470985A72B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D4D481F7-ED83-4505-8382-FC3AD8260971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D4D481F7-ED83-4505-8382-FC3AD8260971}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4D481F7-ED83-4505-8382-FC3AD8260971}.Release|Any CPU.ActiveCfg = Release|Any CPU

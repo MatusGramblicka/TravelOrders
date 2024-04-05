@@ -1,4 +1,4 @@
-﻿namespace Entities.Configuration;
+﻿namespace Contracts.Configuration;
 
 public class ApiConfiguration
 {

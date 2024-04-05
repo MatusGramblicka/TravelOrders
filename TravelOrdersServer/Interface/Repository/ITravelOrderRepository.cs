@@ -1,19 +1,19 @@
 ﻿using Contracts.Dto;
 using Contracts.Models;
-using Entities.RequestFeatures;
+using Contracts.RequestFeatures;
 
-namespace Interface;
+namespace Interface.Repository;
 
 public interface ITravelOrderRepository
 {
     Task<PagedList<TravelOrder>> GetAllTravelOrdersAsync(RequestParameters requestParameters,
         bool trackChanges);
 
-    PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelectedAsync(RequestParameters requestParameters);
+    PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(RequestParameters requestParameters);
 
     Task<TravelOrder?> GetTravelOrderAsync(int travelOrdersId, bool trackChanges);
 
-    TravelOrderSelectedDto? GetTravelOrderSelectedAsync(int travelOrdersId);
+    Task<TravelOrderSelectedDto?> GetTravelOrderSelectedAsync(int travelOrdersId);
 
     Task<TravelOrder?> GetTravelOrderWithTrafficsAsync(int travelOrdersId);
 

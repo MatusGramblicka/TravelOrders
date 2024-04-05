@@ -1,7 +1,7 @@
 ﻿using Contracts.Dto;
 using Contracts.Models;
-using Entities.RequestFeatures;
-using Interface;
+using Contracts.RequestFeatures;
+using Interface.Repository;
 using Microsoft.EntityFrameworkCore;
 using Repository.Extensions;
 using Repository.Projections;
@@ -14,18 +14,8 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
         : base(repositoryContext)
     {
     }
-
-    public async Task<PagedList<TravelOrder>> GetAllTravelOrdersAsync(RequestParameters requestParameters,
-        bool trackChanges)
-    {
-        var travelOrders = await FindAll(trackChanges)
-            .ToListAsync();
-
-        return PagedList<TravelOrder>
-            .ToPagedList(travelOrders, requestParameters.PageNumber, requestParameters.PageSize);
-    }
-
-    public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelectedAsync(
+    
+    public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(
         RequestParameters requestParameters)
     {
         var travelOrders = RepositoryContext.TravelOrder
@@ -36,16 +26,27 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
             .ToPagedList(travelOrders, requestParameters.PageNumber, requestParameters.PageSize);
     }
 
+    [Obsolete($"Use method {nameof(GetAllTravelOrdersSelected)} instead.")]
+    public async Task<PagedList<TravelOrder>> GetAllTravelOrdersAsync(RequestParameters requestParameters,
+        bool trackChanges)
+    {
+        var travelOrders = await FindAll(trackChanges)
+            .ToListAsync();
+
+        return PagedList<TravelOrder>
+            .ToPagedList(travelOrders, requestParameters.PageNumber, requestParameters.PageSize);
+    }
+
     public async Task<TravelOrder?> GetTravelOrderAsync(int travelOrdersId, bool trackChanges) =>
         await FindByCondition(c => c.Id.Equals(travelOrdersId), trackChanges)
             .SingleOrDefaultAsync();
 
-    public TravelOrderSelectedDto? GetTravelOrderSelectedAsync(int travelOrdersId)
+    public async Task<TravelOrderSelectedDto?> GetTravelOrderSelectedAsync(int travelOrdersId)
     {
-        return RepositoryContext.TravelOrder
+        return await RepositoryContext.TravelOrder
             .Where(i => i.Id.Equals(travelOrdersId))
             .Select(TravelOrderProjection.GetTravelOrderSelected())
-            .SingleOrDefault();
+            .SingleOrDefaultAsync();
     }
 
     public async Task<TravelOrder?> GetTravelOrderWithTrafficsAsync(int travelOrdersId)

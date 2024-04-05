@@ -1,4 +1,4 @@
-﻿namespace Entities.RequestFeatures;
+﻿namespace Contracts.RequestFeatures;
 
 public class RequestParameters
 {

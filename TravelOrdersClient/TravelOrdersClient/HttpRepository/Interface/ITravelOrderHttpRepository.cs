@@ -1,5 +1,5 @@
 ﻿using Contracts.Dto;
-using Entities.RequestFeatures;
+using Contracts.RequestFeatures;
 using TravelOrdersClient.Features;
 
 namespace TravelOrdersClient.HttpRepository.Interface;

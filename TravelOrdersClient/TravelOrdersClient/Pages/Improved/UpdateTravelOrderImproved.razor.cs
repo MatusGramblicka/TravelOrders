@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Blazored.Toast.Services;
 using Contracts.Dto;
-using Entities.RequestFeatures;
+using Contracts.RequestFeatures;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using TravelOrdersClient.HttpInterceptor;

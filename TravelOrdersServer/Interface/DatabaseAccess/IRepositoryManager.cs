@@ -1,4 +1,6 @@
-﻿namespace Interface;
+﻿using Interface.Repository;
+
+namespace Interface.DatabaseAccess;
 
 public interface IRepositoryManager
 {

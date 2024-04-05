@@ -1,8 +1,8 @@
 ﻿using Contracts.Dto;
 using Contracts.Models;
-using Entities.RequestFeatures;
+using Contracts.RequestFeatures;
 
-namespace Interface;
+namespace Interface.Repository;
 
 public interface IEmployeeRepository
 {

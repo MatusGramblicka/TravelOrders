@@ -1,5 +1,5 @@
 using Blazored.Toast;
-using Entities.Configuration;
+using Contracts.Configuration;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;

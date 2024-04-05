@@ -1,4 +1,5 @@
-﻿using Interface;
+﻿using Interface.DatabaseAccess;
+using Interface.Repository;
 using Repository.Members;
 
 namespace Repository;
@@ -36,6 +37,5 @@ public class RepositoryManager : IRepositoryManager
         get { return _trafficRepository ??= new TrafficRepository(_repositoryContext); }
     }
     
-
     public Task SaveAsync() => _repositoryContext.SaveChangesAsync();
 }

@@ -1,5 +1,5 @@
-﻿using Entities.RequestFeatures;
-using Interface;
+﻿using Contracts.RequestFeatures;
+using Interface.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -19,22 +19,22 @@ public class EmployeeController : ControllerBase
     [HttpGet("employeesSelected", Name = "GetEmployeesSelected")]
     public IActionResult GetEmployeesSelected([FromQuery] RequestParameters requestParameters)
     {
-        var employeesFromDb = _employeeManager.GetAllEmployeesSelected(requestParameters);
+        var employees = _employeeManager.GetAllEmployeesSelected(requestParameters);
 
-        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(employeesFromDb.MetaData);
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(employees.MetaData);
 
-        return Ok(employeesFromDb);
+        return Ok(employees);
     }
 
-    [Obsolete("Use endpoint GetEmployeesSelected instead.")]
+    [Obsolete($"Use endpoint {nameof(GetEmployeesSelected)} instead.")]
     [HttpGet(Name = "GetEmployees")]
     public async Task<IActionResult> GetEmployees([FromQuery] RequestParameters requestParameters)
     {
-        var (employeesFromDb, metaData) =
+        var (employees, metaData) =
             await _employeeManager.GetAllEmployeesAsync(requestParameters, trackChanges: false);
 
         Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
 
-        return Ok(employeesFromDb);
+        return Ok(employees);
     }
 }
