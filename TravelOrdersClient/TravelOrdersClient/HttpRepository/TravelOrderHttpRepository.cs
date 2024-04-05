@@ -1,5 +1,5 @@
 ﻿using Contracts.Dto;
-using Entities.RequestFeatures;
+using Contracts.RequestFeatures;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Net.Http.Json;
 using System.Text.Json;

@@ -1,7 +1,7 @@
 ﻿using Contracts.Dto;
-using Entities.RequestFeatures;
+using Contracts.RequestFeatures;
 
-namespace Interface;
+namespace Interface.Managers;
 
 public interface ICityManager
 {

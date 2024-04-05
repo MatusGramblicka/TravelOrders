@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Contracts.Dto;
-using Entities.RequestFeatures;
-using Interface;
+﻿using Contracts.RequestFeatures;
+using Interface.Managers;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -11,35 +9,32 @@ namespace TravelOrdersServer.Controllers;
 [ApiController]
 public class TrafficController : ControllerBase
 {
-    private readonly IRepositoryManager _repository;
-    private readonly IMapper _mapper;
+    private readonly ITrafficManager _trafficManager;
 
-    public TrafficController(IRepositoryManager repository, IMapper mapper)
+    public TrafficController(ITrafficManager cityManager)
     {
-        _repository = repository;
-        _mapper = mapper;
+        _trafficManager = cityManager;
     }
 
     [HttpGet("trafficsSelected", Name = "GetTrafficsSelected")]
     public IActionResult GetTrafficsSelected([FromQuery] RequestParameters requestParameters)
     {
-        var trafficsFromDb = _repository.Traffic.GetAllTrafficsSelectedAsync(requestParameters);
-        
-        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(trafficsFromDb.MetaData);
+        var traffics = _trafficManager.GetAllTrafficsSelected(requestParameters);
 
-        return Ok(trafficsFromDb);
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(traffics.MetaData);
+
+        return Ok(traffics);
     }
 
-    [Obsolete("Use endpoint GetTrafficsSelected instead.")]
+    [Obsolete($"Use endpoint {nameof(GetTrafficsSelected)} instead.")]
     [HttpGet(Name = "GetTraffics")]
     public async Task<IActionResult> GetTraffics([FromQuery] RequestParameters requestParameters)
     {
-        var trafficsFromDb = await _repository.Traffic.GetAllTrafficsAsync(requestParameters, trackChanges: false);
+        var (traffics, metaData) =
+            await _trafficManager.GetAllTrafficsAsync(requestParameters, trackChanges: false);
 
-        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(trafficsFromDb.MetaData);
+        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
 
-        var trafficsDto = _mapper.Map<IEnumerable<TrafficDto>>(trafficsFromDb);
-
-        return Ok(trafficsDto);
+        return Ok(traffics);
     }
 }

@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using Contracts.Dto;
-using Entities.RequestFeatures;
-using Interface;
+using Contracts.RequestFeatures;
+using Interface.DatabaseAccess;
+using Interface.Managers;
 
 namespace Core;
 

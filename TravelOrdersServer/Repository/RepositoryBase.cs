@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Interface.DatabaseAccess;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Interface;
 
 namespace Repository;
 

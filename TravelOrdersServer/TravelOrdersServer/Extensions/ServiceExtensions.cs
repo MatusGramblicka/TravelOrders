@@ -1,5 +1,6 @@
 ﻿using Core;
-using Interface;
+using Interface.DatabaseAccess;
+using Interface.Managers;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using TravelOrdersServer.ActionFilters;
@@ -29,8 +30,10 @@ public static class ServiceExtensions
         builder.Services.AddScoped<ValidationFilterAttribute>();
         builder.Services.AddScoped<ValidateTravelOrderExistsAttribute>();
 
+        builder.Services.AddScoped<ITravelOrderManager, TravelOrderManager>(); 
         builder.Services.AddScoped<IEmployeeManager, EmployeeManager>();
         builder.Services.AddScoped<ICityManager, CityManager>();
+        builder.Services.AddScoped<ITrafficManager, TrafficManager>();
     }
 
     public static void ConfigureRepositoryManager(this IServiceCollection services) =>

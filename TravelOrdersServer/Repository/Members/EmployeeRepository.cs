@@ -1,7 +1,7 @@
 ﻿using Contracts.Dto;
 using Contracts.Models;
-using Entities.RequestFeatures;
-using Interface;
+using Contracts.RequestFeatures;
+using Interface.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Members;

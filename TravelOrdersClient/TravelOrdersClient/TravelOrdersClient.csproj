@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\TravelOrdersServer\Contracts\Contracts.csproj" />
-    <ProjectReference Include="..\..\TravelOrdersServer\Entities\Entities.csproj" />
   </ItemGroup>
 
 </Project>

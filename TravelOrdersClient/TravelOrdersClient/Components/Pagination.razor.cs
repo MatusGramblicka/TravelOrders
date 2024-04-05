@@ -1,4 +1,4 @@
-﻿using Entities.RequestFeatures;
+﻿using Contracts.RequestFeatures;
 using Microsoft.AspNetCore.Components;
 using TravelOrdersClient.Features;
 

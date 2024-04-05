@@ -1,7 +1,7 @@
 ﻿using Contracts.Dto;
 using Contracts.Models;
-using Entities.RequestFeatures;
-using Interface;
+using Contracts.RequestFeatures;
+using Interface.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Members;
@@ -13,17 +13,7 @@ public class TrafficRepository : RepositoryBase<Traffic>, ITrafficRepository
     {
     }
 
-    public async Task<PagedList<Traffic>> GetAllTrafficsAsync(RequestParameters requestParameters, bool trackChanges)
-    {
-        var traffics = await FindAll(trackChanges)
-            .ToListAsync();
-
-        return PagedList<Traffic>
-            .ToPagedList(traffics, requestParameters.PageNumber, requestParameters.PageSize);
-    }
-
-
-    public PagedList<TrafficSelectedDto> GetAllTrafficsSelectedAsync(RequestParameters requestParameters)
+    public PagedList<TrafficSelectedDto> GetAllTrafficsSelected(RequestParameters requestParameters)
     {
         var traffics = RepositoryContext.Traffic.Select(t => new TrafficSelectedDto
         {
@@ -32,6 +22,16 @@ public class TrafficRepository : RepositoryBase<Traffic>, ITrafficRepository
         });
 
         return PagedList<TrafficSelectedDto>
+            .ToPagedList(traffics, requestParameters.PageNumber, requestParameters.PageSize);
+    }
+
+    [Obsolete($"Use method {nameof(GetAllTrafficsSelected)} instead.")]
+    public async Task<PagedList<Traffic>> GetAllTrafficsAsync(RequestParameters requestParameters, bool trackChanges)
+    {
+        var traffics = await FindAll(trackChanges)
+            .ToListAsync();
+
+        return PagedList<Traffic>
             .ToPagedList(traffics, requestParameters.PageNumber, requestParameters.PageSize);
     }
 
