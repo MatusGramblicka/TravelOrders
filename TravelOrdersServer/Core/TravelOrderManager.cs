@@ -85,26 +85,4 @@ public class TravelOrderManager : ITravelOrderManager
         _repository.TravelOrder.DeleteTravelOrder(travelOrder);
         await _repository.SaveAsync();
     }
-
-    [Obsolete($"Use method {nameof(GetAllTravelOrdersSelected)} instead.")]
-    public async Task<(IEnumerable<TravelOrderDto>, MetaData)> GetAllTravelOrdersAsync(
-        RequestParameters requestParameters,
-        bool trackChanges)
-    {
-        var travelOrdersFromDb = await _repository.TravelOrder.GetAllTravelOrdersAsync(requestParameters, trackChanges);
-
-        var travelOrdersDto = _mapper.Map<IEnumerable<TravelOrderDto>>(travelOrdersFromDb);
-
-        return (travelOrdersDto, travelOrdersFromDb.MetaData);
-    }
-
-    [Obsolete($"Use endpoint {nameof(GetTravelOrderSelectedAsync)} instead.")]
-    public async Task<TravelOrderDto> GetTravelOrderAsync(int id)
-    {
-        var travelOrder = await _repository.TravelOrder.GetTravelOrderAsync(id, trackChanges: false);
-        if (travelOrder == null)
-            throw new Exception();
-
-        return _mapper.Map<TravelOrderDto>(travelOrder);
-    }
 }

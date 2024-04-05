@@ -87,33 +87,4 @@ public class TravelOrderController : ControllerBase
 
         return NoContent();
     }
-
-    [Obsolete($"Use endpoint {nameof(GetTravelOrdersSelected)} instead.")]
-    [HttpGet(Name = "GetTravelOrders")]
-    public async Task<IActionResult> GetTravelOrders([FromQuery] RequestParameters requestParameters)
-    {
-        var (travelOrders, metaData) =
-            await _travelOrderManager.GetAllTravelOrdersAsync(requestParameters, trackChanges: false);
-
-        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
-
-        return Ok(travelOrders);
-    }
-
-    [Obsolete($"Use endpoint {nameof(GetTravelOrderSelected)} instead.")]
-    [HttpGet("{id}", Name = "TravelOrderById")]
-    public async Task<IActionResult> GetTravelOrder(int id)
-    {
-        TravelOrderDto travelOrder;
-        try
-        {
-            travelOrder = await _travelOrderManager.GetTravelOrderAsync(id);
-        }
-        catch (Exception e)
-        {
-            return BadRequest();
-        }
-
-        return Ok(travelOrder);
-    }
 }

@@ -25,16 +25,4 @@ public class CityController : ControllerBase
 
         return Ok(cities);
     }
-
-    [Obsolete($"Use endpoint {nameof(GetCitiesSelected)} instead.")]
-    [HttpGet(Name = "GetCities")]
-    public async Task<IActionResult> GetCities([FromQuery] RequestParameters requestParameters)
-    {
-        var (cities, metaData) =
-            await _cityManager.GetAllCitiesAsync(requestParameters, trackChanges: false);
-
-        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
-
-        return Ok(cities);
-    }
 }

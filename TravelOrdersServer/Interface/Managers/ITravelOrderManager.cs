@@ -13,14 +13,6 @@ public interface ITravelOrderManager
     Task<TravelOrderDto> CreateTravelOrderAsync(TravelOrderCreationDto travelOrder);
 
     Task UpdateTravelOrder(TravelOrderUpdateDto travelOrder, TravelOrder travelOrderEntity);
-
-
-    Task DeleteTravelOrder(TravelOrder travelOrder);
     
-    [Obsolete($"Use method {nameof(GetAllTravelOrdersSelected)} instead.")]
-    Task<(IEnumerable<TravelOrderDto>, MetaData)> GetAllTravelOrdersAsync(RequestParameters requestParameters,
-        bool trackChanges);
-
-    [Obsolete($"Use endpoint {nameof(GetTravelOrderSelectedAsync)} instead.")]
-    Task<TravelOrderDto> GetTravelOrderAsync(int id);
+    Task DeleteTravelOrder(TravelOrder travelOrder);
 }

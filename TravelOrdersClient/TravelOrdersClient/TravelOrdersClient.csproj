@@ -5,6 +5,13 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\Improved\**" />
+    <Content Remove="Pages\Improved\**" />
+    <EmbeddedResource Remove="Pages\Improved\**" />
+    <None Remove="Pages\Improved\**" />
+  </ItemGroup>
 	
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />

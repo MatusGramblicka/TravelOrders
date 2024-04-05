@@ -11,7 +11,7 @@ public partial class TravelOrderTable
 
     [Parameter]
     public EventCallback<int> OnDelete { get; set; }
-    
+
     private Confirmation _confirmation;
     private int _travelIdOrderToDelete;
 
