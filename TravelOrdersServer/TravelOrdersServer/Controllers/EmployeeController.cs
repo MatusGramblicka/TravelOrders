@@ -25,16 +25,4 @@ public class EmployeeController : ControllerBase
 
         return Ok(employees);
     }
-
-    [Obsolete($"Use endpoint {nameof(GetEmployeesSelected)} instead.")]
-    [HttpGet(Name = "GetEmployees")]
-    public async Task<IActionResult> GetEmployees([FromQuery] RequestParameters requestParameters)
-    {
-        var (employees, metaData) =
-            await _employeeManager.GetAllEmployeesAsync(requestParameters, trackChanges: false);
-
-        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
-
-        return Ok(employees);
-    }
 }

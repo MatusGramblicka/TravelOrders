@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Components.Forms;
 using TravelOrdersClient.HttpInterceptor;
 using TravelOrdersClient.HttpRepository.Interface;
 
-namespace TravelOrdersClient.Pages.Improved;
+namespace TravelOrdersClient.Pages;
 
-public partial class UpdateTravelOrderImproved : IDisposable
+public partial class UpdateTravelOrder : IDisposable
 {
     private TravelOrderSelectedDto _travelOrder;
 

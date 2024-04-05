@@ -25,16 +25,4 @@ public class TrafficController : ControllerBase
 
         return Ok(traffics);
     }
-
-    [Obsolete($"Use endpoint {nameof(GetTrafficsSelected)} instead.")]
-    [HttpGet(Name = "GetTraffics")]
-    public async Task<IActionResult> GetTraffics([FromQuery] RequestParameters requestParameters)
-    {
-        var (traffics, metaData) =
-            await _trafficManager.GetAllTrafficsAsync(requestParameters, trackChanges: false);
-
-        Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(metaData);
-
-        return Ok(traffics);
-    }
 }

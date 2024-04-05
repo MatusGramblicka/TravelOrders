@@ -6,9 +6,10 @@ namespace Interface.Repository;
 
 public interface ITrafficRepository
 {
-    Task<PagedList<Traffic>> GetAllTrafficsAsync(RequestParameters requestParameters, bool trackChanges);
-
     PagedList<TrafficSelectedDto> GetAllTrafficsSelected(RequestParameters requestParameters);
+
+    [Obsolete($"Use method {nameof(GetAllTrafficsSelected)} instead.")]
+    Task<PagedList<Traffic>> GetAllTrafficsAsync(RequestParameters requestParameters, bool trackChanges);
 
     Task<Traffic?> GetTrafficAsync(int trafficId, bool trackChanges);
 

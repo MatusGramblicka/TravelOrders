@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Components;
 using TravelOrdersClient.HttpInterceptor;
 using TravelOrdersClient.HttpRepository.Interface;
 
-namespace TravelOrdersClient.Pages.Improved;
+namespace TravelOrdersClient.Pages;
 
-public partial class TravelOrderPageImproved : IDisposable
+public partial class TravelOrderPage : IDisposable
 {
     public List<TravelOrderSelectedDto> TravelOrderList { get; set; } = new();
     public MetaData MetaData { get; set; } = new();
