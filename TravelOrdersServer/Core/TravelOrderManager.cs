@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.Dto;
+using Contracts.Exceptions;
 using Contracts.Models;
 using Contracts.RequestFeatures;
 using Interface.DatabaseAccess;
@@ -32,19 +33,19 @@ public class TravelOrderManager : ITravelOrderManager
     {
         var startCity = await _repository.City.GetCityAsync(travelOrder.StartPlaceCityId, false);
         if (startCity == null)
-            throw new Exception();
+            throw new CityMissingException("The city record does not exist");
 
         var endCity = await _repository.City.GetCityAsync(travelOrder.EndPlaceCityId, false);
         if (endCity == null)
-            throw new Exception();
+            throw new CityMissingException("The city record does not exist");
 
         var employee = await _repository.Employee.GetEmployeeAsync(travelOrder.EmployeeId, false);
         if (employee == null)
-            throw new Exception();
+            throw new EmployeeMissingException("The employee record does not exist");
 
         var traffics = await _repository.Traffic.GetByIdsAsync(travelOrder.Traffics.Select(t => t.Id), true);
         if (traffics.Count() != travelOrder.Traffics.Count)
-            throw new Exception();
+            throw new TrafficMissingException("The traffic record does not exist");
 
         var travelOrderEntity = _mapper.Map<TravelOrder>(travelOrder);
         travelOrderEntity.Traffics = (ICollection<Traffic>) traffics;
@@ -59,19 +60,19 @@ public class TravelOrderManager : ITravelOrderManager
     {
         var startCity = await _repository.City.GetCityAsync(travelOrder.StartPlaceCityId, false);
         if (startCity == null)
-            throw new Exception();
+            throw new CityMissingException("The city record does not exist");
 
         var endCity = await _repository.City.GetCityAsync(travelOrder.EndPlaceCityId, false);
         if (endCity == null)
-            throw new Exception();
+            throw new CityMissingException("The city record does not exist");
 
         var employee = await _repository.Employee.GetEmployeeAsync(travelOrder.EmployeeId, false);
         if (employee == null)
-            throw new Exception();
+            throw new EmployeeMissingException("The employee record does not exist");
 
         var traffics = await _repository.Traffic.GetByIdsAsync(travelOrder.Traffics.Select(t => t.Id), true);
         if (traffics.Count() != travelOrder.Traffics.Count)
-            throw new Exception();
+            throw new TrafficMissingException("The traffic record does not exist");
 
         _mapper.Map(travelOrder, travelOrderEntity);
         travelOrderEntity.Traffics.Clear();
