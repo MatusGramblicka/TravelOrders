@@ -1,4 +1,5 @@
 ﻿using Contracts.Dto;
+using Contracts.Exceptions;
 using Contracts.Models;
 using Contracts.RequestFeatures;
 using Interface.Managers;
@@ -50,9 +51,21 @@ public class TravelOrderController : ControllerBase
         {
             travelOrderToReturn = await _travelOrderManager.CreateTravelOrderAsync(travelOrder);
         }
-        catch (Exception e)
+        catch (CityMissingException ex)
         {
-            return BadRequest();
+            return BadRequest(ex.Message);
+        }
+        catch (EmployeeMissingException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (TrafficMissingException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Unspecified problem");
         }
 
         return CreatedAtRoute("TravelOrderById", new {id = travelOrderToReturn.Id}, travelOrderToReturn);
@@ -67,11 +80,25 @@ public class TravelOrderController : ControllerBase
 
         try
         {
+#pragma warning disable CS8604 // Checked already for null in ValidateTravelOrderExistsAttribute filter
             await _travelOrderManager.UpdateTravelOrder(travelOrder, travelOrderEntity);
+#pragma warning restore CS8604
         }
-        catch (Exception e)
+        catch (CityMissingException ex)
         {
-            return BadRequest();
+            return BadRequest(ex.Message);
+        }
+        catch (EmployeeMissingException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (TrafficMissingException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (Exception)
+        {
+            return BadRequest("Unspecified problem");
         }
 
         return NoContent();
@@ -83,7 +110,9 @@ public class TravelOrderController : ControllerBase
     {
         var travelOrder = HttpContext.Items["travelOrder"] as TravelOrder;
 
+#pragma warning disable CS8604 // Checked already for null in ValidateTravelOrderExistsAttribute filter
         await _travelOrderManager.DeleteTravelOrder(travelOrder);
+#pragma warning restore CS8604
 
         return NoContent();
     }
