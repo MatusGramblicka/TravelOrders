@@ -70,6 +70,27 @@ namespace TravelOrdersServer.Migrations
                             GeographicalCoordinates = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (60 45)"),
                             Name = "Madrid",
                             State = "Spain"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            GeographicalCoordinates = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (50 12)"),
+                            Name = "New York",
+                            State = "America"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            GeographicalCoordinates = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (70 18)"),
+                            Name = "Quebec",
+                            State = "Canada"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            GeographicalCoordinates = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (49 30)"),
+                            Name = "Praha",
+                            State = "Czech Republic"
                         });
                 });
 
@@ -126,6 +147,30 @@ namespace TravelOrdersServer.Migrations
                             BirthNumber = "001212/6326",
                             Name = "Allen",
                             Surname = "Rogue"
+                        },
+                        new
+                        {
+                            Id = "9202FZ0912",
+                            BirthDate = new DateTime(1969, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthNumber = "000102/0026",
+                            Name = "Matheus",
+                            Surname = "Langus"
+                        },
+                        new
+                        {
+                            Id = "8202FT8889",
+                            BirthDate = new DateTime(2001, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthNumber = "000812/6316",
+                            Name = "John",
+                            Surname = "Paul"
+                        },
+                        new
+                        {
+                            Id = "9202AD0892",
+                            BirthDate = new DateTime(1969, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthNumber = "001003/6369",
+                            Name = "Lys",
+                            Surname = "Lorence"
                         });
                 });
 

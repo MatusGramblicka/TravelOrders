@@ -11,10 +11,10 @@ public class TravelOrderDbContext : DbContext
     {
     }
 
-    public DbSet<Employee> Employee { get; set; }
-    public DbSet<City> City { get; set; }
-    public DbSet<TravelOrder> TravelOrder { get; set; }
-    public DbSet<Traffic> Traffic { get; set; }
+    public DbSet<Employee> Employee { get; set; } = null!;
+    public DbSet<City> City { get; set; } = null!;
+    public DbSet<TravelOrder> TravelOrder { get; set; } = null!;
+    public DbSet<Traffic> Traffic { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
