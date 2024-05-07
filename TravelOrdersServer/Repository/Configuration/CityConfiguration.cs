@@ -31,6 +31,27 @@ public class CityConfiguration : IEntityTypeConfiguration<City>
                 Name = "Madrid",
                 GeographicalCoordinates = new Point(new Coordinate(60, 45)) { SRID = 4326 },
                 State = "Spain"
+            },
+            new City
+            {
+                Id = 4,
+                Name = "New York",
+                GeographicalCoordinates = new Point(new Coordinate(50, 12)) { SRID = 4326 },
+                State = "America"
+            },
+            new City
+            {
+                Id = 5,
+                Name = "Quebec",
+                GeographicalCoordinates = new Point(new Coordinate(70, 18)) { SRID = 4326 },
+                State = "Canada"
+            },
+            new City
+            {
+                Id = 6,
+                Name = "Praha",
+                GeographicalCoordinates = new Point(new Coordinate(49, 30)) { SRID = 4326 },
+                State = "Czech Republic"
             }
         );
     }

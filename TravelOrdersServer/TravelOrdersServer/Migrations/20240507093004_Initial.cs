@@ -125,7 +125,10 @@ namespace TravelOrdersServer.Migrations
                 {
                     { 1, (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (22 33)"), "Lyon", "Francais" },
                     { 2, (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (88 25)"), "Trenčín", "Slovakia" },
-                    { 3, (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (60 45)"), "Madrid", "Spain" }
+                    { 3, (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (60 45)"), "Madrid", "Spain" },
+                    { 4, (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (50 12)"), "New York", "America" },
+                    { 5, (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (70 18)"), "Quebec", "Canada" },
+                    { 6, (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (49 30)"), "Praha", "Czech Republic" }
                 });
 
             migrationBuilder.InsertData(
@@ -135,7 +138,10 @@ namespace TravelOrdersServer.Migrations
                 {
                     { "0102F7091D", new DateTime(1999, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "990511/7896", "Jane", "Legue" },
                     { "1109F7061A", new DateTime(1989, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "890201/9896", "Lui", "Pale" },
-                    { "8802FT0989", new DateTime(2000, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "001212/6326", "Allen", "Rogue" }
+                    { "8202FT8889", new DateTime(2001, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "000812/6316", "John", "Paul" },
+                    { "8802FT0989", new DateTime(2000, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "001212/6326", "Allen", "Rogue" },
+                    { "9202AD0892", new DateTime(1969, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "001003/6369", "Lys", "Lorence" },
+                    { "9202FZ0912", new DateTime(1969, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "000102/0026", "Matheus", "Langus" }
                 });
 
             migrationBuilder.InsertData(
