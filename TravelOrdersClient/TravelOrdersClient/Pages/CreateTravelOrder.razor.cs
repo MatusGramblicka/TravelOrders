@@ -93,8 +93,9 @@ public partial class CreateTravelOrder
         _travelOrder = new TravelOrderCreationDto
         {
             StartDate = DateTime.Today,
-            EndDate = DateTime.Today
+            EndDate = DateTime.Today,
         };
+        _selectedTraffics= new();
 
         _editContext.OnValidationStateChanged += ValidationChanged;
         _editContext.NotifyValidationStateChanged();

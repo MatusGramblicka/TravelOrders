@@ -16,6 +16,7 @@ public class TravelOrderManipulationDto
 
     public DateTime EndDate { get; set; }
 
+    [MaxLength(60)]
     public string? Note { get; set; }
 
     public ICollection<TrafficSelectedDto> Traffics { get; set; } = new List<TrafficSelectedDto>();

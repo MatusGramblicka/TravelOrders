@@ -50,7 +50,7 @@ namespace TravelOrdersServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TrafficDevice = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TrafficDevice = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -70,7 +70,7 @@ namespace TravelOrdersServer.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    State = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {

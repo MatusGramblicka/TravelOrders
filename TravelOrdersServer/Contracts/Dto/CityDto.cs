@@ -17,5 +17,6 @@ public class CityDto
     public Point GeographicalCoordinates { get; set; }
 
     public ICollection<TravelOrder> StartPlaceTravelOrders { get; set; } = new List<TravelOrder>();
+
     public ICollection<TravelOrder> EndPlaceTravelOrders { get; set; } = new List<TravelOrder>();
 }

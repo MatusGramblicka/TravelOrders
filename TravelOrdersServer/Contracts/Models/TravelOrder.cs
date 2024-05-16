@@ -27,5 +27,6 @@ public class TravelOrder
 
     public ICollection<Traffic> Traffics { get; set; } = new List<Traffic>();
 
+    [MaxLength(30)]
     public State State { get; set; }
 }

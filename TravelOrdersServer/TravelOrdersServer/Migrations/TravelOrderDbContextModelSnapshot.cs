@@ -184,7 +184,8 @@ namespace TravelOrdersServer.Migrations
 
                     b.Property<string>("TrafficDevice")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -263,7 +264,8 @@ namespace TravelOrdersServer.Migrations
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
