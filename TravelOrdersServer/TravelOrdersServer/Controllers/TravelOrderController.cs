@@ -68,7 +68,7 @@ public class TravelOrderController : ControllerBase
             return BadRequest("Unspecified problem");
         }
 
-        return CreatedAtRoute("TravelOrderById", new {id = travelOrderToReturn.Id}, travelOrderToReturn);
+        return CreatedAtRoute("TravelOrderSelectedById", new {id = travelOrderToReturn.Id}, travelOrderToReturn);
     }
 
     [HttpPut("{id}")]

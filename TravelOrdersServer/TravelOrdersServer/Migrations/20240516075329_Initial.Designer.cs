@@ -13,7 +13,7 @@ using Repository;
 namespace TravelOrdersServer.Migrations
 {
     [DbContext(typeof(TravelOrderDbContext))]
-    [Migration("20240516061557_Initial")]
+    [Migration("20240516075329_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
