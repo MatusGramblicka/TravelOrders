@@ -252,7 +252,8 @@ namespace TravelOrdersServer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");

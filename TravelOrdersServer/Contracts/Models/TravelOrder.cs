@@ -1,4 +1,5 @@
 ﻿using Contracts.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Contracts.Models;
 
@@ -21,6 +22,7 @@ public class TravelOrder
 
     public DateTime EndDate { get; set; }
 
+    [MaxLength(60)]
     public string? Note { get; set; }
 
     public ICollection<Traffic> Traffics { get; set; } = new List<Traffic>();

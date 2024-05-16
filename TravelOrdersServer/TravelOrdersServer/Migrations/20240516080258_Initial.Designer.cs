@@ -13,7 +13,7 @@ using Repository;
 namespace TravelOrdersServer.Migrations
 {
     [DbContext(typeof(TravelOrderDbContext))]
-    [Migration("20240516075329_Initial")]
+    [Migration("20240516080258_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -255,7 +255,8 @@ namespace TravelOrdersServer.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
