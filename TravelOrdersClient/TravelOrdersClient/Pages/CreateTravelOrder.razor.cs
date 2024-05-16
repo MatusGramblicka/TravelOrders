@@ -90,7 +90,12 @@ public partial class CreateTravelOrder
 
         ToastService.ShowSuccess($"Action successful: travel order successfully added.");
 
-        _travelOrder = new TravelOrderCreationDto();
+        _travelOrder = new TravelOrderCreationDto
+        {
+            StartDate = DateTime.Today,
+            EndDate = DateTime.Today,
+        };
+        _selectedTraffics= new();
 
         _editContext.OnValidationStateChanged += ValidationChanged;
         _editContext.NotifyValidationStateChanged();

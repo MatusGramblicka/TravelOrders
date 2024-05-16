@@ -184,7 +184,8 @@ namespace TravelOrdersServer.Migrations
 
                     b.Property<string>("TrafficDevice")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -251,6 +252,10 @@ namespace TravelOrdersServer.Migrations
                     b.Property<int>("EndPlaceCityId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Note")
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
@@ -259,7 +264,8 @@ namespace TravelOrdersServer.Migrations
 
                     b.Property<string>("State")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -279,9 +285,21 @@ namespace TravelOrdersServer.Migrations
                             EmployeeId = "1109F7061A",
                             EndDate = new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             EndPlaceCityId = 1,
+                            Note = "This travel order must be processed as soon as possible.",
                             StartDate = new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             StartPlaceCityId = 3,
                             State = "Created"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateOnly(1, 1, 1),
+                            EmployeeId = "8202FT8889",
+                            EndDate = new DateTime(2024, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndPlaceCityId = 2,
+                            StartDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartPlaceCityId = 2,
+                            State = "Accounted"
                         });
                 });
 

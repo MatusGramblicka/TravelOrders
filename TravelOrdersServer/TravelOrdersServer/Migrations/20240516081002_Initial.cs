@@ -50,7 +50,7 @@ namespace TravelOrdersServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TrafficDevice = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TrafficDevice = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +69,8 @@ namespace TravelOrdersServer.Migrations
                     EndPlaceCityId = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Note = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
+                    State = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -160,8 +161,12 @@ namespace TravelOrdersServer.Migrations
 
             migrationBuilder.InsertData(
                 table: "TravelOrder",
-                columns: new[] { "Id", "EmployeeId", "EndDate", "EndPlaceCityId", "StartDate", "StartPlaceCityId", "State" },
-                values: new object[] { 1, "1109F7061A", new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Created" });
+                columns: new[] { "Id", "EmployeeId", "EndDate", "EndPlaceCityId", "Note", "StartDate", "StartPlaceCityId", "State" },
+                values: new object[,]
+                {
+                    { 1, "1109F7061A", new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "This travel order must be processed as soon as possible.", new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Created" },
+                    { 2, "8202FT8889", new DateTime(2024, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Accounted" }
+                });
 
             migrationBuilder.InsertData(
                 table: "TrafficTravelOrder",
