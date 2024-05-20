@@ -28,6 +28,8 @@ public partial class UpdateTravelOrder : IDisposable
     private EditContext _editContext;
     private bool formInvalid = true;
 
+    private bool _alreadyDisposed;
+
     [Inject] public ITravelOrderHttpRepository TravelOrderRepo { get; set; }
 
     [Inject] public IEmployeeHttpRepository EmployeeRepo { get; set; }
@@ -62,7 +64,8 @@ public partial class UpdateTravelOrder : IDisposable
             EndDate = _travelOrder.EndDate,
             StartDate = _travelOrder.StartDate,
             State = _travelOrder.State,
-            Traffics = _travelOrder.Traffics
+            Traffics = _travelOrder.Traffics,
+            Note = _travelOrder.Note
         };
 
         var pagingResponse = await TrafficRepo.GetTraffics(RequestParameters);
@@ -99,12 +102,31 @@ public partial class UpdateTravelOrder : IDisposable
 
         await TravelOrderRepo.UpdateTravelOrder(_travelOrder.Id, TravelOrderUpdateDto);
 
-        ToastService.ShowSuccess($"Action successful: TravelOrderUpdateDto successfully updated.");
+        ToastService.ShowSuccess("Action successful: Travel order was successfully updated.");
     }
 
     public void Dispose()
     {
-        Interceptor.DisposeEvent();
-        _editContext.OnFieldChanged -= HandleFieldChanged;
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (_alreadyDisposed)
+            return;
+
+        if (disposing)
+        {
+            Interceptor.DisposeEvent();
+            _editContext.OnFieldChanged -= HandleFieldChanged;
+
+            _alreadyDisposed = true;
+        }
+    }
+
+    ~UpdateTravelOrder()
+    {
+        Dispose(disposing: false);
     }
 }

@@ -9,9 +9,9 @@ using TravelOrdersClient.HttpRepository.Interface;
 
 namespace TravelOrdersClient.Pages;
 
-public partial class CreateTravelOrder
+public partial class CreateTravelOrder : IDisposable
 {
-    private TravelOrderCreationDto _travelOrder = new();
+    private TravelOrderCreationDto TravelOrderCreationDto = new();
     public List<TrafficSelectedDto> TrafficList { get; set; } = new();
     public List<EmployeeSelectedDto> EmployeeList { get; set; } = new();
     public List<CitySelectedDto> CityList { get; set; } = new();
@@ -43,12 +43,14 @@ public partial class CreateTravelOrder
 
     private List<TrafficSelectedDto?> _selectedTraffics = new();
 
+    private bool _alreadyDisposed;
+
     protected override async Task OnInitializedAsync()
     {
-        _travelOrder.StartDate = DateTime.Today;
-        _travelOrder.EndDate = DateTime.Today;
+        TravelOrderCreationDto.StartDate = DateTime.Today;
+        TravelOrderCreationDto.EndDate = DateTime.Today;
 
-        _editContext = new EditContext(_travelOrder);
+        _editContext = new EditContext(TravelOrderCreationDto);
         _editContext.OnFieldChanged += HandleFieldChanged;
 
         Interceptor.RegisterEvent();
@@ -84,13 +86,13 @@ public partial class CreateTravelOrder
             }
         }
 
-        _travelOrder.Traffics = trafficsToAdd;
+        TravelOrderCreationDto.Traffics = trafficsToAdd;
 
-        await TravelOrderRepo.CreateTravelOrder(_travelOrder);
+        await TravelOrderRepo.CreateTravelOrder(TravelOrderCreationDto);
 
-        ToastService.ShowSuccess($"Action successful: travel order successfully added.");
+        ToastService.ShowSuccess($"Action successful: Travel order was successfully added.");
 
-        _travelOrder = new TravelOrderCreationDto
+        TravelOrderCreationDto = new TravelOrderCreationDto
         {
             StartDate = DateTime.Today,
             EndDate = DateTime.Today,
@@ -106,7 +108,7 @@ public partial class CreateTravelOrder
         _formInvalid = true;
 
         _editContext.OnFieldChanged -= HandleFieldChanged;
-        _editContext = new EditContext(_travelOrder);
+        _editContext = new EditContext(TravelOrderCreationDto);
         _editContext.OnFieldChanged += HandleFieldChanged;
         _editContext.OnValidationStateChanged -= ValidationChanged;
     }
@@ -155,8 +157,27 @@ public partial class CreateTravelOrder
 
     public void Dispose()
     {
-        Interceptor.DisposeEvent();
-        _editContext.OnFieldChanged -= HandleFieldChanged;
-        _editContext.OnValidationStateChanged -= ValidationChanged;
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (_alreadyDisposed)
+            return;
+
+        if (disposing)
+        {
+            Interceptor.DisposeEvent();
+            _editContext.OnFieldChanged -= HandleFieldChanged;
+            _editContext.OnValidationStateChanged -= ValidationChanged;
+
+            _alreadyDisposed = true;
+        }
+    }
+
+    ~CreateTravelOrder()
+    {
+        Dispose(disposing: false);
     }
 }

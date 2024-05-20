@@ -91,6 +91,14 @@
                        Placeholder="Traffics" PopupHeight="350px" PopupWidth="350px" DataSource="@TrafficList">
             <MultiSelectFieldSettings Text="TrafficDevice" Value="Id"></MultiSelectFieldSettings>
         </SfMultiSelect>
+        
+        <div class="form-group row">
+            <label for="Note" class="col-md-2 col-form-label">Note:</label>
+            <div class="col-md-10">
+                <InputTextArea id="note" class="form-control" @bind-Value="TravelOrderUpdateDto.Note" />
+                <ValidationMessage For="@(() => TravelOrderUpdateDto.Note)" />
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-12 text-right">

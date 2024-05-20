@@ -37,7 +37,8 @@ public static class TravelOrderProjection
             {
                 Id = tf.Id,
                 TrafficDevice = tf.TrafficDevice
-            }).ToList()
+            }).ToList(),
+            Note = travelOrder.Note
         };
     }
 }

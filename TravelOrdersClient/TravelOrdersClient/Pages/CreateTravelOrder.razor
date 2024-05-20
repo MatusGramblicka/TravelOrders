@@ -13,7 +13,7 @@
         <div class="col-md-10">
             <div class="form-group row">
                 <RadzenLabel Component="DropDownDataGridColumns" Style="margin-right: 8px; vertical-align: middle;" />
-                <RadzenDropDownDataGrid @bind-Value=@_travelOrder.EmployeeId Data=@EmployeeList TextProperty="Surname" ValueProperty="Id"
+                <RadzenDropDownDataGrid @bind-Value=@TravelOrderCreationDto.EmployeeId Data=@EmployeeList TextProperty="Surname" ValueProperty="Id"
                                         AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridColumns">
                     <Columns>
                         <RadzenDropDownDataGridColumn Property="Name" Title="Name" Width="200px" />
@@ -21,7 +21,7 @@
                     </Columns>
                 </RadzenDropDownDataGrid>
             </div>
-            <ValidationMessage For="@(() => _travelOrder.EmployeeId)" />
+            <ValidationMessage For="@(() => TravelOrderCreationDto.EmployeeId)" />
         </div>
     </div>
     @* https://blazor.radzen.com/dropdown-datagrid#custom-filtering-with-loaddata *@
@@ -30,7 +30,7 @@
         <div class="col-md-10">
             <div class="form-group row">
                 <RadzenLabel Component="DropDownDataGridColumns" Style="margin-right: 8px; vertical-align: middle;" />
-                <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@_travelOrder.StartPlaceCityId
+                <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@TravelOrderCreationDto.StartPlaceCityId
                                         LoadData=@LoadDataStartPlaceCities AllowFiltering="true"
                                         Data=@StartPlaceCityList Count=@_countStartPlaceCity TextProperty="Name" ValueProperty="Id"
                                         AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridFilteringLoadData" >
@@ -40,7 +40,7 @@
                     </Columns>
                 </RadzenDropDownDataGrid>
             </div>
-            <ValidationMessage For="@(() => _travelOrder.StartPlaceCityId)"/>
+            <ValidationMessage For="@(() => TravelOrderCreationDto.StartPlaceCityId)"/>
         </div>
     </div>
     <div class="form-group row">
@@ -48,7 +48,7 @@
         <div class="col-md-10">
             <div class="form-group row">
                 <RadzenLabel Component="DropDownDataGridColumns" Style="margin-right: 8px; vertical-align: middle;" />
-                <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@_travelOrder.EndPlaceCityId
+                <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@TravelOrderCreationDto.EndPlaceCityId
                                         LoadData=@LoadDataEndPlaceCities AllowFiltering="true"
                                         Data=@EndPlaceCityList Count=@_countEndPlaceCity TextProperty="Name" ValueProperty="Id"
                                         AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridFilteringLoadData">
@@ -58,27 +58,27 @@
                     </Columns>
                 </RadzenDropDownDataGrid>
             </div>
-            <ValidationMessage For="@(() => _travelOrder.EndPlaceCityId)"/>
+            <ValidationMessage For="@(() => TravelOrderCreationDto.EndPlaceCityId)"/>
         </div>
     </div>
     <div class="form-group row">
         <label for="StartDate" class="col-md-2 col-form-label">Start Date:</label>
         <div class="col-md-10">
-            <InputDate id="StartDate" class="form-control" @bind-Value="_travelOrder.StartDate" />
-            <ValidationMessage For="@(() => _travelOrder.StartDate)" />
+            <InputDate id="StartDate" class="form-control" @bind-Value="TravelOrderCreationDto.StartDate" />
+            <ValidationMessage For="@(() => TravelOrderCreationDto.StartDate)" />
         </div>
     </div>
     <div class="form-group row">
         <label for="EndDate" class="col-md-2 col-form-label">End Date:</label>
         <div class="col-md-10">
-            <InputDate id="EndDate" class="form-control" @bind-Value="_travelOrder.EndDate" />
-            <ValidationMessage For="@(() => _travelOrder.EndDate)" />
+            <InputDate id="EndDate" class="form-control" @bind-Value="TravelOrderCreationDto.EndDate" />
+            <ValidationMessage For="@(() => TravelOrderCreationDto.EndDate)" />
         </div>
     </div>
 
     <div class="form-group">
         <label for="body">Select the state: </label>
-        <InputSelect @bind-Value="@_travelOrder.State">
+        <InputSelect @bind-Value="@TravelOrderCreationDto.State">
 
             @foreach (var state in Enum.GetValues(typeof(State)))
             {
@@ -86,7 +86,7 @@
             }
         </InputSelect>
 
-        <ValidationMessage For="@(() => _travelOrder.State)" />
+        <ValidationMessage For="@(() => TravelOrderCreationDto.State)" />
     </div>
 
     @*  https://blazor.syncfusion.com/documentation/multiselect-dropdown/getting-started?cs-save-lang=1&cs-lang=csharp
@@ -95,6 +95,14 @@
                    Placeholder="Traffics" PopupHeight="350px" PopupWidth="350px" DataSource="@TrafficList">
         <MultiSelectFieldSettings Text="TrafficDevice" Value="Id"></MultiSelectFieldSettings>
     </SfMultiSelect>
+    
+    <div class="form-group row">
+        <label for="Note" class="col-md-2 col-form-label">Note:</label>
+        <div class="col-md-10">
+            <InputTextArea id="note" class="form-control" @bind-Value="TravelOrderCreationDto.Note" />
+            <ValidationMessage For="@(() => TravelOrderCreationDto.Note)" />
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12 text-right">
@@ -107,7 +115,7 @@
 
    @*  <div class="rz-p-12 rz-text-align-center">
         <RadzenLabel Text="Start Place City:" Component="DropDownDataGridFilteringLoadData" Style="margin-right: 8px; vertical-align: middle;" />
-        <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@_travelOrder.StartPlaceCityId
+        <RadzenDropDownDataGrid AllowClear="true" @bind-Value=@TravelOrderCreationDto.StartPlaceCityId
                                 LoadData=@LoadData AllowFiltering="true"
                                 Data=@CityList2 Count=@countStartPlaceCity TextProperty="Name" ValueProperty="Id"
                                 AllowColumnResize="true" AllowFilteringByAllStringColumns="true" Name="DropDownDataGridFilteringLoadData" >
@@ -117,8 +125,6 @@
             </Columns>
         </RadzenDropDownDataGrid>
     </div> *@
-
-
 </EditForm>
 <br />
 <div class="row">
