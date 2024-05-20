@@ -19,6 +19,8 @@ public partial class TravelOrderPage : IDisposable
     [Inject]
     public HttpInterceptorService Interceptor { get; set; }
 
+    private bool _alreadyDisposed;
+
     protected override async Task OnInitializedAsync()
     {
         Interceptor.RegisterEvent();
@@ -64,7 +66,29 @@ public partial class TravelOrderPage : IDisposable
 
         await GetTravelOrders();
     }
+    
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 
-    public void Dispose() => Interceptor.DisposeEvent();
+    private void Dispose(bool disposing)
+    {
+        if (_alreadyDisposed)
+            return;
+
+        if (disposing)
+        {
+            Interceptor.DisposeEvent();
+          
+            _alreadyDisposed = true;
+        }
+    }
+
+    ~TravelOrderPage()
+    {
+        Dispose(disposing: false);
+    }
 
 }

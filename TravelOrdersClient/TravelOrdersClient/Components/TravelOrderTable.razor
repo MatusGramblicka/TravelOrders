@@ -2,21 +2,23 @@
 {
     <table class="table">
         <thead>
-            <tr>
-                <th scope="col">CreatedAt</th>
-                <th scope="col">StartDate</th>
-                <th scope="col">EndDate</th>
-                <th scope="col">StartPlace Town</th>
-                <th scope="col">StartPlace State</th>
-                <th scope="col">EndPlace Town</th>
-                <th scope="col">EndPlace State</th>
-                <th scope="col">State</th>
-                <th scope="col">Employee Name</th>
-                <th scope="col">Employee Surname</th>
-                <th scope="col">Traffics</th>
-                <th scope="col">Update</th>
-                <th scope="col">Delete</th>
-            </tr>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">CreatedAt</th>
+            <th scope="col">StartDate</th>
+            <th scope="col">EndDate</th>
+            <th scope="col">State</th>
+            <th scope="col">StartPlace Town</th>
+            <th scope="col">StartPlace State</th>
+            <th scope="col">EndPlace Town</th>
+            <th scope="col">EndPlace State</th>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Employee Surname</th>
+            <th scope="col">Traffics</th>
+            <th scope="col">Note</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+        </tr>
         </thead>
         <tbody>
             @foreach (var travelOrder in TravelOrders)
@@ -24,14 +26,20 @@
                 <tr>
                     <td class="align-middle">
                         <a href="/travelOrder/@travelOrder.Id">
-                            @travelOrder.CreatedAt
+                            @travelOrder.Id
                         </a>
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.CreatedAt
                     </td>
                     <td class="align-middle">
                         @travelOrder.StartDate.ToString("dd.MM.yyyy")
                     </td>
                     <td class="align-middle">
                         @travelOrder.EndDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.State
                     </td>
                     <td class="align-middle">
                         @travelOrder.StartPlace.Name
@@ -46,9 +54,6 @@
                         @travelOrder.EndPlace.State
                     </td>
                     <td class="align-middle">
-                        @travelOrder.State
-                    </td>
-                    <td class="align-middle">
                         @travelOrder.Tenant.Name
                     </td>
                     <td class="align-middle">
@@ -56,6 +61,9 @@
                     </td>
                     <td class="align-middle">
                         @string.Join(", ", travelOrder.Traffics.Select(tf => tf.TrafficDevice));
+                    </td>
+                    <td class="align-middle">
+                        @travelOrder.Note
                     </td>
                     <td class="align-middle">
                         <a class="btn btn-info" href="/updateTravelOrder/@travelOrder.Id">
@@ -79,21 +87,23 @@ else
 {
     <table class="table">
         <thead>
-            <tr>
-                <th scope="col">CreatedAt</th>
-                <th scope="col">StartDate</th>
-                <th scope="col">EndDate</th>
-                <th scope="col">StartPlace Town</th>
-                <th scope="col">StartPlace State</th>
-                <th scope="col">EndPlace Town</th>
-                <th scope="col">EndPlace State</th>
-                <th scope="col">State</th>
-                <th scope="col">Employee Name</th>
-                <th scope="col">Employee Surname</th>
-                <th scope="col">Traffics</th>
-                <th scope="col">Update</th>
-                <th scope="col">Delete</th>
-            </tr>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">CreatedAt</th>
+            <th scope="col">StartDate</th>
+            <th scope="col">EndDate</th>
+            <th scope="col">State</th>
+            <th scope="col">StartPlace Town</th>
+            <th scope="col">StartPlace State</th>
+            <th scope="col">EndPlace Town</th>
+            <th scope="col">EndPlace State</th>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Employee Surname</th>
+            <th scope="col">Traffics</th>
+            <th scope="col">Note</th>
+            <th scope="col">Update</th>
+            <th scope="col">Delete</th>
+        </tr>
         </thead>
     </table>
     <span>
