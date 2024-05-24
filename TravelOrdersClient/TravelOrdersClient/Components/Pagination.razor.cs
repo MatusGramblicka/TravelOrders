@@ -15,7 +15,7 @@ public partial class Pagination
     [Parameter]
     public EventCallback<int> SelectedPage { get; set; }
 
-    private List<PagingLink> _links;
+    private List<PagingLink> _links = null!;
 
     protected override void OnParametersSet()
     {
@@ -24,11 +24,12 @@ public partial class Pagination
 
     private void CreatePaginationLinks()
     {
-        _links = new List<PagingLink>();
+        _links = new List<PagingLink>
+        {
+            new(MetaData.CurrentPage - 1, MetaData.HasPrevious, "Previous")
+        };
 
-        _links.Add(new PagingLink(MetaData.CurrentPage - 1, MetaData.HasPrevious, "Previous"));
-
-        for (int i = 1; i <= MetaData.TotalPages; i++)
+        for (var i = 1; i <= MetaData.TotalPages; i++)
         {
             if (i >= MetaData.CurrentPage - Spread && i <= MetaData.CurrentPage + Spread)
             {

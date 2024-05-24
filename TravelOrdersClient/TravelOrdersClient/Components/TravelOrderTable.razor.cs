@@ -7,12 +7,13 @@ namespace TravelOrdersClient.Components;
 public partial class TravelOrderTable
 {
     [Parameter]
-    public List<TravelOrderSelectedDto> TravelOrders { get; set; }
+    public List<TravelOrderSelectedDto> TravelOrders { get; set; } = new();
 
     [Parameter]
     public EventCallback<int> OnDelete { get; set; }
 
     private Confirmation _confirmation;
+
     private int _travelIdOrderToDelete;
 
     private void CallConfirmationModal(int id)
