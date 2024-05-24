@@ -6,7 +6,7 @@ public partial class Search
 {
     public string SearchTerm { get; set; }
 
-    private Timer _timer;
+    private Timer _timer = null!;
 
     [Parameter]
     public EventCallback<string> OnSearchChanged { get; set; }
