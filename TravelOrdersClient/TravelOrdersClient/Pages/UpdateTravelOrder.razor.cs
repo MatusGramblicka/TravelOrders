@@ -15,7 +15,7 @@ public partial class UpdateTravelOrder : IDisposable
 
     private List<TrafficSelectedDto?> _selectedTraffics = new();
 
-    private TravelOrderUpdateDto TravelOrderUpdateDto { get; set; } = null!;
+    private TravelOrderUpdateDto TravelOrderUpdateDto { get; set; } = new();
 
     public List<EmployeeSelectedDto> EmployeeList { get; set; } = new();
 
@@ -103,13 +103,12 @@ public partial class UpdateTravelOrder : IDisposable
         // UI component can set it to null
         if (_selectedTraffics != null)
         {
-            foreach (var selectedTrafficDd in _selectedTraffics.Select(s => s?.Id))
-            {
-                var selectedTraffic = TrafficList.SingleOrDefault(t => t.Id == selectedTrafficDd);
+            var selectedTraffics = _selectedTraffics
+                .Select(s => s?.Id)
+                .Select(trafficId => TrafficList.SingleOrDefault(t => t.Id == trafficId))
+                .Where(selectedTraffic => selectedTraffic != null);
 
-                if (selectedTraffic != null)
-                    trafficsToAdd.Add(selectedTraffic);
-            }
+            trafficsToAdd.AddRange(selectedTraffics!);
         }
 
         TravelOrderUpdateDto.Traffics = trafficsToAdd;
