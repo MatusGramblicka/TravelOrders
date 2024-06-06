@@ -27,11 +27,10 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
     }
 
     [Obsolete($"Use method {nameof(GetAllTravelOrdersSelected)} instead.")]
-    public async Task<PagedList<TravelOrder>> GetAllTravelOrdersAsync(RequestParameters requestParameters,
+    public PagedList<TravelOrder> GetAllTravelOrdersAsync(RequestParameters requestParameters,
         bool trackChanges)
     {
-        var travelOrders = await FindAll(trackChanges)
-            .ToListAsync();
+        var travelOrders = FindAll(trackChanges);
 
         return PagedList<TravelOrder>
             .ToPagedList(travelOrders, requestParameters.PageNumber, requestParameters.PageSize);

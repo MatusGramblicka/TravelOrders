@@ -26,10 +26,9 @@ public class TrafficRepository : RepositoryBase<Traffic>, ITrafficRepository
     }
 
     [Obsolete($"Use method {nameof(GetAllTrafficsSelected)} instead.")]
-    public async Task<PagedList<Traffic>> GetAllTrafficsAsync(RequestParameters requestParameters, bool trackChanges)
+    public PagedList<Traffic> GetAllTrafficsAsync(RequestParameters requestParameters, bool trackChanges)
     {
-        var traffics = await FindAll(trackChanges)
-            .ToListAsync();
+        var traffics = FindAll(trackChanges);
 
         return PagedList<Traffic>
             .ToPagedList(traffics, requestParameters.PageNumber, requestParameters.PageSize);

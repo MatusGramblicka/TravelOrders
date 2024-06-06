@@ -27,10 +27,9 @@ public class CityRepository : RepositoryBase<City>, ICityRepository
     }
 
     [Obsolete($"Use method {nameof(GetAllCitiesSelected)} instead.")]
-    public async Task<PagedList<City>> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges)
+    public PagedList<City> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges)
     {
-        var cities = await FindAll(trackChanges)
-            .ToListAsync();
+        var cities = FindAll(trackChanges);
 
         return PagedList<City>
             .ToPagedList(cities, requestParameters.PageNumber, requestParameters.PageSize);
