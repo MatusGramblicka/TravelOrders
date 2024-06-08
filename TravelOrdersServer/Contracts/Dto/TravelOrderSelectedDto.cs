@@ -22,7 +22,7 @@ public class TravelOrderSelectedDto
     [MaxLength(60)]
     public string? Note { get; set; }
 
-    public ICollection<TrafficSelectedDto> Traffics { get; set; } = new List<TrafficSelectedDto>();
+    public IEnumerable<TrafficSelectedDto> Traffics { get; set; } = new List<TrafficSelectedDto>();
 
     public State State { get; set; }
 }

@@ -9,7 +9,7 @@ public interface ICityRepository
     PagedList<CitySelectedDto> GetAllCitiesSelected(RequestParameters requestParameters);
 
     [Obsolete($"Use method {nameof(GetAllCitiesSelected)} instead.")]
-    Task<PagedList<City>> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges);
+    PagedList<City> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges);
 
     Task<City?> GetCityAsync(int cityId, bool trackChanges);
 

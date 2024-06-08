@@ -9,7 +9,7 @@ public interface IEmployeeRepository
     PagedList<EmployeeSelectedDto> GetAllEmployeesSelected(RequestParameters requestParameters);
 
     [Obsolete($"Use method {nameof(GetAllEmployeesSelected)} instead.")]
-    Task<PagedList<Employee>> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges);
+    PagedList<Employee> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges);
 
     Task<Employee?> GetEmployeeAsync(string employeesId, bool trackChanges);
 

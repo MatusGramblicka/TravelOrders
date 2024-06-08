@@ -27,10 +27,9 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
     }
 
     [Obsolete($"Use method {nameof(GetAllEmployeesSelected)} instead.")]
-    public async Task<PagedList<Employee>> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges)
+    public PagedList<Employee> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges)
     {
-        var employees = await FindAll(trackChanges)
-            .ToListAsync();
+        var employees = FindAll(trackChanges);
 
         return PagedList<Employee>
             .ToPagedList(employees, requestParameters.PageNumber, requestParameters.PageSize);

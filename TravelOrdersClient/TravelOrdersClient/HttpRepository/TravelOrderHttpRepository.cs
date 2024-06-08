@@ -43,7 +43,7 @@ public class TravelOrderHttpRepository : ITravelOrderHttpRepository
 
         var pagingResponse = new PagingResponse<TravelOrderSelectedDto>
         {
-            Items = JsonSerializer.Deserialize<List<TravelOrderSelectedDto>>(content, _options),
+            Items = JsonSerializer.Deserialize<IEnumerable<TravelOrderSelectedDto>>(content, _options),
             MetaData = JsonSerializer.Deserialize<MetaData>(
                 response.Headers.GetValues("X-Pagination").First(), _options)
         };
