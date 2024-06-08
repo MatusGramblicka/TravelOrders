@@ -8,7 +8,8 @@ namespace TravelOrdersClient.Pages;
 
 public partial class TravelOrderPage : IDisposable
 {
-    public List<TravelOrderSelectedDto> TravelOrderList { get; set; } = new();
+    public IEnumerable<TravelOrderSelectedDto> TravelOrderList { get; set; } = null!;
+
     public MetaData MetaData { get; set; } = new();
 
     public RequestParameters RequestParameters = new();
@@ -60,8 +61,8 @@ public partial class TravelOrderPage : IDisposable
     private async Task DeleteTravelOrder(int id)
     {
         await TravelOrderRepo.DeleteTravelOrder(id);
-
-        if (RequestParameters.PageNumber > 1 && TravelOrderList.Count == 1)
+        
+        if (RequestParameters.PageNumber > 1 && TravelOrderList.Count() == 1)
             RequestParameters.PageNumber--;
 
         await GetTravelOrders();

@@ -44,7 +44,7 @@ public class TravelOrderManager : ITravelOrderManager
             throw new EmployeeMissingException("The employee record does not exist");
 
         var traffics = await _repository.Traffic.GetByIdsAsync(travelOrder.Traffics.Select(t => t.Id), true);
-        if (traffics.Count() != travelOrder.Traffics.Count)
+        if (traffics.Count() != travelOrder.Traffics.Count())
             throw new TrafficMissingException("The traffic record does not exist");
 
         var travelOrderEntity = _mapper.Map<TravelOrder>(travelOrder);
@@ -71,7 +71,7 @@ public class TravelOrderManager : ITravelOrderManager
             throw new EmployeeMissingException("The employee record does not exist");
 
         var traffics = await _repository.Traffic.GetByIdsAsync(travelOrder.Traffics.Select(t => t.Id), true);
-        if (traffics.Count() != travelOrder.Traffics.Count)
+        if (traffics.Count() != travelOrder.Traffics.Count())
             throw new TrafficMissingException("The traffic record does not exist");
 
         _mapper.Map(travelOrder, travelOrderEntity);

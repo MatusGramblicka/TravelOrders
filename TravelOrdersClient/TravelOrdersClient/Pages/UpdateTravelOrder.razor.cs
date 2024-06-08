@@ -17,11 +17,11 @@ public partial class UpdateTravelOrder : IDisposable
 
     private TravelOrderUpdateDto TravelOrderUpdateDto { get; set; } = new();
 
-    public List<EmployeeSelectedDto> EmployeeList { get; set; } = new();
+    public IEnumerable<EmployeeSelectedDto> EmployeeList { get; set; } = null!;
 
-    public List<CitySelectedDto> CityList { get; set; } = new();
+    public IEnumerable<CitySelectedDto> CityList { get; set; } = null!;
 
-    public List<TrafficSelectedDto> TrafficList { get; set; } = new();
+    public IEnumerable<TrafficSelectedDto> TrafficList { get; set; } = null!;
 
     public RequestParameters RequestParameters = new();
 

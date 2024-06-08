@@ -13,15 +13,15 @@ public partial class CreateTravelOrder : IDisposable
 {
     private TravelOrderCreationDto TravelOrderCreationDto = new();
 
-    public List<TrafficSelectedDto> TrafficList { get; set; } = new();
+    public IEnumerable<TrafficSelectedDto> TrafficList { get; set; } = null!;
 
-    public List<EmployeeSelectedDto> EmployeeList { get; set; } = new();
+    public IEnumerable<EmployeeSelectedDto> EmployeeList { get; set; } = null!;
 
-    public List<CitySelectedDto> CityList { get; set; } = new();
+    public IEnumerable<CitySelectedDto> CityList { get; set; } = null!;
 
-    public List<CitySelectedDto> StartPlaceCityList { get; set; } = new();
+    public IEnumerable<CitySelectedDto> StartPlaceCityList { get; set; } = null!;
 
-    public List<CitySelectedDto> EndPlaceCityList { get; set; } = new();
+    public IEnumerable<CitySelectedDto> EndPlaceCityList { get; set; } = null!;
 
     private List<TrafficSelectedDto?> _selectedTraffics = new();
 
