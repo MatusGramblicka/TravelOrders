@@ -11,4 +11,5 @@ public interface ITravelOrderHttpRepository
     Task CreateTravelOrder(TravelOrderCreationDto travelOrder);
     Task UpdateTravelOrder(int id, TravelOrderUpdateDto travelOrder);
     Task DeleteTravelOrder(int id);
+    Task DownloadCsvFile();
 }

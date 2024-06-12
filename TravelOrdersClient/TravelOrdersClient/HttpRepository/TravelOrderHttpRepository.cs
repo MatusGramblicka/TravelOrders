@@ -1,6 +1,8 @@
-﻿using Contracts.Dto;
+﻿using Blazored.Toast.Services;
+using Contracts.Dto;
 using Contracts.RequestFeatures;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.JSInterop;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -12,6 +14,7 @@ namespace TravelOrdersClient.HttpRepository;
 public class TravelOrderHttpRepository : ITravelOrderHttpRepository
 {
     private readonly HttpClient _client;
+    private readonly IJSRuntime _js;
 
     private readonly JsonSerializerOptions _options = new()
     {
@@ -21,9 +24,10 @@ public class TravelOrderHttpRepository : ITravelOrderHttpRepository
         }
     };
 
-    public TravelOrderHttpRepository(HttpClient client)
+    public TravelOrderHttpRepository(HttpClient client, IJSRuntime js)
     {
         _client = client;
+        _js = js;
     }
 
     public async Task<PagingResponse<TravelOrderSelectedDto>> GetTravelOrders(RequestParameters requestParameters)
@@ -71,4 +75,10 @@ public class TravelOrderHttpRepository : ITravelOrderHttpRepository
 
     public async Task DeleteTravelOrder(int id)
         => await _client.DeleteAsync(Path.Combine("travelOrder", id.ToString()));
+    
+    public async Task DownloadCsvFile()
+    {
+        var fileUrl = $"{_client.BaseAddress}csv/file";
+        await _js.InvokeVoidAsync("triggerFileDownload", fileUrl);
+    }
 }
