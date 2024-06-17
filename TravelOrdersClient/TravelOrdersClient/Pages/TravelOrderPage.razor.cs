@@ -19,7 +19,7 @@ public partial class TravelOrderPage : IDisposable
 
     [Inject]
     public HttpInterceptorService Interceptor { get; set; }
-
+    
     private bool _alreadyDisposed;
 
     protected override async Task OnInitializedAsync()
@@ -67,7 +67,12 @@ public partial class TravelOrderPage : IDisposable
 
         await GetTravelOrders();
     }
-    
+
+    private async Task DownloadFile()
+    {
+        await TravelOrderRepo.DownloadCsvFile();
+    }
+
     public void Dispose()
     {
         Dispose(disposing: true);

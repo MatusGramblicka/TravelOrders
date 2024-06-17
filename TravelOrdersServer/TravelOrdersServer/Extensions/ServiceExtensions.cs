@@ -2,6 +2,7 @@
 using Interface.DatabaseAccess;
 using Interface.Managers;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using Repository;
 using TravelOrdersServer.ActionFilters;
 
@@ -16,7 +17,7 @@ public static class ServiceExtensions
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithExposedHeaders("X-Pagination"));
+                    .WithExposedHeaders("X-Pagination", HeaderNames.ContentDisposition));
         });
 
     public static void ConfigureTravelOrdersApp(this WebApplicationBuilder builder)
@@ -34,6 +35,8 @@ public static class ServiceExtensions
         builder.Services.AddScoped<IEmployeeManager, EmployeeManager>();
         builder.Services.AddScoped<ICityManager, CityManager>();
         builder.Services.AddScoped<ITrafficManager, TrafficManager>();
+
+        builder.Services.AddScoped<ICsvManager, CsvManager>();
     }
 
     public static void ConfigureRepositoryManager(this IServiceCollection services) =>
