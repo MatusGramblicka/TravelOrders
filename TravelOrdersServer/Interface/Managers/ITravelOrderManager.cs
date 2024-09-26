@@ -10,9 +10,11 @@ public interface ITravelOrderManager
 
     Task<TravelOrderSelectedDto?> GetTravelOrderSelectedAsync(int id);
 
-    Task<TravelOrderDto> CreateTravelOrderAsync(TravelOrderCreationDto travelOrder);
+    Task<TravelOrderDto> CreateTravelOrderAsync(TravelOrderCreationDto travelOrderDto);
 
-    Task UpdateTravelOrder(TravelOrderUpdateDto travelOrder, TravelOrder travelOrderEntity);
-    
-    Task DeleteTravelOrder(TravelOrder travelOrder);
+    Task UpdateTravelOrder(TravelOrder travelOrderFromDb, TravelOrderUpdateDto travelOrderDto);
+
+    Task UpdateTravelOrderDirectMapping(TravelOrder travelOrderFromDb, TravelOrderUpdateDto travelOrderDto);
+
+    Task DeleteTravelOrder(TravelOrder travelOrderDb);
 }

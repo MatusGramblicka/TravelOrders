@@ -26,7 +26,9 @@ public static class ServiceExtensions
 
         builder.Services.AddDbContext<TravelOrderDbContext>(opts =>
             opts.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"),
-                b => b.MigrationsAssembly("TravelOrdersServer").UseNetTopologySuite()));
+                b => b.MigrationsAssembly("TravelOrdersServer").UseNetTopologySuite())
+                //.EnableSensitiveDataLogging()
+                    );
 
         builder.Services.AddScoped<ValidationFilterAttribute>();
         builder.Services.AddScoped<ValidateTravelOrderExistsAttribute>();

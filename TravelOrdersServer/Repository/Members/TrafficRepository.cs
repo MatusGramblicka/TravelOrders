@@ -41,4 +41,13 @@ public class TrafficRepository : RepositoryBase<Traffic>, ITrafficRepository
     public async Task<IEnumerable<Traffic>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges) =>
         await FindByCondition(x => ids.Contains(x.Id), trackChanges)
             .ToListAsync();
+
+    public List<Traffic> GetAllTrafficsToSpecificTravelOrder(int travelOrderId, bool trackChanges)
+    {
+        return RepositoryContext.TravelOrder
+            .Where(o => o.Id == travelOrderId)
+            .SelectMany(s=>s.Traffics)
+            .Distinct()
+            .ToList();
+    }
 }

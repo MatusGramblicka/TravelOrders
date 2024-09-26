@@ -14,4 +14,6 @@ public interface ITrafficRepository
     Task<Traffic?> GetTrafficAsync(int trafficId, bool trackChanges);
 
     Task<IEnumerable<Traffic>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
+
+    List<Traffic> GetAllTrafficsToSpecificTravelOrder(int travelOrderId, bool trackChanges);
 }
