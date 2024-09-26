@@ -18,6 +18,9 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
     public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(
         RequestParameters requestParameters)
     {
+        if (requestParameters == null)
+            throw new Exception();
+
         var travelOrders = RepositoryContext.TravelOrder
             .Select(TravelOrderProjection.GetTravelOrderSelected())
             .Search(requestParameters.SearchTerm);
@@ -30,6 +33,9 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
     public PagedList<TravelOrder> GetAllTravelOrdersAsync(RequestParameters requestParameters,
         bool trackChanges)
     {
+        if (requestParameters == null)
+            throw new Exception();
+
         var travelOrders = FindAll(trackChanges);
 
         return PagedList<TravelOrder>

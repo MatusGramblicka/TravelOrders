@@ -28,7 +28,7 @@ public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
             : RepositoryContext.Set<T>()
                 .Where(expression);
 
-    public void Create(T entity) => RepositoryContext.Set<T>().Add(entity);
+    public void Create(T entity) => RepositoryContext.Set<T>().AddAsync(entity);
 
     public void Update(T entity) => RepositoryContext.Set<T>().Update(entity);
 

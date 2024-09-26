@@ -17,7 +17,7 @@ public interface ITravelOrderRepository
     Task<TravelOrderSelectedDto?> GetTravelOrderSelectedAsync(int travelOrdersId);
 
     Task<TravelOrder?> GetTravelOrderWithTrafficsAsync(int travelOrdersId);
-
+    
     Task<IEnumerable<TravelOrder>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges);
 
     void CreateTravelOrder(TravelOrder travelOrder);
