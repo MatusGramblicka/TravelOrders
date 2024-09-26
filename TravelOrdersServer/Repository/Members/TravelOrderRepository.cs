@@ -19,7 +19,7 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
         RequestParameters requestParameters)
     {
         if (requestParameters == null)
-            throw new Exception();
+            throw new ArgumentNullException(nameof(requestParameters));
 
         var travelOrders = RepositoryContext.TravelOrder
             .Select(TravelOrderProjection.GetTravelOrderSelected())
@@ -34,7 +34,7 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
         bool trackChanges)
     {
         if (requestParameters == null)
-            throw new Exception();
+            throw new ArgumentNullException(nameof(requestParameters));
 
         var travelOrders = FindAll(trackChanges);
 

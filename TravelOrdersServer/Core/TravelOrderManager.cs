@@ -22,7 +22,7 @@ public class TravelOrderManager : ITravelOrderManager
     public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(RequestParameters requestParameters)
     {
         if (requestParameters == null)
-            throw new Exception();
+            throw new ArgumentNullException(nameof(requestParameters));
 
         return _repository.TravelOrder.GetAllTravelOrdersSelected(requestParameters);
     }
@@ -35,7 +35,7 @@ public class TravelOrderManager : ITravelOrderManager
     public async Task<TravelOrderDto> CreateTravelOrderAsync(TravelOrderCreationDto travelOrderDto)
     {
         if (travelOrderDto == null)
-            throw new Exception();
+            throw new ArgumentNullException(nameof(travelOrderDto));
 
         var startCity = await _repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
         if (startCity == null)
@@ -64,8 +64,10 @@ public class TravelOrderManager : ITravelOrderManager
 
     public async Task UpdateTravelOrder(TravelOrder travelOrderFromDb, TravelOrderUpdateDto travelOrderDto)
     {
-        if (travelOrderFromDb == null || travelOrderDto == null)
-            throw new Exception();
+        if (travelOrderFromDb == null)
+            throw new ArgumentNullException(nameof(travelOrderFromDb));
+        if (travelOrderDto == null)
+            throw new ArgumentNullException(nameof(travelOrderDto));
 
         var startCity = await _repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
         if (startCity == null)
@@ -92,8 +94,10 @@ public class TravelOrderManager : ITravelOrderManager
 
     public async Task UpdateTravelOrderDirectMapping(TravelOrder travelOrderFromDb, TravelOrderUpdateDto travelOrderDto)
     {
-        if (travelOrderFromDb == null || travelOrderDto == null)
-            throw new Exception();
+        if (travelOrderFromDb == null)
+            throw new ArgumentNullException(nameof(travelOrderFromDb));
+        if (travelOrderDto == null)
+            throw new ArgumentNullException(nameof(travelOrderDto));
 
         var startCity = await _repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
         if (startCity == null)
@@ -145,7 +149,7 @@ public class TravelOrderManager : ITravelOrderManager
     public async Task DeleteTravelOrder(TravelOrder travelOrderDb)
     {
         if (travelOrderDb == null)
-            throw new Exception();
+            throw new ArgumentNullException(nameof(travelOrderDb));
 
         _repository.TravelOrder.DeleteTravelOrder(travelOrderDb);
         await _repository.SaveAsync();
