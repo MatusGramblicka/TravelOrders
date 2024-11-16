@@ -32,7 +32,9 @@ bld/
 [Ll]ogs/
 [Oo]utput/
 
-
+*appsettings*
+*/TravelOrdersServer/wwwroot/*
+*TravelOrdersServer/TravelOrdersServer/Properties/ServiceDependencies/*
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
