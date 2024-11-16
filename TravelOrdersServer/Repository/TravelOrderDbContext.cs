@@ -5,12 +5,8 @@ using Repository.Configuration;
 
 namespace Repository;
 
-public class TravelOrderDbContext : DbContext
+public class TravelOrderDbContext(DbContextOptions<TravelOrderDbContext> options) : DbContext(options)
 {
-    public TravelOrderDbContext(DbContextOptions<TravelOrderDbContext> options) : base(options)
-    {
-    }
-
     public DbSet<Employee> Employee { get; set; } = null!;
     public DbSet<City> City { get; set; } = null!;
     public DbSet<TravelOrder> TravelOrder { get; set; } = null!;
@@ -27,7 +23,7 @@ public class TravelOrderDbContext : DbContext
 
         modelBuilder.Entity<TravelOrder>()
             .Property(b => b.CreatedAt)
-            .HasDefaultValueSql("getdate()");
+            .HasDefaultValueSql(/*"getdate()"*/"CURRENT_DATE");
 
         modelBuilder.Entity<TravelOrder>(entity =>
             entity.Property(e => e.State).HasConversion(
@@ -54,6 +50,29 @@ public class TravelOrderDbContext : DbContext
             .HasForeignKey(f => f.EndPlaceCityId)
             .HasPrincipalKey(t => t.Id)
             .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<TravelOrder>()
+            .Property(p => p.StartDate)
+            .HasConversion
+            (
+                src => src.Kind == DateTimeKind.Utc ? src : DateTime.SpecifyKind(src, DateTimeKind.Utc),
+                dst => dst.Kind == DateTimeKind.Utc ? dst : DateTime.SpecifyKind(dst, DateTimeKind.Utc)
+            );
+        modelBuilder.Entity<TravelOrder>()
+            .Property(p => p.EndDate)
+            .HasConversion
+            (
+                src => src.Kind == DateTimeKind.Utc ? src : DateTime.SpecifyKind(src, DateTimeKind.Utc),
+                dst => dst.Kind == DateTimeKind.Utc ? dst : DateTime.SpecifyKind(dst, DateTimeKind.Utc)
+            );
+
+        modelBuilder.Entity<Employee>()
+            .Property(p => p.BirthDate)
+            .HasConversion
+            (
+                src => src.Kind == DateTimeKind.Utc ? src : DateTime.SpecifyKind(src, DateTimeKind.Utc),
+                dst => dst.Kind == DateTimeKind.Utc ? dst : DateTime.SpecifyKind(dst, DateTimeKind.Utc)
+            );
 
         modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
         modelBuilder.ApplyConfiguration(new CityConfiguration());

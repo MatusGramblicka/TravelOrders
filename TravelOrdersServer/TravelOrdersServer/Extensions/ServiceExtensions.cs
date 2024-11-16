@@ -24,11 +24,17 @@ public static class ServiceExtensions
     {
         builder.Services.AddAutoMapper(typeof(Program));
 
+        //builder.Services.AddDbContext<TravelOrderDbContext>(opts =>
+        //    opts.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"),
+        //        b => b.MigrationsAssembly("TravelOrdersServer").UseNetTopologySuite())
+        //            //.EnableSensitiveDataLogging()
+        //            );
+
         builder.Services.AddDbContext<TravelOrderDbContext>(opts =>
-            opts.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"),
-                b => b.MigrationsAssembly("TravelOrdersServer").UseNetTopologySuite())
-                //.EnableSensitiveDataLogging()
-                    );
+                opts.UseNpgsql(builder.Configuration.GetConnectionString("postgreSqlConnection"),
+                    b => b.MigrationsAssembly("TravelOrdersServer").UseNetTopologySuite())
+            //.EnableSensitiveDataLogging()
+        );
 
         builder.Services.AddScoped<ValidationFilterAttribute>();
         builder.Services.AddScoped<ValidateTravelOrderExistsAttribute>();
