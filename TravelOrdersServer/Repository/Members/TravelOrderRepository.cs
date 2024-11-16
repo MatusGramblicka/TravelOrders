@@ -18,8 +18,7 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
     public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(
         RequestParameters requestParameters)
     {
-        if (requestParameters == null)
-            throw new ArgumentNullException(nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
         var travelOrders = RepositoryContext.TravelOrder
             .Select(TravelOrderProjection.GetTravelOrderSelected())
@@ -33,8 +32,7 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
     public PagedList<TravelOrder> GetAllTravelOrdersAsync(RequestParameters requestParameters,
         bool trackChanges)
     {
-        if (requestParameters == null)
-            throw new ArgumentNullException(nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
         var travelOrders = FindAll(trackChanges);
 
@@ -62,9 +60,12 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
             .SingleOrDefaultAsync();
     }
 
-    public async Task<IEnumerable<TravelOrder>> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges) =>
-        await FindByCondition(x => ids.Contains(x.Id), trackChanges)
-            .ToListAsync();
+    public IQueryable<TravelOrder> GetByIdsAsync(IEnumerable<int> ids, bool trackChanges)
+    {
+        ArgumentNullException.ThrowIfNull(ids, nameof(ids));
+
+        return FindByCondition(x => ids.Contains(x.Id), trackChanges);
+    }
 
     public void CreateTravelOrder(TravelOrder travelOrder) => Create(travelOrder);
 

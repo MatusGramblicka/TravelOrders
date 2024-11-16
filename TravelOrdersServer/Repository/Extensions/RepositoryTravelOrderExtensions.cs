@@ -5,7 +5,7 @@ namespace Repository.Extensions;
 public static class RepositoryTravelOrderExtensions
 {
     public static IQueryable<TravelOrderSelectedDto> Search(this IQueryable<TravelOrderSelectedDto> travelOrders,
-        string searchTerm)
+        string? searchTerm)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
             return travelOrders;

@@ -21,8 +21,7 @@ public class TravelOrderManager : ITravelOrderManager
 
     public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(RequestParameters requestParameters)
     {
-        if (requestParameters == null)
-            throw new ArgumentNullException(nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
         return _repository.TravelOrder.GetAllTravelOrdersSelected(requestParameters);
     }
