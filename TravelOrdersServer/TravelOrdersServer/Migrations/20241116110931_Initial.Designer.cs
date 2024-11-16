@@ -2,10 +2,10 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repository;
 
 #nullable disable
@@ -13,7 +13,7 @@ using Repository;
 namespace TravelOrdersServer.Migrations
 {
     [DbContext(typeof(TravelOrderDbContext))]
-    [Migration("20240516081002_Initial")]
+    [Migration("20241116110931_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -21,32 +21,33 @@ namespace TravelOrdersServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "postgis");
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("Contracts.Models.City", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<Point>("GeographicalCoordinates")
                         .IsRequired()
-                        .HasColumnType("geography");
+                        .HasColumnType("geometry");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("character varying(30)");
 
                     b.Property<string>("State")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
 
@@ -102,25 +103,25 @@ namespace TravelOrdersServer.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("character varying(10)");
 
                     b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("BirthNumber")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("character varying(20)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("character varying(30)");
 
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -130,7 +131,7 @@ namespace TravelOrdersServer.Migrations
                         new
                         {
                             Id = "0102F7091D",
-                            BirthDate = new DateTime(1999, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1999, 5, 11, 0, 0, 0, 0, DateTimeKind.Utc),
                             BirthNumber = "990511/7896",
                             Name = "Jane",
                             Surname = "Legue"
@@ -138,7 +139,7 @@ namespace TravelOrdersServer.Migrations
                         new
                         {
                             Id = "1109F7061A",
-                            BirthDate = new DateTime(1989, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1989, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             BirthNumber = "890201/9896",
                             Name = "Lui",
                             Surname = "Pale"
@@ -146,7 +147,7 @@ namespace TravelOrdersServer.Migrations
                         new
                         {
                             Id = "8802FT0989",
-                            BirthDate = new DateTime(2000, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(2000, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc),
                             BirthNumber = "001212/6326",
                             Name = "Allen",
                             Surname = "Rogue"
@@ -154,7 +155,7 @@ namespace TravelOrdersServer.Migrations
                         new
                         {
                             Id = "9202FZ0912",
-                            BirthDate = new DateTime(1969, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1969, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc),
                             BirthNumber = "000102/0026",
                             Name = "Matheus",
                             Surname = "Langus"
@@ -162,7 +163,7 @@ namespace TravelOrdersServer.Migrations
                         new
                         {
                             Id = "8202FT8889",
-                            BirthDate = new DateTime(2001, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(2001, 8, 12, 0, 0, 0, 0, DateTimeKind.Utc),
                             BirthNumber = "000812/6316",
                             Name = "John",
                             Surname = "Paul"
@@ -170,7 +171,7 @@ namespace TravelOrdersServer.Migrations
                         new
                         {
                             Id = "9202AD0892",
-                            BirthDate = new DateTime(1969, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BirthDate = new DateTime(1969, 10, 3, 0, 0, 0, 0, DateTimeKind.Utc),
                             BirthNumber = "001003/6369",
                             Name = "Lys",
                             Surname = "Lorence"
@@ -181,14 +182,14 @@ namespace TravelOrdersServer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("TrafficDevice")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
 
@@ -236,39 +237,39 @@ namespace TravelOrdersServer.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateOnly>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
-                        .HasDefaultValueSql("getdate()");
+                        .HasDefaultValueSql("CURRENT_DATE");
 
                     b.Property<string>("EmployeeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(10)");
+                        .HasColumnType("character varying(10)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("EndPlaceCityId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Note")
                         .HasMaxLength(60)
-                        .HasColumnType("nvarchar(60)");
+                        .HasColumnType("character varying(60)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("StartPlaceCityId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("State")
                         .IsRequired()
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("character varying(30)");
 
                     b.HasKey("Id");
 
@@ -286,10 +287,10 @@ namespace TravelOrdersServer.Migrations
                             Id = 1,
                             CreatedAt = new DateOnly(1, 1, 1),
                             EmployeeId = "1109F7061A",
-                            EndDate = new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Utc),
                             EndPlaceCityId = 1,
                             Note = "This travel order must be processed as soon as possible.",
-                            StartDate = new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Utc),
                             StartPlaceCityId = 3,
                             State = "Created"
                         },
@@ -298,9 +299,9 @@ namespace TravelOrdersServer.Migrations
                             Id = 2,
                             CreatedAt = new DateOnly(1, 1, 1),
                             EmployeeId = "8202FT8889",
-                            EndDate = new DateTime(2024, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            EndDate = new DateTime(2024, 3, 12, 0, 0, 0, 0, DateTimeKind.Utc),
                             EndPlaceCityId = 2,
-                            StartDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Utc),
                             StartPlaceCityId = 2,
                             State = "Accounted"
                         });
@@ -309,10 +310,10 @@ namespace TravelOrdersServer.Migrations
             modelBuilder.Entity("TrafficTravelOrder", b =>
                 {
                     b.Property<int>("TrafficsId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("TravelOrdersId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("TrafficsId", "TravelOrdersId");
 
