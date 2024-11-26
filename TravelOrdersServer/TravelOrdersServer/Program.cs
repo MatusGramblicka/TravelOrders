@@ -52,7 +52,13 @@ app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy");
 
-app.UseStaticFiles();
+app.UseDefaultFiles()
+    .UseStaticFiles(new StaticFileOptions
+    {
+        // https://github.com/dotnet/runtime/issues/101992
+        // https://stackoverflow.com/questions/75849788/dotnet-application-refusing-to-serve-dll-files-in-wwwroot-needed-by-blazor-weba
+        ServeUnknownFileTypes = true
+    });
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
 {

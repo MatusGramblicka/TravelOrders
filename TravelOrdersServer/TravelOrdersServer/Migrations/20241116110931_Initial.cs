@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using NetTopologySuite.Geometries;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -14,15 +15,18 @@ namespace TravelOrdersServer.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:postgis", ",,");
+
             migrationBuilder.CreateTable(
                 name: "City",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    State = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    GeographicalCoordinates = table.Column<Point>(type: "geography", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    State = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    GeographicalCoordinates = table.Column<Point>(type: "geometry", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,11 +37,11 @@ namespace TravelOrdersServer.Migrations
                 name: "Employee",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Surname = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BirthNumber = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    Id = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    Name = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    Surname = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    BirthNumber = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,9 +52,9 @@ namespace TravelOrdersServer.Migrations
                 name: "Traffic",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TrafficDevice = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    TrafficDevice = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,16 +65,16 @@ namespace TravelOrdersServer.Migrations
                 name: "TravelOrder",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false, defaultValueSql: "getdate()"),
-                    EmployeeId = table.Column<string>(type: "nvarchar(10)", nullable: false),
-                    StartPlaceCityId = table.Column<int>(type: "int", nullable: false),
-                    EndPlaceCityId = table.Column<int>(type: "int", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: true),
-                    State = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedAt = table.Column<DateOnly>(type: "date", nullable: false, defaultValueSql: "CURRENT_DATE"),
+                    EmployeeId = table.Column<string>(type: "character varying(10)", nullable: false),
+                    StartPlaceCityId = table.Column<int>(type: "integer", nullable: false),
+                    EndPlaceCityId = table.Column<int>(type: "integer", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Note = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
+                    State = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,8 +103,8 @@ namespace TravelOrdersServer.Migrations
                 name: "TrafficTravelOrder",
                 columns: table => new
                 {
-                    TrafficsId = table.Column<int>(type: "int", nullable: false),
-                    TravelOrdersId = table.Column<int>(type: "int", nullable: false)
+                    TrafficsId = table.Column<int>(type: "integer", nullable: false),
+                    TravelOrdersId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,12 +141,12 @@ namespace TravelOrdersServer.Migrations
                 columns: new[] { "Id", "BirthDate", "BirthNumber", "Name", "Surname" },
                 values: new object[,]
                 {
-                    { "0102F7091D", new DateTime(1999, 5, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), "990511/7896", "Jane", "Legue" },
-                    { "1109F7061A", new DateTime(1989, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "890201/9896", "Lui", "Pale" },
-                    { "8202FT8889", new DateTime(2001, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "000812/6316", "John", "Paul" },
-                    { "8802FT0989", new DateTime(2000, 12, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "001212/6326", "Allen", "Rogue" },
-                    { "9202AD0892", new DateTime(1969, 10, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), "001003/6369", "Lys", "Lorence" },
-                    { "9202FZ0912", new DateTime(1969, 1, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "000102/0026", "Matheus", "Langus" }
+                    { "0102F7091D", new DateTime(1999, 5, 11, 0, 0, 0, 0, DateTimeKind.Utc), "990511/7896", "Jane", "Legue" },
+                    { "1109F7061A", new DateTime(1989, 2, 1, 0, 0, 0, 0, DateTimeKind.Utc), "890201/9896", "Lui", "Pale" },
+                    { "8202FT8889", new DateTime(2001, 8, 12, 0, 0, 0, 0, DateTimeKind.Utc), "000812/6316", "John", "Paul" },
+                    { "8802FT0989", new DateTime(2000, 12, 12, 0, 0, 0, 0, DateTimeKind.Utc), "001212/6326", "Allen", "Rogue" },
+                    { "9202AD0892", new DateTime(1969, 10, 3, 0, 0, 0, 0, DateTimeKind.Utc), "001003/6369", "Lys", "Lorence" },
+                    { "9202FZ0912", new DateTime(1969, 1, 2, 0, 0, 0, 0, DateTimeKind.Utc), "000102/0026", "Matheus", "Langus" }
                 });
 
             migrationBuilder.InsertData(
@@ -164,8 +168,8 @@ namespace TravelOrdersServer.Migrations
                 columns: new[] { "Id", "EmployeeId", "EndDate", "EndPlaceCityId", "Note", "StartDate", "StartPlaceCityId", "State" },
                 values: new object[,]
                 {
-                    { 1, "1109F7061A", new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "This travel order must be processed as soon as possible.", new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "Created" },
-                    { 2, "8202FT8889", new DateTime(2024, 3, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "Accounted" }
+                    { 1, "1109F7061A", new DateTime(2024, 2, 4, 0, 0, 0, 0, DateTimeKind.Utc), 1, "This travel order must be processed as soon as possible.", new DateTime(2024, 2, 2, 0, 0, 0, 0, DateTimeKind.Utc), 3, "Created" },
+                    { 2, "8202FT8889", new DateTime(2024, 3, 12, 0, 0, 0, 0, DateTimeKind.Utc), 2, null, new DateTime(2024, 3, 8, 0, 0, 0, 0, DateTimeKind.Utc), 2, "Accounted" }
                 });
 
             migrationBuilder.InsertData(
