@@ -5,17 +5,12 @@ using Interface.Managers;
 
 namespace Core;
 
-public class TrafficManager : ITrafficManager
+public class TrafficManager(IRepositoryManager repository) : ITrafficManager
 {
-    private readonly IRepositoryManager _repository;
-
-    public TrafficManager(IRepositoryManager repository)
+    public PagedList<TrafficSelectedDto> GetTrafficsSelected(RequestParameters requestParameters)
     {
-        _repository = repository;
-    }
+        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
-    public PagedList<TrafficSelectedDto> GetAllTrafficsSelected(RequestParameters requestParameters)
-    {
-        return _repository.Traffic.GetAllTrafficsSelected(requestParameters);
+        return repository.Traffic.GetTrafficsSelected(requestParameters);
     }
 }

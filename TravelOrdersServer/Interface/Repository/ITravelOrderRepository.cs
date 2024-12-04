@@ -6,12 +6,8 @@ namespace Interface.Repository;
 
 public interface ITravelOrderRepository
 {
-    PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(RequestParameters requestParameters);
-
-    [Obsolete($"Use method {nameof(GetAllTravelOrdersSelected)} instead.")]
-    PagedList<TravelOrder> GetAllTravelOrdersAsync(RequestParameters requestParameters,
-        bool trackChanges);
-
+    PagedList<TravelOrderSelectedDto> GetTravelOrdersSelected(RequestParameters requestParameters);
+    
     Task<TravelOrder?> GetTravelOrderAsync(int travelOrdersId, bool trackChanges);
 
     Task<TravelOrderSelectedDto?> GetTravelOrderSelectedAsync(int travelOrdersId);

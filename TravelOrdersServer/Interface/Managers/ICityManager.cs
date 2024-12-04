@@ -5,5 +5,5 @@ namespace Interface.Managers;
 
 public interface ICityManager
 {
-    PagedList<CitySelectedDto> GetAllCitiesSelected(RequestParameters requestParameters);
+    PagedList<CitySelectedDto> GetCitiesSelected(RequestParameters requestParameters);
 }

@@ -6,15 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Members;
 
-public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
+public class EmployeeRepository(TravelOrderDbContext repositoryContext)
+    : RepositoryBase<Employee>(repositoryContext), IEmployeeRepository
 {
-    public EmployeeRepository(TravelOrderDbContext repositoryContext)
-        : base(repositoryContext)
+    public PagedList<EmployeeSelectedDto> GetEmployeesSelected(RequestParameters requestParameters)
     {
-    }
+        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
-    public PagedList<EmployeeSelectedDto> GetAllEmployeesSelected(RequestParameters requestParameters)
-    {
         var employees = RepositoryContext.Employee.Select(e => new EmployeeSelectedDto
         {
             Id = e.Id,
@@ -23,15 +21,6 @@ public class EmployeeRepository : RepositoryBase<Employee>, IEmployeeRepository
         });
 
         return PagedList<EmployeeSelectedDto>
-            .ToPagedList(employees, requestParameters.PageNumber, requestParameters.PageSize);
-    }
-
-    [Obsolete($"Use method {nameof(GetAllEmployeesSelected)} instead.")]
-    public PagedList<Employee> GetAllEmployeesAsync(RequestParameters requestParameters, bool trackChanges)
-    {
-        var employees = FindAll(trackChanges);
-
-        return PagedList<Employee>
             .ToPagedList(employees, requestParameters.PageNumber, requestParameters.PageSize);
     }
 

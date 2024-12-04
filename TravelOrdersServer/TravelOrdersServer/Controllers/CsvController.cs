@@ -9,15 +9,8 @@ namespace TravelOrdersServer.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CsvController : ControllerBase
+public class CsvController(ICsvManager csvManager) : ControllerBase
 {
-    private readonly ICsvManager _csvManager;
-
-    public CsvController(ICsvManager csvManager)
-    {
-        _csvManager = csvManager;
-    }
-
     [HttpGet]
     [Route("file")]
     [Produces("application/octet-stream")]
@@ -25,10 +18,9 @@ public class CsvController : ControllerBase
     {
         // https://stackoverflow.com/questions/65849270/asp-net-core-allowsynchronousio-true-per-endpoint-vs-per-server
         var allowSynchronousIoOption = HttpContext.Features.Get<IHttpBodyControlFeature>();
-        if (allowSynchronousIoOption != null)
-        {
+        if (allowSynchronousIoOption is not null)
             allowSynchronousIoOption.AllowSynchronousIO = true;
-        }
+        
 
         var fileDownloadName =
             $"travelOrders-{DateTime.UtcNow.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture)}.csv";
@@ -38,6 +30,6 @@ public class CsvController : ControllerBase
         Response.ContentType = "application/octet-stream";
 
         return new CsvFileResult(new MediaTypeHeaderValue(Response.ContentType),
-            async (outputStream, context) => await _csvManager.GenerateCsv(outputStream));
+            async (outputStream, context) => await csvManager.GenerateCsv(outputStream));
     }
 }

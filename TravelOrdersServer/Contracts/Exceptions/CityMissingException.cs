@@ -1,8 +1,3 @@
 ﻿namespace Contracts.Exceptions;
 
-public class CityMissingException : Exception
-{
-    public CityMissingException(string message) : base(message)
-    {
-    }
-}
+public class CityMissingException(string message) : Exception(message);

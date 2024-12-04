@@ -1,6 +1,3 @@
 ﻿namespace Contracts.Dto;
 
-public class TravelOrderCreationDto : TravelOrderManipulationDto
-{
-    
-}
+public class TravelOrderCreationDto : TravelOrderManipulationDto;

@@ -2,5 +2,5 @@
 
 public class ApiConfiguration
 {
-    public string BaseAddress { get; set; }
+    public string BaseAddress { get; set; } = null!;
 }

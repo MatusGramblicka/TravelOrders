@@ -8,10 +8,8 @@ using TravelOrdersClient.HttpRepository.Interface;
 
 namespace TravelOrdersClient.HttpRepository;
 
-public class CityHttpRepository : ICityHttpRepository
+public class CityHttpRepository(HttpClient client) : ICityHttpRepository
 {
-    private readonly HttpClient _client;
-
     private readonly JsonSerializerOptions _options = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -20,31 +18,27 @@ public class CityHttpRepository : ICityHttpRepository
         }
     };
 
-    public CityHttpRepository(HttpClient client)
-    {
-        _client = client;
-    }
-
     public async Task<PagingResponse<CitySelectedDto>> GetCities(RequestParameters requestParameters)
     {
         var queryStringParam = new Dictionary<string, string>
         {
             ["pageNumber"] = requestParameters.PageNumber.ToString(),
             ["pageSize"] = requestParameters.PageSize.ToString(),
-            ["searchTerm"] = requestParameters.SearchTerm == null ? "" : requestParameters.SearchTerm,
-            ["orderBy"] = requestParameters.OrderBy == null ? "" : requestParameters.OrderBy
+            ["searchTerm"] = requestParameters.SearchTerm ?? "",
+            ["orderBy"] = requestParameters.OrderBy ?? ""
         };
 
         var response =
-            await _client.GetAsync(QueryHelpers.AddQueryString("City/citiesSelected", queryStringParam));
+            await client.GetAsync(QueryHelpers.AddQueryString("City/citiesSelected", queryStringParam));
 
         var content = await response.Content.ReadAsStringAsync();
 
         var pagingResponse = new PagingResponse<CitySelectedDto>
         {
-            Items = JsonSerializer.Deserialize<List<CitySelectedDto>>(content, _options),
+            Items = JsonSerializer.Deserialize<List<CitySelectedDto>>(content, _options) ??
+                    new List<CitySelectedDto>(),
             MetaData = JsonSerializer.Deserialize<MetaData>(
-                response.Headers.GetValues("X-Pagination").First(), _options)
+                response.Headers.GetValues("X-Pagination").First(), _options) ?? new MetaData()
         };
 
         return pagingResponse;

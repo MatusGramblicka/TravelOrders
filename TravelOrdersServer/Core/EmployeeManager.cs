@@ -5,17 +5,12 @@ using Interface.Managers;
 
 namespace Core;
 
-public class EmployeeManager : IEmployeeManager
+public class EmployeeManager(IRepositoryManager repository) : IEmployeeManager
 {
-    private readonly IRepositoryManager _repository;
-
-    public EmployeeManager(IRepositoryManager repository)
+    public PagedList<EmployeeSelectedDto> GetEmployeesSelected(RequestParameters requestParameters)
     {
-        _repository = repository;
-    }
+        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
-    public PagedList<EmployeeSelectedDto> GetAllEmployeesSelected(RequestParameters requestParameters)
-    {
-        return _repository.Employee.GetAllEmployeesSelected(requestParameters);
+        return repository.Employee.GetEmployeesSelected(requestParameters);
     }
 }

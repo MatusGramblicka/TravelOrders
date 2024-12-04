@@ -11,7 +11,7 @@ namespace TravelOrdersClient.Pages;
 
 public partial class CreateTravelOrder : IDisposable
 {
-    private TravelOrderCreationDto TravelOrderCreationDto = new();
+    private TravelOrderCreationDto _travelOrderCreationDto = new();
 
     public IEnumerable<TrafficSelectedDto> TrafficList { get; set; } = null!;
 
@@ -58,10 +58,10 @@ public partial class CreateTravelOrder : IDisposable
     
     protected override async Task OnInitializedAsync()
     {
-        TravelOrderCreationDto.StartDate = DateTime.Today;
-        TravelOrderCreationDto.EndDate = DateTime.Today;
+        _travelOrderCreationDto.StartDate = DateTime.Today;
+        _travelOrderCreationDto.EndDate = DateTime.Today;
 
-        _editContext = new EditContext(TravelOrderCreationDto);
+        _editContext = new EditContext(_travelOrderCreationDto);
         _editContext.OnFieldChanged += HandleFieldChanged;
 
         Interceptor.RegisterEvent();
@@ -95,13 +95,13 @@ public partial class CreateTravelOrder : IDisposable
                 trafficsToAdd.Add(selectedTraffic);
         }
 
-        TravelOrderCreationDto.Traffics = trafficsToAdd;
+        _travelOrderCreationDto.Traffics = trafficsToAdd;
 
-        await TravelOrderRepo.CreateTravelOrder(TravelOrderCreationDto);
+        await TravelOrderRepo.CreateTravelOrder(_travelOrderCreationDto);
 
         ToastService.ShowSuccess("Action successful: Travel order was successfully added.");
 
-        TravelOrderCreationDto = new TravelOrderCreationDto
+        _travelOrderCreationDto = new TravelOrderCreationDto
         {
             StartDate = DateTime.Today,
             EndDate = DateTime.Today,
@@ -117,7 +117,7 @@ public partial class CreateTravelOrder : IDisposable
         _formInvalid = true;
 
         _editContext.OnFieldChanged -= HandleFieldChanged;
-        _editContext = new EditContext(TravelOrderCreationDto);
+        _editContext = new EditContext(_travelOrderCreationDto);
         _editContext.OnFieldChanged += HandleFieldChanged;
         _editContext.OnValidationStateChanged -= ValidationChanged;
     }

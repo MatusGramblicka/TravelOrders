@@ -1,14 +1,10 @@
-using Blazored.Toast;
 using Contracts.Configuration;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
-using Syncfusion.Blazor;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 using TravelOrdersClient;
-using TravelOrdersClient.HttpInterceptor;
-using TravelOrdersClient.HttpRepository;
-using TravelOrdersClient.HttpRepository.Interface;
+using TravelOrdersClient.Extensions;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -22,25 +18,12 @@ builder.Services.AddHttpClient("TravelOrdersAPI", (sp, cl) =>
     cl.EnableIntercept(sp);
 });
 
-builder.Services.AddBlazoredToast();
-
-builder.Services.AddSyncfusionBlazor();
-
 builder.Services.AddScoped(
     sp => sp.GetService<IHttpClientFactory>().CreateClient("TravelOrdersAPI"));
 
+builder.ConfigureTravelOrdersClientApp();
+builder.Services.ConfigureRepositories();
+
 builder.Services.AddHttpClientInterceptor();
-
-builder.Services.AddScoped<HttpInterceptorService>();
-
-builder.Services.AddScoped<ITravelOrderHttpRepository, TravelOrderHttpRepository>();
-builder.Services.AddScoped<ITrafficHttpRepository, TrafficHttpRepository>();
-builder.Services.AddScoped<IEmployeeHttpRepository, EmployeeHttpRepository>();
-builder.Services.AddScoped<ICityHttpRepository, CityHttpRepository>();
-
-builder.Services.Configure<ApiConfiguration>
-    (builder.Configuration.GetSection("ApiConfiguration"));
-
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 await builder.Build().RunAsync();

@@ -51,6 +51,7 @@ public class TravelOrderDbContext(DbContextOptions<TravelOrderDbContext> options
             .HasPrincipalKey(t => t.Id)
             .OnDelete(DeleteBehavior.Restrict);
 
+        // for posgresql
         modelBuilder.Entity<TravelOrder>()
             .Property(p => p.StartDate)
             .HasConversion
@@ -65,7 +66,7 @@ public class TravelOrderDbContext(DbContextOptions<TravelOrderDbContext> options
                 src => src.Kind == DateTimeKind.Utc ? src : DateTime.SpecifyKind(src, DateTimeKind.Utc),
                 dst => dst.Kind == DateTimeKind.Utc ? dst : DateTime.SpecifyKind(dst, DateTimeKind.Utc)
             );
-
+        // for posgresql
         modelBuilder.Entity<Employee>()
             .Property(p => p.BirthDate)
             .HasConversion
