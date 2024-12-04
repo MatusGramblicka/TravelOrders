@@ -1,6 +1,6 @@
 ﻿using Contracts.Models;
-using System.ComponentModel.DataAnnotations;
 using NetTopologySuite.Geometries;
+using System.ComponentModel.DataAnnotations;
 
 namespace Contracts.Dto;
 

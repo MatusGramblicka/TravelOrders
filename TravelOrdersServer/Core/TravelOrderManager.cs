@@ -8,109 +8,95 @@ using Interface.Managers;
 
 namespace Core;
 
-public class TravelOrderManager : ITravelOrderManager
+public class TravelOrderManager(IRepositoryManager repository, IMapper mapper) : ITravelOrderManager
 {
-    private readonly IRepositoryManager _repository;
-    private readonly IMapper _mapper;
-
-    public TravelOrderManager(IRepositoryManager repository, IMapper mapper)
-    {
-        _repository = repository;
-        _mapper = mapper;
-    }
-
-    public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(RequestParameters requestParameters)
+    public PagedList<TravelOrderSelectedDto> GetTravelOrdersSelected(RequestParameters requestParameters)
     {
         ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
-        return _repository.TravelOrder.GetAllTravelOrdersSelected(requestParameters);
+        return repository.TravelOrder.GetTravelOrdersSelected(requestParameters);
     }
 
     public async Task<TravelOrderSelectedDto?> GetTravelOrderSelectedAsync(int id)
     {
-        return await _repository.TravelOrder.GetTravelOrderSelectedAsync(id);
+        return await repository.TravelOrder.GetTravelOrderSelectedAsync(id);
     }
 
     public async Task<TravelOrderDto> CreateTravelOrderAsync(TravelOrderCreationDto travelOrderDto)
     {
-        if (travelOrderDto == null)
-            throw new ArgumentNullException(nameof(travelOrderDto));
+        ArgumentNullException.ThrowIfNull(travelOrderDto, nameof(travelOrderDto));
 
-        var startCity = await _repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
-        if (startCity == null)
+        var startCity = await repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
+        if (startCity is null)
             throw new CityMissingException("The city record does not exist");
 
-        var endCity = await _repository.City.GetCityAsync(travelOrderDto.EndPlaceCityId, false);
-        if (endCity == null)
+        var endCity = await repository.City.GetCityAsync(travelOrderDto.EndPlaceCityId, false);
+        if (endCity is null)
             throw new CityMissingException("The city record does not exist");
 
-        var employee = await _repository.Employee.GetEmployeeAsync(travelOrderDto.EmployeeId, false);
-        if (employee == null)
+        var employee = await repository.Employee.GetEmployeeAsync(travelOrderDto.EmployeeId, false);
+        if (employee is null)
             throw new EmployeeMissingException("The employee record does not exist");
 
-        var traffics = await _repository.Traffic.GetByIdsAsync(travelOrderDto.Traffics.Select(t => t.Id), true);
+        var traffics = await repository.Traffic.GetByIdsAsync(travelOrderDto.Traffics.Select(t => t.Id), true);
         if (traffics.Count() != travelOrderDto.Traffics.Count())
             throw new TrafficMissingException("The traffic record does not exist");
 
-        var travelOrderEntity = _mapper.Map<TravelOrder>(travelOrderDto);
+        var travelOrderEntity = mapper.Map<TravelOrder>(travelOrderDto);
         travelOrderEntity.Traffics = (ICollection<Traffic>) traffics;
 
-        _repository.TravelOrder.CreateTravelOrder(travelOrderEntity);
-        await _repository.SaveAsync();
+        repository.TravelOrder.CreateTravelOrder(travelOrderEntity);
+        await repository.SaveAsync();
 
-        return _mapper.Map<TravelOrderDto>(travelOrderEntity);
+        return mapper.Map<TravelOrderDto>(travelOrderEntity);
     }
 
     public async Task UpdateTravelOrder(TravelOrder travelOrderFromDb, TravelOrderUpdateDto travelOrderDto)
     {
-        if (travelOrderFromDb == null)
-            throw new ArgumentNullException(nameof(travelOrderFromDb));
-        if (travelOrderDto == null)
-            throw new ArgumentNullException(nameof(travelOrderDto));
+        ArgumentNullException.ThrowIfNull(travelOrderFromDb, nameof(travelOrderFromDb));
+        ArgumentNullException.ThrowIfNull(travelOrderDto, nameof(travelOrderDto));
 
-        var startCity = await _repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
-        if (startCity == null)
+        var startCity = await repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
+        if (startCity is null)
             throw new CityMissingException("The city record does not exist");
 
-        var endCity = await _repository.City.GetCityAsync(travelOrderDto.EndPlaceCityId, false);
-        if (endCity == null)
+        var endCity = await repository.City.GetCityAsync(travelOrderDto.EndPlaceCityId, false);
+        if (endCity is null)
             throw new CityMissingException("The city record does not exist");
 
-        var employee = await _repository.Employee.GetEmployeeAsync(travelOrderDto.EmployeeId, false);
-        if (employee == null)
+        var employee = await repository.Employee.GetEmployeeAsync(travelOrderDto.EmployeeId, false);
+        if (employee is null)
             throw new EmployeeMissingException("The employee record does not exist");
 
-        var traffics = await _repository.Traffic.GetByIdsAsync(travelOrderDto.Traffics.Select(t => t.Id), true);
+        var traffics = await repository.Traffic.GetByIdsAsync(travelOrderDto.Traffics.Select(t => t.Id), true);
         if (traffics.Count() != travelOrderDto.Traffics.Count())
             throw new TrafficMissingException("The traffic record does not exist");
 
-        _mapper.Map(travelOrderDto, travelOrderFromDb);
+        mapper.Map(travelOrderDto, travelOrderFromDb);
         travelOrderFromDb.Traffics.Clear();
         travelOrderFromDb.Traffics = (ICollection<Traffic>) traffics;
 
-        await _repository.SaveAsync();
+        await repository.SaveAsync();
     }
 
     public async Task UpdateTravelOrderDirectMapping(TravelOrder travelOrderFromDb, TravelOrderUpdateDto travelOrderDto)
     {
-        if (travelOrderFromDb == null)
-            throw new ArgumentNullException(nameof(travelOrderFromDb));
-        if (travelOrderDto == null)
-            throw new ArgumentNullException(nameof(travelOrderDto));
+        ArgumentNullException.ThrowIfNull(travelOrderFromDb, nameof(travelOrderFromDb));
+        ArgumentNullException.ThrowIfNull(travelOrderDto, nameof(travelOrderDto));
 
-        var startCity = await _repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
-        if (startCity == null)
+        var startCity = await repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
+        if (startCity is null)
             throw new CityMissingException("The city record does not exist");
         
-        var endCity = await _repository.City.GetCityAsync(travelOrderDto.EndPlaceCityId, false);
-        if (endCity == null)
+        var endCity = await repository.City.GetCityAsync(travelOrderDto.EndPlaceCityId, false);
+        if (endCity is null)
             throw new CityMissingException("The city record does not exist");
 
-        var employee = await _repository.Employee.GetEmployeeAsync(travelOrderDto.EmployeeId, false);
-        if (employee == null)
+        var employee = await repository.Employee.GetEmployeeAsync(travelOrderDto.EmployeeId, false);
+        if (employee is null)
             throw new EmployeeMissingException("The employee record does not exist");
 
-        var traffics = await _repository.Traffic.GetByIdsAsync(travelOrderDto.Traffics.Select(t => t.Id), false);
+        var traffics = await repository.Traffic.GetByIdsAsync(travelOrderDto.Traffics.Select(t => t.Id), false);
         if (traffics.Count() != travelOrderDto.Traffics.Count())
             throw new TrafficMissingException("The traffic record does not exist");
 
@@ -137,20 +123,19 @@ public class TravelOrderManager : ITravelOrderManager
 
         if (trafficIdsToAdd.Count != 0)
         {
-            var trafficsToAdd = await _repository.Traffic.GetByIdsAsync(trafficIdsToAdd, false);
+            var trafficsToAdd = await repository.Traffic.GetByIdsAsync(trafficIdsToAdd, false);
             foreach (var traffic in trafficsToAdd)
                 travelOrderFromDb.Traffics.Add(traffic);
         }
 
-        await _repository.SaveAsync();
+        await repository.SaveAsync();
     }
 
     public async Task DeleteTravelOrder(TravelOrder travelOrderDb)
     {
-        if (travelOrderDb == null)
-            throw new ArgumentNullException(nameof(travelOrderDb));
+        ArgumentNullException.ThrowIfNull(travelOrderDb, nameof(travelOrderDb));
 
-        _repository.TravelOrder.DeleteTravelOrder(travelOrderDb);
-        await _repository.SaveAsync();
+        repository.TravelOrder.DeleteTravelOrder(travelOrderDb);
+        await repository.SaveAsync();
     }
 }

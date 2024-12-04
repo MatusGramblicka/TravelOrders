@@ -18,7 +18,7 @@ public class ValidateTravelOrderExistsAttribute : IAsyncActionFilter
         var id = (int)(context.ActionArguments["id"] ?? throw new InvalidOperationException());
         var travelOrder = await _repository.TravelOrder.GetTravelOrderWithTrafficsAsync(id);
 
-        if (travelOrder == null)
+        if (travelOrder is null)
             context.Result = new NotFoundResult();
         else
         {

@@ -4,21 +4,11 @@ using System.Linq.Expressions;
 
 namespace Repository;
 
-public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
+public abstract class RepositoryBase<T>(TravelOrderDbContext repositoryContext) : IRepositoryBase<T>
+    where T : class
 {
-    protected TravelOrderDbContext RepositoryContext;
-
-    protected RepositoryBase(TravelOrderDbContext repositoryContext)
-    {
-        RepositoryContext = repositoryContext;
-    }
-
-    public IQueryable<T> FindAll(bool trackChanges) =>
-        !trackChanges
-            ? RepositoryContext.Set<T>()
-                .AsNoTracking()
-            : RepositoryContext.Set<T>();
-
+    protected TravelOrderDbContext RepositoryContext = repositoryContext;
+    
     public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression,
         bool trackChanges) =>
         !trackChanges

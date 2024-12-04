@@ -5,5 +5,5 @@ namespace Interface.Managers;
 
 public interface ITrafficManager
 {
-    PagedList<TrafficSelectedDto> GetAllTrafficsSelected(RequestParameters requestParameters);
+    PagedList<TrafficSelectedDto> GetTrafficsSelected(RequestParameters requestParameters);
 }

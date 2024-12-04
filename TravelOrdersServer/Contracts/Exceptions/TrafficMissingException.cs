@@ -1,8 +1,3 @@
 ﻿namespace Contracts.Exceptions;
 
-public class TrafficMissingException : Exception
-{
-    public TrafficMissingException(string message) : base(message)
-    {
-    }
-}
+public class TrafficMissingException(string message) : Exception(message);

@@ -6,7 +6,7 @@ namespace Interface.Managers;
 
 public interface ITravelOrderManager
 {
-    PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(RequestParameters requestParameters);
+    PagedList<TravelOrderSelectedDto> GetTravelOrdersSelected(RequestParameters requestParameters);
 
     Task<TravelOrderSelectedDto?> GetTravelOrderSelectedAsync(int id);
 

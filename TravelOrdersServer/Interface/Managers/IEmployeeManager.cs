@@ -5,5 +5,5 @@ namespace Interface.Managers;
 
 public interface IEmployeeManager
 {
-    PagedList<EmployeeSelectedDto> GetAllEmployeesSelected(RequestParameters requestParameters);
+    PagedList<EmployeeSelectedDto> GetEmployeesSelected(RequestParameters requestParameters);
 }

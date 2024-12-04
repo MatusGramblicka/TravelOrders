@@ -5,17 +5,12 @@ using Interface.Managers;
 
 namespace Core;
 
-public class CityManager : ICityManager
+public class CityManager(IRepositoryManager repository) : ICityManager
 {
-    private readonly IRepositoryManager _repository;
-
-    public CityManager(IRepositoryManager repository)
+    public PagedList<CitySelectedDto> GetCitiesSelected(RequestParameters requestParameters)
     {
-        _repository = repository;
-    }
+        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
-    public PagedList<CitySelectedDto> GetAllCitiesSelected(RequestParameters requestParameters)
-    {
-        return _repository.City.GetAllCitiesSelected(requestParameters);
+        return repository.City.GetCitiesSelected(requestParameters);
     }
 }

@@ -1,8 +1,3 @@
 ﻿namespace Contracts.Exceptions;
 
-public class EmployeeMissingException : Exception
-{
-    public EmployeeMissingException(string message) : base(message)
-    {
-    }
-}
+public class EmployeeMissingException(string message) : Exception(message);

@@ -8,14 +8,10 @@ using Repository.Projections;
 
 namespace Repository.Members;
 
-public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRepository
+public class TravelOrderRepository(TravelOrderDbContext repositoryContext)
+    : RepositoryBase<TravelOrder>(repositoryContext), ITravelOrderRepository
 {
-    public TravelOrderRepository(TravelOrderDbContext repositoryContext)
-        : base(repositoryContext)
-    {
-    }
-    
-    public PagedList<TravelOrderSelectedDto> GetAllTravelOrdersSelected(
+    public PagedList<TravelOrderSelectedDto> GetTravelOrdersSelected(
         RequestParameters requestParameters)
     {
         ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
@@ -25,18 +21,6 @@ public class TravelOrderRepository : RepositoryBase<TravelOrder>, ITravelOrderRe
             .Search(requestParameters.SearchTerm);
 
         return PagedList<TravelOrderSelectedDto>
-            .ToPagedList(travelOrders, requestParameters.PageNumber, requestParameters.PageSize);
-    }
-
-    [Obsolete($"Use method {nameof(GetAllTravelOrdersSelected)} instead.")]
-    public PagedList<TravelOrder> GetAllTravelOrdersAsync(RequestParameters requestParameters,
-        bool trackChanges)
-    {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
-
-        var travelOrders = FindAll(trackChanges);
-
-        return PagedList<TravelOrder>
             .ToPagedList(travelOrders, requestParameters.PageNumber, requestParameters.PageSize);
     }
 

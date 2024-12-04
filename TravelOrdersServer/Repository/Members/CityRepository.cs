@@ -6,15 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Repository.Members;
 
-public class CityRepository : RepositoryBase<City>, ICityRepository
+public class CityRepository(TravelOrderDbContext repositoryContext)
+    : RepositoryBase<City>(repositoryContext), ICityRepository
 {
-    public CityRepository(TravelOrderDbContext repositoryContext)
-        : base(repositoryContext)
+    public PagedList<CitySelectedDto> GetCitiesSelected(RequestParameters requestParameters)
     {
-    }
+        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
 
-    public PagedList<CitySelectedDto> GetAllCitiesSelected(RequestParameters requestParameters)
-    {
         var cities = RepositoryContext.City.Select(c => new CitySelectedDto
         {
             Id = c.Id,
@@ -23,15 +21,6 @@ public class CityRepository : RepositoryBase<City>, ICityRepository
         });
 
         return PagedList<CitySelectedDto>
-            .ToPagedList(cities, requestParameters.PageNumber, requestParameters.PageSize);
-    }
-
-    [Obsolete($"Use method {nameof(GetAllCitiesSelected)} instead.")]
-    public PagedList<City> GetAllCitiesAsync(RequestParameters requestParameters, bool trackChanges)
-    {
-        var cities = FindAll(trackChanges);
-
-        return PagedList<City>
             .ToPagedList(cities, requestParameters.PageNumber, requestParameters.PageSize);
     }
 

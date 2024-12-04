@@ -16,7 +16,7 @@ public class TravelOrderController(ITravelOrderManager travelOrderManager) : Con
     [HttpGet("travelOrdersSelected", Name = "GetTravelOrdersSelected")]
     public IActionResult GetTravelOrdersSelected([FromQuery] RequestParameters requestParameters)
     {
-        var travelOrders = travelOrderManager.GetAllTravelOrdersSelected(requestParameters);
+        var travelOrders = travelOrderManager.GetTravelOrdersSelected(requestParameters);
 
         Response.Headers["X-Pagination"] = JsonConvert.SerializeObject(travelOrders.MetaData);
 
@@ -28,7 +28,7 @@ public class TravelOrderController(ITravelOrderManager travelOrderManager) : Con
     {
         var travelOrder = await travelOrderManager.GetTravelOrderSelectedAsync(id);
 
-        if (travelOrder == null)
+        if (travelOrder is null)
             return NotFound();
 
         return Ok(travelOrder);
@@ -122,7 +122,7 @@ public class TravelOrderController(ITravelOrderManager travelOrderManager) : Con
         {
             return BadRequest(ex.Message);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return BadRequest("Unspecified problem");
         }
