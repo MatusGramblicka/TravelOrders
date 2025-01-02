@@ -4,16 +4,11 @@
         <thead>
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">CreatedAt</th>
-            <th scope="col">StartDate</th>
-            <th scope="col">EndDate</th>
+            <th scope="col">Duration</th>
             <th scope="col">State</th>
-            <th scope="col">StartPlace Town</th>
-            <th scope="col">StartPlace State</th>
-            <th scope="col">EndPlace Town</th>
-            <th scope="col">EndPlace State</th>
-            <th scope="col">Employee Name</th>
-            <th scope="col">Employee Surname</th>
+            <th scope="col">Start Place</th>
+            <th scope="col">End place</th>
+            <th scope="col">Employee name</th>
             <th scope="col">Traffics</th>
             <th scope="col">Note</th>
             <th scope="col">Update</th>
@@ -30,34 +25,19 @@
                         </a>
                     </td>
                     <td class="align-middle">
-                        @travelOrder.CreatedAt
-                    </td>
-                    <td class="align-middle">
-                        @travelOrder.StartDate.ToString("dd.MM.yyyy")
-                    </td>
-                    <td class="align-middle">
-                        @travelOrder.EndDate.ToString("dd.MM.yyyy")
+                        @travelOrder.StartDate.ToString("dd.MM.yyyy") - @travelOrder.EndDate.ToString("dd.MM.yyyy")
                     </td>
                     <td class="align-middle">
                         @travelOrder.State
                     </td>
                     <td class="align-middle">
-                        @travelOrder.StartPlace.Name
+                        @travelOrder.StartPlace.Name, @travelOrder.StartPlace.State
                     </td>
                     <td class="align-middle">
-                        @travelOrder.StartPlace.State
+                        @travelOrder.EndPlace.Name, @travelOrder.EndPlace.State
                     </td>
                     <td class="align-middle">
-                        @travelOrder.EndPlace.Name
-                    </td>
-                    <td class="align-middle">
-                        @travelOrder.EndPlace.State
-                    </td>
-                    <td class="align-middle">
-                        @travelOrder.Tenant.Name
-                    </td>
-                    <td class="align-middle">
-                        @travelOrder.Tenant.Surname
+                        @travelOrder.Tenant.Name @travelOrder.Tenant.Surname
                     </td>
                     <td class="align-middle">
                         @string.Join(", ", travelOrder.Traffics.Select(tf => tf.TrafficDevice))
@@ -89,16 +69,11 @@ else
         <thead>
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">CreatedAt</th>
-            <th scope="col">StartDate</th>
-            <th scope="col">EndDate</th>
+            <th scope="col">Duration</th>
             <th scope="col">State</th>
-            <th scope="col">StartPlace Town</th>
-            <th scope="col">StartPlace State</th>
-            <th scope="col">EndPlace Town</th>
-            <th scope="col">EndPlace State</th>
-            <th scope="col">Employee Name</th>
-            <th scope="col">Employee Surname</th>
+            <th scope="col">Start Place</th>
+            <th scope="col">End place</th>
+            <th scope="col">Employee name</th>
             <th scope="col">Traffics</th>
             <th scope="col">Note</th>
             <th scope="col">Update</th>
