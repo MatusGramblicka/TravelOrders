@@ -32,7 +32,12 @@ public static class ServiceExtensions
 
         builder.Services.AddDbContext<TravelOrderDbContext>(opts =>
                 opts.UseNpgsql(builder.Configuration.GetConnectionString("postgreSqlConnection"),
-                    b => b.MigrationsAssembly("TravelOrdersServer").UseNetTopologySuite())
+                    b => b.MigrationsAssembly("TravelOrdersServer")
+                        .UseNetTopologySuite()
+                        .EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(30),
+                            errorCodesToAdd: null))
             //.EnableSensitiveDataLogging()
         );
 
