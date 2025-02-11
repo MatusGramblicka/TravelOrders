@@ -11,8 +11,11 @@ LogManager.Setup().LoadConfigurationFromFile(string.Concat(Directory.GetCurrentD
 
 builder.Services.ConfigureCors();
 
-builder.ConfigureTravelOrdersApp();
-
+builder.Services.ConfigureDbContext(builder.Configuration);
+builder.Services.ConfigureAutomapper();
+builder.Services.ConfigureRedis(builder.Configuration);
+builder.Services.ConfigureFilters();
+builder.Services.ConfigureManagers();
 builder.Services.ConfigureRepositoryManager();
 
 builder.Services.AddControllers().AddJsonOptions(options => {

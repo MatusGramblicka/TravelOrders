@@ -4,19 +4,12 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace TravelOrdersServer.ActionFilters;
 
-public class ValidateTravelOrderExistsAttribute : IAsyncActionFilter
+public class ValidateTravelOrderExistsAttribute(IRepositoryManager repository) : IAsyncActionFilter
 {
-    private readonly IRepositoryManager _repository;
-
-    public ValidateTravelOrderExistsAttribute(IRepositoryManager repository)
-    {
-        _repository = repository;
-    }
-
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
         var id = (int)(context.ActionArguments["id"] ?? throw new InvalidOperationException());
-        var travelOrder = await _repository.TravelOrder.GetTravelOrderWithTrafficsAsync(id);
+        var travelOrder = await repository.TravelOrder.GetTravelOrderWithTrafficsAsync(id);
 
         if (travelOrder is null)
             context.Result = new NotFoundResult();
