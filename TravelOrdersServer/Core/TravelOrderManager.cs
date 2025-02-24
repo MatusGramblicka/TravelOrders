@@ -1,15 +1,17 @@
 ﻿using AutoMapper;
 using Contracts.Dto;
 using Contracts.Exceptions;
+using Contracts.IntegrationEvents.Events;
 using Contracts.Models;
 using Contracts.RequestFeatures;
+using Infrastructure.Shared.EventBus.Abstractions;
 using Interface.DatabaseAccess;
 using Interface.Managers;
 using Interface.Redis;
 
 namespace Core;
 
-public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, IRedisCacheService cache)
+public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, IRedisCacheService cache, IEventBus eventBus)
     : ITravelOrderManager
 {
     private readonly TimeSpan _cacheDuration = TimeSpan.FromSeconds(30);
@@ -23,7 +25,7 @@ public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, I
 
     public async Task<TravelOrderSelectedDto?> GetTravelOrderSelectedAsync(int id)
     {
-        var cacheKey = $"{id}";
+        var cacheKey = $"{nameof(TravelOrderManager)}_{id}";
         var travelOrderSelectedDto = await cache.GetCachedDataAsync<TravelOrderSelectedDto>(cacheKey);
 
         if (travelOrderSelectedDto is null)
@@ -60,6 +62,8 @@ public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, I
 
         repository.TravelOrder.CreateTravelOrder(travelOrderEntity);
         await repository.SaveAsync();
+
+        await eventBus.PublishAsync(new TravelOrderCreatedEvent(travelOrderEntity.Id));
 
         return mapper.Map<TravelOrderDto>(travelOrderEntity);
     }
@@ -151,6 +155,6 @@ public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, I
         repository.TravelOrder.DeleteTravelOrder(travelOrderDb);
         await repository.SaveAsync();
 
-        await cache.RemoveCachedDataAsync($"{travelOrderDb.Id}");
+        await cache.RemoveCachedDataAsync($"{nameof(TravelOrderManager)}_{travelOrderDb.Id}");
     }
 }
