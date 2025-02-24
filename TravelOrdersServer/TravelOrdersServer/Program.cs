@@ -1,3 +1,4 @@
+using Infrastructure.Shared.RabbitMq;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi.Models;
 using NLog;
@@ -17,6 +18,8 @@ builder.Services.ConfigureRedis(builder.Configuration);
 builder.Services.ConfigureFilters();
 builder.Services.ConfigureManagers();
 builder.Services.ConfigureRepositoryManager();
+builder.Services.AddRabbitMqEventBus(builder.Configuration)
+    .AddRabbitMqEventPublisher();
 
 builder.Services.AddControllers().AddJsonOptions(options => {
     // open api is currently using system.text.json
