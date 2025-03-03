@@ -1,0 +1,8 @@
+﻿.travel-order-title {
+    color: #007bff;
+}
+
+.travel-order-description {
+    font-style: italic;
+    white-space: pre-line;
+}

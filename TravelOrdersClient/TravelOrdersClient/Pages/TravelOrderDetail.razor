@@ -1,0 +1,35 @@
+﻿@page "/travelOrder/{TravelOrderId:int}"
+
+<div class="card">
+    <div class="card-body">        
+        <div class="row">
+            <div class="col-md-8">              
+                <div class="row">
+                    <div class="col">
+                        <h3 class="travel-order-title">@TravelOrderSelectedDto.State</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span class="travel-order-description">
+                            Date: @TravelOrderSelectedDto.StartDate.ToString("dd.MM.yyy") - @TravelOrderSelectedDto.EndDate.ToString("dd.MM.yyy")
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <span class="travel-order-description">
+                            Location: @TravelOrderSelectedDto.StartPlace.Name, @TravelOrderSelectedDto.StartPlace.State - @TravelOrderSelectedDto.EndPlace.Name, @TravelOrderSelectedDto.EndPlace.State
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col">
+        <a href="/travelOrders" class="btn btn-success">Back</a>
+    </div>
+</div>
