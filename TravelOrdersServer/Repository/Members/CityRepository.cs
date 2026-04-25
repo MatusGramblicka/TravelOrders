@@ -11,7 +11,7 @@ public class CityRepository(TravelOrderDbContext repositoryContext)
 {
     public PagedList<CitySelectedDto> GetCitiesSelected(RequestParameters requestParameters)
     {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters);
 
         var cities = RepositoryContext.City.Select(c => new CitySelectedDto
         {

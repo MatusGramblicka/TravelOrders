@@ -21,7 +21,7 @@ public static class ServiceExtensions
         
         builder.Services.AddScoped<HttpInterceptorService>();
 
-        builder.Services.AddAutoMapper(typeof(MappingProfile));
+        builder.Services.AddAutoMapper(a => a.AddProfile<MappingProfile>());
     }
 
     public static void ConfigureRepositories(this IServiceCollection services)

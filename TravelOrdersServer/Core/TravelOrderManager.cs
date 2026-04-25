@@ -18,7 +18,7 @@ public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, I
 
     public PagedList<TravelOrderSelectedDto> GetTravelOrdersSelected(RequestParameters requestParameters)
     {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters);
 
         return repository.TravelOrder.GetTravelOrdersSelected(requestParameters);
     }
@@ -39,7 +39,7 @@ public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, I
 
     public async Task<TravelOrderDto> CreateTravelOrderAsync(TravelOrderCreationDto travelOrderDto)
     {
-        ArgumentNullException.ThrowIfNull(travelOrderDto, nameof(travelOrderDto));
+        ArgumentNullException.ThrowIfNull(travelOrderDto);
 
         var startCity = await repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
         if (startCity is null)
@@ -70,8 +70,8 @@ public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, I
 
     public async Task UpdateTravelOrder(TravelOrder travelOrderFromDb, TravelOrderUpdateDto travelOrderDto)
     {
-        ArgumentNullException.ThrowIfNull(travelOrderFromDb, nameof(travelOrderFromDb));
-        ArgumentNullException.ThrowIfNull(travelOrderDto, nameof(travelOrderDto));
+        ArgumentNullException.ThrowIfNull(travelOrderFromDb);
+        ArgumentNullException.ThrowIfNull(travelOrderDto);
 
         var startCity = await repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
         if (startCity is null)
@@ -98,8 +98,8 @@ public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, I
 
     public async Task UpdateTravelOrderDirectMapping(TravelOrder travelOrderFromDb, TravelOrderUpdateDto travelOrderDto)
     {
-        ArgumentNullException.ThrowIfNull(travelOrderFromDb, nameof(travelOrderFromDb));
-        ArgumentNullException.ThrowIfNull(travelOrderDto, nameof(travelOrderDto));
+        ArgumentNullException.ThrowIfNull(travelOrderFromDb);
+        ArgumentNullException.ThrowIfNull(travelOrderDto);
 
         var startCity = await repository.City.GetCityAsync(travelOrderDto.StartPlaceCityId, false);
         if (startCity is null)
@@ -150,7 +150,7 @@ public class TravelOrderManager(IRepositoryManager repository, IMapper mapper, I
 
     public async Task DeleteTravelOrder(TravelOrder travelOrderDb)
     {
-        ArgumentNullException.ThrowIfNull(travelOrderDb, nameof(travelOrderDb));
+        ArgumentNullException.ThrowIfNull(travelOrderDb);
 
         repository.TravelOrder.DeleteTravelOrder(travelOrderDb);
         await repository.SaveAsync();

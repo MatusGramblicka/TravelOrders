@@ -11,7 +11,7 @@ public class EmployeeRepository(TravelOrderDbContext repositoryContext)
 {
     public PagedList<EmployeeSelectedDto> GetEmployeesSelected(RequestParameters requestParameters)
     {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters);
 
         var employees = RepositoryContext.Employee.Select(e => new EmployeeSelectedDto
         {

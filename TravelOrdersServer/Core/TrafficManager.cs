@@ -9,7 +9,7 @@ public class TrafficManager(IRepositoryManager repository) : ITrafficManager
 {
     public PagedList<TrafficSelectedDto> GetTrafficsSelected(RequestParameters requestParameters)
     {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters);
 
         return repository.Traffic.GetTrafficsSelected(requestParameters);
     }

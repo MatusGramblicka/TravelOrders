@@ -14,7 +14,7 @@ public class TravelOrderRepository(TravelOrderDbContext repositoryContext)
     public PagedList<TravelOrderSelectedDto> GetTravelOrdersSelected(
         RequestParameters requestParameters)
     {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters);
 
         var travelOrders = RepositoryContext.TravelOrder
             .Select(TravelOrderProjection.GetTravelOrderSelected())

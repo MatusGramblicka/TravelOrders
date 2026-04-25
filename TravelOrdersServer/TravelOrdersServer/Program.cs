@@ -1,6 +1,9 @@
+using Contracts.IntegrationEvents.EventHandlers;
+using Contracts.IntegrationEvents.Events;
+using Infrastructure.Shared.EventBus;
 using Infrastructure.Shared.RabbitMq;
 using Microsoft.AspNetCore.HttpOverrides;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using NLog;
 using System.Text.Json.Serialization;
 using TravelOrdersServer.Extensions;
@@ -20,6 +23,10 @@ builder.Services.ConfigureManagers();
 builder.Services.ConfigureRepositoryManager();
 builder.Services.AddRabbitMqEventBus(builder.Configuration)
     .AddRabbitMqEventPublisher();
+builder.Services.AddRabbitMqEventBus(builder.Configuration)
+    .AddRabbitMqSubscriberService(builder.Configuration)
+    .AddEventHandler<TravelOrderCreatedEvent, TravelOrderCreatedEventHandler>();
+
 
 builder.Services.AddControllers().AddJsonOptions(options => {
     // open api is currently using system.text.json
@@ -29,7 +36,6 @@ builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
 }); 
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "TravelOrders", Version = "v1" }); });
 
@@ -39,11 +45,9 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    //app.UseWebAssemblyDebugging();
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TravelOrders v1"));
 }

@@ -22,7 +22,7 @@ public class TravelOrderHttpRepository(HttpClient client, IJSRuntime js) : ITrav
 
     public async Task<PagingResponse<TravelOrderSelectedDto>> GetTravelOrders(RequestParameters requestParameters)
     {
-        var queryStringParam = new Dictionary<string, string>
+        var queryStringParam = new Dictionary<string, string?>
         {
             ["pageNumber"] = requestParameters.PageNumber.ToString(),
             ["pageSize"] = requestParameters.PageSize.ToString(),

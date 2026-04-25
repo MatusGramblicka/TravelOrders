@@ -55,7 +55,7 @@ public static class ServiceExtensions
 
     public static void ConfigureAutomapper(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(Program));
+        services.AddAutoMapper(a => a.AddProfile<MappingProfile>());
     }
 
     public static void ConfigureManagers(this IServiceCollection services)
