@@ -5,6 +5,7 @@ using Infrastructure.Shared.RabbitMq;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.OpenApi;
 using NLog;
+using Scalar.AspNetCore;
 using System.Text.Json.Serialization;
 using TravelOrdersServer.Extensions;
 using TravelOrdersServer.MigrationManager;
@@ -37,7 +38,18 @@ builder.Services.AddControllers().AddJsonOptions(options => {
 }); 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "TravelOrders", Version = "v1" }); });
+builder.Services.AddOpenApi("v1", options =>
+{
+    options.AddDocumentTransformer((doc, _, _) =>
+    {
+        doc.Info = new OpenApiInfo
+        {
+            Title = "TravelOrders API",
+            Version = "v1"
+        };
+        return Task.CompletedTask;
+    });
+});
 
 builder.Services.AddAuthorization();
 
@@ -48,8 +60,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TravelOrders v1"));
+
+    app.MapOpenApi("/openapi/v1.json");
+    app.MapScalarApiReference(); // UI at /scalar
 }
 else
 {
