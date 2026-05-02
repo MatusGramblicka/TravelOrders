@@ -18,8 +18,9 @@ builder.Services.AddHttpClient("TravelOrdersAPI", (sp, cl) =>
     cl.EnableIntercept(sp);
 });
 
-builder.Services.AddScoped(
-    sp => sp.GetService<IHttpClientFactory>().CreateClient("TravelOrdersAPI"));
+builder.Services.AddScoped(sp =>
+    sp.GetService<IHttpClientFactory>()?.CreateClient("TravelOrdersAPI") ??
+    throw new InvalidOperationException($"Service {nameof(IHttpClientFactory)} is null."));
 
 builder.ConfigureTravelOrdersClientApp();
 builder.Services.ConfigureRepositories();

@@ -11,7 +11,7 @@ public class TrafficRepository(TravelOrderDbContext repositoryContext)
 {
     public PagedList<TrafficSelectedDto> GetTrafficsSelected(RequestParameters requestParameters)
     {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters);
 
         var traffics = RepositoryContext.Traffic.Select(t => new TrafficSelectedDto
         {

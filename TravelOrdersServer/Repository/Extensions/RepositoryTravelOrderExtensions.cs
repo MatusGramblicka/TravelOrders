@@ -7,7 +7,7 @@ public static class RepositoryTravelOrderExtensions
     public static IQueryable<TravelOrderSelectedDto> Search(this IQueryable<TravelOrderSelectedDto> travelOrders,
     string? searchTerm)
     {
-        ArgumentNullException.ThrowIfNull(travelOrders, nameof(travelOrders));
+        ArgumentNullException.ThrowIfNull(travelOrders);
         
         if (string.IsNullOrWhiteSpace(searchTerm))
             return travelOrders;

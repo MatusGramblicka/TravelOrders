@@ -9,7 +9,7 @@ public class EmployeeManager(IRepositoryManager repository) : IEmployeeManager
 {
     public PagedList<EmployeeSelectedDto> GetEmployeesSelected(RequestParameters requestParameters)
     {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters);
 
         return repository.Employee.GetEmployeesSelected(requestParameters);
     }

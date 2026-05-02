@@ -9,7 +9,7 @@ public class CityManager(IRepositoryManager repository) : ICityManager
 {
     public PagedList<CitySelectedDto> GetCitiesSelected(RequestParameters requestParameters)
     {
-        ArgumentNullException.ThrowIfNull(requestParameters, nameof(requestParameters));
+        ArgumentNullException.ThrowIfNull(requestParameters);
 
         return repository.City.GetCitiesSelected(requestParameters);
     }

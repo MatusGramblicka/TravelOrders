@@ -23,7 +23,7 @@ public partial class CreateTravelOrder : IDisposable
 
     public IEnumerable<CitySelectedDto> EndPlaceCityList { get; set; } = null!;
 
-    private List<TrafficSelectedDto?> _selectedTraffics = new();
+    private List<TrafficSelectedDto?> _selectedTraffics = [];
 
     public RequestParameters RequestParameters = new();
 
@@ -106,7 +106,7 @@ public partial class CreateTravelOrder : IDisposable
             StartDate = DateTime.Today,
             EndDate = DateTime.Today,
         };
-        _selectedTraffics= new();
+        _selectedTraffics= [];
 
         _editContext.OnValidationStateChanged += ValidationChanged;
         _editContext.NotifyValidationStateChanged();

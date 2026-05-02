@@ -6,7 +6,15 @@
       "version": "9.0.0",
       "commands": [
         "dotnet-ef"
-      ]
+      ],
+      "rollForward": false
+    },
+    "swashbuckle.aspnetcore.cli": {
+      "version": "10.1.7",
+      "commands": [
+        "swagger"
+      ],
+      "rollForward": false
     }
   }
 }

@@ -7,7 +7,7 @@ namespace TravelOrdersClient.Components;
 public partial class TravelOrderTable
 {
     [Parameter]
-    public IEnumerable<TravelOrderSelectedDto> TravelOrders { get; set; } = null!;
+    public IEnumerable<TravelOrderSelectedDto> TravelOrders { get; set; } = [];
 
     [Parameter]
     public EventCallback<int> OnDelete { get; set; }
