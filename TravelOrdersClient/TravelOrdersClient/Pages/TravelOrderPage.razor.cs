@@ -8,7 +8,7 @@ namespace TravelOrdersClient.Pages;
 
 public partial class TravelOrderPage : IDisposable
 {
-    public IEnumerable<TravelOrderSelectedDto> TravelOrderList { get; set; } = null!;
+    public IEnumerable<TravelOrderSelectedDto> TravelOrderList { get; set; } = [];
 
     public MetaData MetaData { get; set; } = new();
 

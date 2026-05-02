@@ -92,11 +92,15 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-    endpoints.MapRazorPages();
-    endpoints.MapFallbackToFile("index.html");
-});
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers();
+//    endpoints.MapRazorPages();
+//    endpoints.MapFallbackToFile("index.html");
+//});
+app.MapControllers();
+app.MapRazorPages();
+app.MapFallbackToFile("index.html");
+
 
 app.MigrateDatabase().Run();

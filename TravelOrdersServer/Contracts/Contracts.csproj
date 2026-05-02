@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="Infrastructure.Shared.Project" Version="1.0.2" />
     <PackageReference Include="NetTopologySuite" Version="2.6.0" />
   </ItemGroup>
